@@ -5,7 +5,7 @@ import { resolve } from 'path';
 let routeFolder = process.env.ROUTE_FOLDER;
 
 if (routeFolder == undefined) {
-	routeFolder = 'landing';
+	routeFolder = 'auth';
 }
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -40,7 +40,8 @@ const config = {
 					$src: resolve('./src'),
 					$lib: resolve('./src/lib'),
 					$stores: resolve('./src/stores'),
-					$assets: resolve('./src/assets')
+					$assets: resolve('./src/assets'),
+					$sass: resolve('./src/style')
 				}
 			}
 		}

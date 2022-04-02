@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-blog {
+	@apply bg-blue-500;
+}
+
+.primary {
+	@apply text-purple-100 bg-purple-600;
+}
+
+.secondary {
+	@apply text-gray-100 bg-gray-500;
+}
+
+.success {
+	@apply text-green-100 bg-green-600;
+}
+
+.danger {
+	@apply text-red-100 bg-red-600;
+}
+
+.warning {
+	@apply text-orange-100 bg-orange-600;
+}
+
+.info {
+	@apply text-blue-100 bg-blue-600;
+}
+
+.light {
+	@apply text-gray-700 bg-white;
+}
+
+.dark {
+	@apply text-gray-100 bg-gray-700;
+}
+
+/*Global text-Input*/
+
+.main-input {
+	background-color: #fafbfc;
+	height: 5vh;
+	border-bottom: 15px;
+	border: 1px solid #dfe1e6;
+	line-height: 18px;
+	input {
+		color: black;
+		padding-top: 28px;
+	}
+	label {
+		color: #dfe1e6;
+	}
+	label.active {
+		color: #2196f3;
+	}
+}
+.s-text-field__wrapper:after,
+.s-text-field__wrapper:before {
+	border-radius: unset !important;
+	width: inherit !important;
+	content: none !important;
+}
+.s-input__details {
+	position: relative !important;
+	left: 14px !important;
+	bottom: 6px !important;
+}
+.s-input__control {
+	height: 6vh !important;
+}
+.error-text {
+	color: #f44336 !important;
+	caret-color: #f44336 !important;
+}
