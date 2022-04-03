@@ -41,7 +41,7 @@
 				</div>
 				<div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
 					<div class="w-full">
-						<h1 class="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">Login</h1>
+						<h1 class="mb-4 text-xl font-semibold text-teal-500 dark:text-gray-200">Login</h1>
 						<!-- login-form -->
 						<form action="" />
 						<div class=" mb-7">
@@ -55,6 +55,7 @@
 									on:click={() => {
 										show = !show;
 									}}
+									class="text-teal-900"
 								>
 									<Icon path={show ? mdiEyeOff : mdiEye} />
 								</div>
@@ -62,19 +63,19 @@
 						</div>
 						<p class="mb-4">
 							<a
-								class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+								class="text-sm font-medium text-teal-900 dark:text-purple-400 hover:underline"
 								href="./forgot-password.svelte"
 							>
 								Forgot your password?
 							</a>
 						</p>
-						<div class="mb-7">
+						<div class="mb-7 text-teal-900">
 							<Checkbox bind:group value="1" type="password" name="password" autocomplete="off"
-								>Remember me</Checkbox
+								><span class="text-sm">Remember me</span></Checkbox
 							>
 						</div>
 						<div>
-							<Button class="blue white-text w-full h-[5vh]">Login</Button>
+							<Button class="blue white-text w-full h-[5vh] bg-teal-500 text-sm">Login</Button>
 						</div>
 					</div>
 				</div>
