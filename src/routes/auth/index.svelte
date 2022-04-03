@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '$sass/tailwind.scss';
-	import loginOffice from '$lib/templates/Admin/Images/login-office.jpeg';
 	import { TextField, Button, Icon, Checkbox } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 
@@ -23,21 +22,25 @@
 			return pattern.test(v) || 'Invalid e-mail.';
 		}
 	];
+	const rands = ['dark'];
+	const randCls = rands[Math.floor(Math.random() * rands.length)];
 </script>
 
-<section id="body">
-	<div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+<section id="body" class={randCls}>
+	<div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-green-1001">
 		<div
-			class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
+			class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-green-100"
 		>
 			<div class="flex flex-col overflow-y-auto md:flex-row">
-				<div class="h-32 md:h-auto md:w-1/2">
+				<div class="h-32 md:h-auto md:w-1/2 flex items-center justify-center">
+					<!-- <div class="relative w-[200] h-[200]"> -->
 					<img
-						aria-hidden="true"
-						class="object-cover w-full h-full dark:hidden"
-						src={loginOffice}
+						aria-hidden="false"
+						class="object-cover w-[100px] h-[100px] md:w-[200px] md:h-[200px]"
+						src="../../../static/images/brands.svg"
 						alt="Office"
 					/>
+					<!-- </div> -->
 				</div>
 				<div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
 					<div class="w-full">
@@ -60,21 +63,21 @@
 								</div>
 							</TextField>
 						</div>
-						<p class="mb-4">
+						<p class="mb-4 text-sm">
 							<a
-								class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
+								class="text-sm font-medium  dark:text-blue-100 hover:underline"
 								href="./forgot-password.svelte"
 							>
 								Forgot your password?
 							</a>
 						</p>
-						<div class="mb-7">
+						<div class="mb-7 text-sm ">
 							<Checkbox bind:group value="1" type="password" name="password" autocomplete="off"
 								>Remember me</Checkbox
 							>
 						</div>
 						<div>
-							<Button class="blue white-text w-full h-[5vh]">Login</Button>
+							<Button class="white white-text w-full h-[5vh] text-sm text-green-1001">Login</Button>
 						</div>
 					</div>
 				</div>
