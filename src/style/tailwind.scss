@@ -47,7 +47,7 @@
 	border: 1px solid #0496ac;
 	line-height: 18px;
 	input {
-		color: #fff;
+		color: #fff !important;
 		padding-top: 28px;
 		font-size: 14px;
 		font-style: normal;
@@ -57,13 +57,13 @@
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;
-		color: #7a869a;
+		color: #7a869a !important;
 		position: absolute;
 		top: 18px;
 		transition-duration: 0.2s;
 	}
 	label.active {
-		color: #0496ac;
+		color: #0496ac !important;
 	}
 }
 .s-text-field__wrapper:after,

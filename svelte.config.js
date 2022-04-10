@@ -31,7 +31,7 @@ const config = {
 		},
 
 		files: {
-			routes: `src/routes/${routeFolder}`
+			routes: `src/routes/`
 		},
 
 		vite: {

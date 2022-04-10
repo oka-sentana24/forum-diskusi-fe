@@ -12,9 +12,9 @@
 	export { loader as this };
 </script>
 
-<svelte:component this={Component}>
+<div>
 	<slot />
-</svelte:component>
+</div>
 
 {#if !Component}
 	<slot name="fallback" />
