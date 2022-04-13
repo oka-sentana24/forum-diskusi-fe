@@ -4,14 +4,15 @@
   import '$sass/tailwind.scss';
 	import { TextField, Button, Icon, Checkbox } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
+  import jwt_decode from "jwt-decode";
 
   const rands = ['dark']
   const randCls = rands[Math.floor(Math.random() * rands.length)]
 	let show = false;
 	let group = ['2'];
 	let username = '';
-      let password = '';
-	let role : 'user' | "admin";
+  let password = '';
+  
 
 	const titleRules = [(v) => !!v || 'Required'];
 	const emailRules = [
@@ -31,21 +32,25 @@
           headers: {
               'Content-Type': 'application/json'
           }
-      })
-      .then( response => {
-        if ( response.status === 200) {
-            // if(role === 'user'){
-              window.location.href="/admin";
-            // }else if(role === 'admin'){
-            //   window.location.href="/landing";
-            // }else{
-            //   console.log("no user")
-            // }
-        }
-        // what do you do with a non-redirect?
-        }).catch((err) => {
-        console.log(err);
       });
+
+      if ( response.status === 200) {
+        let body = await response.json();
+
+        var decoded: any = jwt_decode(body.token);
+
+        console.log(decoded)
+
+          if(decoded.role === 'USER'){
+            window.location.href="/landing";
+          }else if(decoded.role === 'ADMIN'){
+            window.location.href="/admin";
+          }else{
+            console.log("no user")
+          }
+      }
+      // what do you do with a non-redirect?
+
     }
 </script>
 
