@@ -29,7 +29,6 @@
 			"$stores/*": ["src/stores/*"],
 			"$assets/*": ["src/assets/*"],
 			"$sass/*": ["src/style/*"],
-			"$image/*": ["static/images/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
