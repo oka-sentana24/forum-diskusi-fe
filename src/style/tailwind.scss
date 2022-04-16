@@ -41,10 +41,36 @@
 /*Global text-Input*/
 
 .main-input {
-	background-color: #000000b5;
+	background-color: red;
 	height: 5vh;
 	border-bottom: 15px;
-	border: 1px solid #0496ac;
+	border: 1px solid #4c4f52;
+	line-height: 18px;
+	input {
+		color: #fff !important;
+		padding-top: 28px;
+		font-size: 14px;
+		font-style: normal;
+		font-weight: 500;
+	}
+	label {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 14px;
+		color: #7a869a !important;
+		position: absolute;
+		top: 18px;
+		transition-duration: 0.2s;
+	}
+	label.active {
+		color: #0496ac !important;
+	}
+}
+.dark .main-input {
+	background-color: #1a1c23;
+	height: 5vh;
+	border-bottom: 15px;
+	border: 1px solid #4c4f52;
 	line-height: 18px;
 	input {
 		color: #fff !important;
@@ -90,4 +116,37 @@ table{
     width: 100%;
 	position: sticky;
 	z-index: 1;
+}
+
+//dropdown
+.dropdown{
+	.s-menu {
+		background: white;
+		border-radius: 0;
+		position: absolute;
+		margin-top: 52px;
+	}
+	label {
+		margin-top: -7px;
+	}
+	input{
+		margin-top: -12px !important;
+	}
+	span{
+		color: white;	
+	}
+	i{
+		margin-top: -15px;
+	}
+}
+
+//pagiation
+.pagination-nav {
+    justify-content: end !important;
+    background: none !important;
+    border: none !important;
+    background-blend-mode: unset !important;
+	path {
+		fill: #04b4cd !important;
+	}
 }

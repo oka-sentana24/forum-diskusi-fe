@@ -7,13 +7,15 @@
       DataTableCell,
       DataTableBody,} from 'svelte-materialify';
       import '$sass/tailwind.scss';
+      import { paginate, LightPaginationNav } from 'svelte-paginate';
       export let columns;
-      export let datas;
+      export let items;
+      let currentPage = 1
+      let pageSize = 10
+      $: datas = paginate({ items, pageSize, currentPage })
   </script>
-  
-  <!-- <main class="block dark: bg-red-900 rounded-none h-[70vh] overflow-auto"> -->
-    <DataTable class=" block dark:bg-gray-800 h-[65vh] overflow-auto rounded-none">
-      <DataTableHead class="p-2 dark: bg-gray-600 text-white sticky top-0 rounded-none">
+    <DataTable class=" block bg-blue-50 dark:bg-gray-800 h-[65vh] overflow-auto rounded-none">
+      <DataTableHead class="p-2 bg-blue-500 dark:bg-gray-700 text-white  sticky top-0 rounded-none">
         <DataTableRow>
           <!-- <DataTableCell> -->
             {#each columns as column}
@@ -26,11 +28,11 @@
         {#each datas as row}
           <DataTableRow>
             <DataTableCell class="text-xs">
-              {row.id}
+              {row.username}
             </DataTableCell>
-            <DataTableCell class="text-xs">
-              {row.nama}  
-            </DataTableCell>
+              <DataTableCell class="text-xs">
+                {row.nama}  
+              </DataTableCell>
             <DataTableCell class="text-xs">
               {row.jurusan}
             </DataTableCell>
@@ -71,5 +73,17 @@
         {/each}
       </DataTableBody>
     </DataTable>
-  <!-- </main> -->
+  
+  <div class="py-3">
+    <LightPaginationNav
+      totalItems="{items.length}"
+      pageSize="{pageSize}"
+      currentPage="{currentPage}"
+      limit="{1}"
+      showStepOptions="{true}"
+      on:setPage="{(e) => currentPage = e.detail.page}"
+      class="fill-white"
+    />
+  </div>
+  
   

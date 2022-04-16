@@ -18,7 +18,7 @@
   <div class="flex h-screen bg-gray-50 dark:bg-gray-900" class:overflow-hidden={$isSideMenuOpen}>
     <!-- Desktop sidebar -->
     <aside
-      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 border-r dark:border-gray-600"
     >
       <SideBar />
     </aside>
@@ -41,7 +41,7 @@
     {/if}
 
     <div class="flex flex-col flex-1 w-full">
-      <Header />
+      <!-- <Header /> -->
 
       <slot />
     </div>
