@@ -140,13 +140,32 @@ table{
 	}
 }
 
-//pagiation
-.pagination-nav {
-    justify-content: end !important;
-    background: none !important;
-    border: none !important;
-    background-blend-mode: unset !important;
-	path {
-		fill: #04b4cd !important;
+.dark .pagination-nav {
+	display: flex;
+	justify-content: right;
+	// background: #1a1c23;
+	border-radius: 3px;
+	// box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	.option{
+		padding: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.2s all ease-out;
+		user-select: none;
+		color: hsl(200, 90%, 90%);
+		.number .option.ellipsis{
+			padding: 10px 15px;
+		}
+		:hover{
+			background: #000;
+			cursor: pointer;
+		}
+	}
+	.active{
+		color: hsl(200, 70%, 50%);
+	}
+	path{
+		fill: hsl(200, 90%, 90%);
 	}
 }
