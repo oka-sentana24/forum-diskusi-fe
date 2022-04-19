@@ -16,7 +16,7 @@
   const withSearch = true
 </script>
 
-<header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+<header class="z-10 py-2 bg-white dark:bg-gray-900 border-b dark:border-gray-700">
   <div
     class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
   >

@@ -15,10 +15,10 @@
 </svelte:head>
 
 <section id="body" class="dark">
-  <div class="flex h-screen bg-gray-50 dark:bg-gray-900" class:overflow-hidden={$isSideMenuOpen}>
+  <div class="flex h-screen  bg-white dark:bg-gray-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
     <!-- Desktop sidebar -->
     <aside
-      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 border-r dark:border-gray-700"
     >
       <SideBar />
     </aside>
@@ -30,7 +30,7 @@
         class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
       />
       <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-gray-800 md:hidden"
+        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-[53px] overflow-y-auto bg-white dark:bg-gray-800"
         use:clickOutside={['nav-mobile-hamburger']}
         on:click-outside={closeSideMenu}
         use:keydownEscape
