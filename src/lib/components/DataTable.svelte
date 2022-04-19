@@ -12,16 +12,16 @@
   //Deklarasi variable
     export let columns;
     export let items;
-
-  //Pagination
     let currentPage = 1;
     let pageSize = 10;
+
+  //Pagination
     $: paginatedItems = paginate({ items, pageSize, currentPage })
 
 </script>
-<main>
-  <DataTable class="block bg-blue-50 dark:bg-gray-800 h-[65vh] overflow-auto rounded-none">
-    <DataTableHead class="p-2 bg-blue-500 dark:bg-gray-700 text-white  sticky top-0 rounded-none">
+<main class="w-full">
+  <DataTable class="block bg-white shadow-2xl dark:bg-gray-800 h-[65vh] overflow-auto rounded-none">
+    <DataTableHead class="p-2 bg-purple-600 dark:bg-gray-700 text-white  sticky top-0 rounded-none">
       <DataTableRow>
         <!-- <DataTableCell> -->
           {#each columns as column}
@@ -37,13 +37,15 @@
             {row.username}
           </DataTableCell>
             <DataTableCell class="text-xs">
-              {row.nama}  
+              <a href="/admin/guru/{row.id}" class=" dark:text-purple-600">
+                {row.nama}  
+              </a>
             </DataTableCell>
           <DataTableCell class="text-xs">
-            {row.jurusan}
+              {row.jurusan}  
           </DataTableCell>
           <DataTableCell class="text-xs">
-            {row.id_kelas}
+              {row.id_kelas}  
           </DataTableCell>
           <DataTableCell class="text-xs">
             {row.alamat}

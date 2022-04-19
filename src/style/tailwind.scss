@@ -41,13 +41,13 @@
 /*Global text-Input*/
 
 .main-input {
-	background-color: red;
+	background-color:#f4f5f7;
 	height: 5vh;
 	border-bottom: 15px;
-	border: 1px solid #4c4f52;
+	border: 1px solid #e5e7eb;
 	line-height: 18px;
 	input {
-		color: #fff !important;
+		color: #7a869a;
 		padding-top: 28px;
 		font-size: 14px;
 		font-style: normal;
@@ -63,14 +63,14 @@
 		transition-duration: 0.2s;
 	}
 	label.active {
-		color: #0496ac !important;
+		color: #7e3af2 !important;
 	}
 }
 .dark .main-input {
-	background-color: #1a1c23;
+	background-color: #24262d;
 	height: 5vh;
 	border-bottom: 15px;
-	border: 1px solid hsl(200, 70%, 50%);
+	border: 1px solid #707275;
 	line-height: 18px;
 	input {
 		color: #fff !important;
@@ -83,13 +83,12 @@
 		font-style: normal;
 		font-weight: 500;
 		font-size: 14px;
-		color: #7a869a !important;
 		position: absolute;
 		top: 18px;
 		transition-duration: 0.2s;
 	}
 	label.active {
-		color: hsl(200, 70%, 50%) !important;
+		color: #7e3af2 !important;
 	}
 }
 .s-text-field__wrapper:after,
@@ -171,11 +170,60 @@ table{
 		// background-color: hsl(200, 70%, 50%);
 		span {
 			padding: 0px 8px;
-			color: hsl(200, 70%, 50%);
-			border-bottom: 1px solid hsl(200, 70%, 50%);
+			color: #7e3af2;
+			border-bottom: 1px solid #7e3af2;
 		}
 	}
 	path{
-		fill: hsl(200, 90%, 90%);
+		fill: #7e3af2;
+	}
+}
+
+.pagination-nav {
+	display: flex;
+	justify-content: right;
+	// background: #1a1c23;
+	border-radius: 3px;
+	// box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+	gap: 5px;
+	.option{
+		padding: 10px 0px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: 0.2s all ease-out;
+		user-select: none;
+		color: #7a869a;
+		border-color: 1px solid #7e3af2;
+		.number .option.ellipsis{
+			padding: 10px 15px;
+		}
+		:hover{
+			background: #7e3af2;
+			cursor: pointer;
+			color: white;
+			path{
+				fill: white;
+			}
+		}
+		span {
+			padding: 0px 8px;
+		}
+		svg {
+			border: 1px solid #7e3af2;
+			border-radius: 6px;
+		}
+	}
+	.active{
+		// color: hsl(200, 70%, 50%);
+		// background-color: hsl(200, 70%, 50%);
+		span {
+			padding: 0px 8px;
+			color: #7e3af2;
+			border-bottom: 1px solid #7e3af2;
+		}
+	}
+	path{
+		fill: #7e3af2;
 	}
 }

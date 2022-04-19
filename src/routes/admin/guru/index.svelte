@@ -8,7 +8,7 @@
     // create variable
     let shown = false;
     let dispatch = createEventDispatcher();
-    let columns = ["Nisn", "Nama", "Jurusan", "Kelas", "Alamat", "Jenis Kelamin", "Tempat lahir", "Tanggal Lahir", "Agama", "No tlp", "Email","Kewarganegaraan", "Kecamatan", "Kabupaten"]
+    let columns = ["Nip", "Nama", "Alamat", "Jenis Kelamin", "Tempat Lahir", "Tanggal Lahir", "Agama", "No tlp", "Email", "Jabatan", "Ktp", "Kewarganegaraan", "Kecamatan", "Kabupaten"]
     let dataList = [];
     const titleRules = [(v) => !!v || 'Required'];
     
@@ -18,7 +18,7 @@
 				dispatch('show', shown);
 	}
     onMount(async () => {
-        const res = await fetch(`http://localhost:3001/siswa/page`);
+        const res = await fetch(`http://localhost:3001/guru/page`);
         const data = await res.json();
         dataList= data.paginateData;
     });
@@ -46,7 +46,7 @@
                 {/if}
             </div>
             <div class="py-2">
-                <a href="/admin/siswa/create">
+                <a href="/admin/guru/create">
                     <Button class="text-white bg-purple-500 text-xs rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Create</Button>
                 </a>
             </div>

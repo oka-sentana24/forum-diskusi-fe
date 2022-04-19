@@ -6,13 +6,13 @@
     import '$sass/tailwind.scss';
     import { Breadcrumbs} from 'svelte-materialify';
 
-    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
+    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', jabatan:'', ktp:'',  kewarganegaraan:'', kecamatan:''  }
     const items = [
-        { text: 'Siswa', href: '/admin/siswa' },
+        { text: 'Guru', href: '/admin/guru' },
         { text: 'Create', href: '#' },
     ];
     async function handleSubmit() {
-      const response = await fetch('http://localhost:3001/siswa',{
+      const response = await fetch('http://localhost:3001/guru',{
           method: 'POST',
           credentials: 'same-origin',
           body: JSON.stringify({ ...data }),
@@ -22,7 +22,7 @@
       });
 
       if ( response.status === 200) {
-         window.location.href="/admin/siswa";
+         window.location.href="/admin/guru";
       }
       // what do you do with a non-redirect?
 
@@ -71,7 +71,7 @@
             <!-- <form action=""> -->
                 <div class="w-full">
                     <div class="py-3">
-                        <TextField filled class="main-input" rules={validateNisn} bind:value={data.username}>Nisn</TextField>
+                        <TextField filled class="main-input" rules={validateNisn} bind:value={data.username}>Nip</TextField>
                     </div>
                     <div class="py-3">
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.nama}>Nama</TextField>
@@ -102,6 +102,12 @@
                         <TextField filled class="main-input" rules={emailRules} bind:value={data.email}>Email</TextField>
                     </div>
                     <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.jabatan}>Jabatan</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.ktp}>ktp</TextField>
+                    </div>
+                    <div class="py-3">
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.kewarganegaraan}>Kewarganegaraan</TextField>
                     </div>
                     <div class="py-3">
@@ -109,18 +115,6 @@
                     </div>
                     <div class="py-3">
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.kabupaten}>Kabupaten</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ayah}>Nama Ayah</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ayah}>Pekerjaan Ayah</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ibu}>Nama Ibu</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ibu}>Pekerjaan Ibu</TextField>
                     </div>
                 </div>
             <!-- </form> -->

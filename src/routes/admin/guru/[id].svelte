@@ -3,13 +3,13 @@ import { Card, Button } from "svelte-materialify";
 import { page } from '$app/stores';
 import { Breadcrumbs} from 'svelte-materialify';
     
-    let id, username, nama, alamat, jenis_kelamin, tempat_lahir, tanggal_lahir, agama, no_tlp, email, kewarganegaraan, kecamatan, kabupaten, nama_ayah, pekerjaan_ayah, nama_ibu, pekerjaan_ibu;
+    let id, username, nama, alamat, jenis_kelamin, tempat_lahir, tanggal_lahir, agama, no_tlp, email, kewarganegaraan, jabatan, ktp, kecamatan, kabupaten;
     const items = [
-        { text: 'Siswa', href: '/admin/siswa' },
+        { text: 'Siswa', href: '/admin/guru' },
         { text: 'Show', href: '#' },
     ];
     // @ts-ignore
-	fetch(`http://localhost:3001/siswa/${$page.params.id}`)
+	fetch(`http://localhost:3001/guru/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
             id = res.id;
@@ -23,13 +23,11 @@ import { Breadcrumbs} from 'svelte-materialify';
             agama = res.agama;
             no_tlp = res.no_tlp;
             email = res.email;
+            jabatan = res.jabatan;
+            ktp = res.ktp;
             kewarganegaraan = res. kewarganegaraan;
             kecamatan = res.kecamatan;
             kabupaten = res. kabupaten;
-            nama_ayah = res.nama_ayah;
-            pekerjaan_ayah = res.pekerjaan_ayah;
-            nama_ibu = res.nama_ibu;
-            pekerjaan_ibu = res.pekerjaan_ibu;
 
 		})
 </script>
@@ -42,11 +40,11 @@ import { Breadcrumbs} from 'svelte-materialify';
 <main class="px-[20px]">
    <div class="flex flex-cols-2 justify-between items-center">
     <div class="py-3">
-        <span class="text-[17px] font-medium">Show Siswa</span>
+        <span class="text-[17px] font-medium">Show Guru</span>
         <Breadcrumbs {items} class=" text-[12px] font-light px-0 py-1"/>
     </div>
     <div>
-        <a href="/admin/siswa/create">
+        <a href="/admin/guru/create">
             <Button class="text-white bg-purple-500 text-xs rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Edit</Button>
         </a>
     </div>
@@ -59,7 +57,7 @@ import { Breadcrumbs} from 'svelte-materialify';
                 <div class="pb-2">
                     {id}
                 </div>
-                <label for="" class="text-xs text-gray-400">Nisn</label>
+                <label for="" class="text-xs text-gray-400">Nip</label>
                 <div class="pb-2">
                     {username}
                 </div>
@@ -95,6 +93,14 @@ import { Breadcrumbs} from 'svelte-materialify';
                 <div class="pb-2">
                     {email}
                 </div>
+                <label for="" class="text-xs text-gray-400">Jabatan</label>
+                <div class="pb-2">
+                    {jabatan}
+                </div>
+                <label for="" class="text-xs text-gray-400">Ktp</label>
+                <div class="pb-2">
+                    {ktp}
+                </div>
     
             </div>
             <div>
@@ -109,22 +115,6 @@ import { Breadcrumbs} from 'svelte-materialify';
                 <label for="" class="text-xs text-gray-400">Kabupaten</label>
                 <div class="pb-2">
                     {kabupaten}
-                </div>
-                <label for="" class="text-xs text-gray-400">Nama Ayah</label>
-                <div class="pb-2">
-                    {nama_ayah}
-                </div>
-                <label for="" class="text-xs text-gray-400">Pekerjaan Ayah</label>
-                <div class="pb-2">
-                    {pekerjaan_ayah}
-                </div>
-                <label for="" class="text-xs text-gray-400">Nama Ibu</label>
-                <div class="pb-2">
-                    {nama_ibu}
-                </div>
-                <label for="" class="text-xs text-gray-400">Nama Ibu</label>
-                <div class="pb-2">
-                    {pekerjaan_ibu}
                 </div>
             </div>
         </div>
