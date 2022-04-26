@@ -10,6 +10,7 @@
     let dispatch = createEventDispatcher();
     let columns = ["Nisn", "Nama", "Jurusan", "Kelas", "Alamat", "Jenis Kelamin", "Tempat lahir", "Tanggal Lahir", "Agama", "No tlp", "Email","Kewarganegaraan", "Kecamatan", "Kabupaten"]
     let dataList = [];
+
     const titleRules = [(v) => !!v || 'Required'];
     
     //logic
@@ -51,6 +52,6 @@
                 </a>
             </div>
         </div>
-        <DataTable columns={columns} items={dataList}/>
+        <DataTable columns={columns} items={dataList} type={"siswa"}/>
     </section>
 </main>

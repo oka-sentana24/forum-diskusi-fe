@@ -1,9 +1,10 @@
-<script>
+<script lang="ts">
     import DataTable from "$lib/components/DataTable.svelte"
     import { Button, Icon, TextField, List, ListGroup, ListItem, Input } from 'svelte-materialify';
     import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
     import { createEventDispatcher } from 'svelte';
     import { onMount } from "svelte";
+    import { goto } from '$app/navigation';
 
     // create variable
     let shown = false;
@@ -22,6 +23,10 @@
         const data = await res.json();
         dataList= data.paginateData;
     });
+
+    function handleDetail(event) {
+        goto('/project/' + event.detail.body.id);
+    }
 </script>
 
 <main>
@@ -51,6 +56,6 @@
                 </a>
             </div>
         </div>
-        <DataTable columns={columns} items={dataList}/>
+        <DataTable columns={columns} items={dataList} on:details={handleDetail} type={"guru"}/>
     </section>
 </main>

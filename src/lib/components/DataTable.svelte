@@ -1,4 +1,4 @@
-<script>
+<script lang=ts>
   // @ts-nocheck
     import '$sass/tailwind.scss';
     import {
@@ -12,6 +12,7 @@
   //Deklarasi variable
     export let columns;
     export let items;
+    export let type: "guru"|"siswa";
     let currentPage = 1;
     let pageSize = 10;
 
@@ -20,7 +21,7 @@
 
 </script>
 <main class="w-full">
-  <DataTable class="block bg-white shadow-2xl dark:bg-gray-800 h-[65vh] overflow-auto rounded-none">
+  <DataTable class="block bg-white shadow-2xl dark:bg-gray-800 max-h-[74vh] overflow-auto rounded-none">
     <DataTableHead class="p-2 bg-purple-600 dark:bg-gray-700 text-white  sticky top-0 rounded-none">
       <DataTableRow>
         <!-- <DataTableCell> -->
@@ -37,9 +38,16 @@
             {row.username}
           </DataTableCell>
             <DataTableCell class="text-xs">
-              <a href="/admin/guru/{row.id}" class=" dark:text-purple-600">
+              {#if type === "siswa"}
+              <a href="/admin/siswa/{row.id}/view" class=" dark:text-purple-600">
                 {row.nama}  
               </a>
+              {/if}
+              {#if type === "guru"}
+              <a href="/admin/guru/{row.id}/view" class=" dark:text-purple-600">
+                {row.nama}  
+              </a>
+              {/if}
             </DataTableCell>
           <DataTableCell class="text-xs">
               {row.jurusan}  

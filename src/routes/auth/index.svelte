@@ -57,7 +57,8 @@
 <section id="body" class={randCls}>
   <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
     <div
-      class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
+      class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-none shadow-xl dark:bg-gray-800"
+      
     >
       <div class="flex flex-col overflow-y-auto md:flex-row">
         <div class="h-32 md:h-auto md:w-1/2">
@@ -90,7 +91,7 @@
 										on:click={() => {
 											show = !show;
 										}}
-                    class="text-white"
+                    class="text-teal-600"
 									>
 										<Icon path={show ? mdiEyeOff : mdiEye} />
 									</div>
@@ -98,7 +99,7 @@
 							</div>
 							<p class="mb-4 text-sm">
 								<a
-									class="text-sm font-medium  dark:text-blue-100 hover:underline"
+									class="text-sm font-medium  dark:text-teal-600 hover:underline"
 									href="./forgot-password.svelte"
 								>
 									Forgot your password?

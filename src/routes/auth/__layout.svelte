@@ -12,7 +12,7 @@
 
 <Loader this={() => import('./index.svelte')}>
 	<div slot="fallback">
-		<div class="flex justify-center items-center w-full h-screen bg-gray-900">
+		<div class="flex justify-center items-center w-full h-screen bg-slate-900">
       <div class="flex flex-col justify-center items-center gap-10">
         <span>
           <img src={Brands} alt="brands" class="w-[100px] h-[100px]">

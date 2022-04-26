@@ -15,10 +15,10 @@
 </svelte:head>
 
 <section id="body" class="dark">
-  <div class="flex h-screen  bg-white dark:bg-gray-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
+  <div class="flex h-screen  bg-white dark:bg-slate-800 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
     <!-- Desktop sidebar -->
     <aside
-      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0 border-r dark:border-gray-700"
+      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-black md:block flex-shrink-0 border-r border-teal-900"
     >
       <SideBar />
     </aside>

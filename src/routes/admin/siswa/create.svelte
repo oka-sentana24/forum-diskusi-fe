@@ -128,6 +128,5 @@
     </Card>
     <div class="flex flex-cols-1 justify-between py-3">
         <Button class="bg-white text-xs text-gray-900 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-gray-900"/>Save</Button>
-        <Button class="bg-red-500 text-xs text-white rounded-sm"><Icon path={mdiDelete} class="text-white"/>Delete</Button>
     </div>
 </main>
