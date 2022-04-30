@@ -80,14 +80,14 @@
 <div class="dark:text-white">
   <div class="border-b border-teal-900 py-5">
     {#if withTitle}
-      <a class="ml-6 font-bold text-xs text-gray-800 dark:text-gray-200" href="/">SMK NEGERI 1 GIANYAR</a>
+      <a class="ml-6 font-bold text-sm text-gray-800 dark:text-gray-200" href="/">SMK NEGERI 1 GIANYAR</a>
     {/if}
   </div>
   <ul class="ml-0n pl-0">
     {#each menu as menus}
       <li class="relative px-6 py-3 hover:bg-purple-100 dark:hover:bg-gray-700 border-b border-teal-900">
         <a
-          class="inline-flex items-center w-full text-xs font-semibold transition-colors duration-150"
+          class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150"
           class:active={$page.url.pathname === menus.url} href={menus.url}
           on:click={(e) => {
             e.preventDefault()
@@ -117,7 +117,7 @@
     {#each links as link, a}
       <li class="relative px-6 py-3 hover:bg-purple-100 dark:hover:bg-gray-700">
           <a
-            class="inline-flex items-center w-full text-xs font-semibold transition-colors duration-150"
+            class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150"
             class:active={$page.url.pathname === link.url} href={link.url}
             on:click={(e) => {
               e.preventDefault()

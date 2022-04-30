@@ -21,12 +21,12 @@
 
 </script>
 <main class="w-full">
-  <DataTable class="block bg-white shadow-2xl dark:bg-gray-800 max-h-[74vh] overflow-auto rounded-none">
-    <DataTableHead class="p-2 bg-purple-600 dark:bg-gray-700 text-white  sticky top-0 rounded-none">
+  <DataTable class="block bg-white shadow-2xl dark:bg-blue-800 h-[74vh] overflow-auto rounded-none">
+    <DataTableHead class="p-2 bg-purple-600 dark:bg-blue-700 text-white  sticky top-0 rounded-none">
       <DataTableRow>
         <!-- <DataTableCell> -->
           {#each columns as column}
-          <DataTableCell class='text-xs'>{column}</DataTableCell>
+          <DataTableCell class='text-sm'>{column}</DataTableCell>
           {/each}
         <!-- </DataTableCell> -->
       </DataTableRow>
@@ -34,55 +34,55 @@
     <DataTableBody>
       {#each paginatedItems as row}
         <DataTableRow>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.username}
           </DataTableCell>
-            <DataTableCell class="text-xs">
+            <DataTableCell class="text-sm">
               {#if type === "siswa"}
-              <a href="/admin/siswa/{row.id}/view" class=" dark:text-purple-600">
+              <a href="/admin/siswa/{row.id}/view" class=" dark:text-blue-400">
                 {row.nama}  
               </a>
               {/if}
               {#if type === "guru"}
-              <a href="/admin/guru/{row.id}/view" class=" dark:text-purple-600">
+              <a href="/admin/guru/{row.id}/view" class=" dark:text-blue-400">
                 {row.nama}  
               </a>
               {/if}
             </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
               {row.jurusan}  
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
               {row.id_kelas}  
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.alamat}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.jenis_kelamin}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.tempat_lahir}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.tanggal_lahir}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.agama}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.no_tlp}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.email}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.kewarganegaraan}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.kecamatan}
           </DataTableCell>
-          <DataTableCell class="text-xs">
+          <DataTableCell class="text-sm">
             {row.kabupaten}
           </DataTableCell>
         </DataTableRow>

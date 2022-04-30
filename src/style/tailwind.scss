@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('http://fonts.cdnfonts.com/css/sofia-pro');
+
 .bg-blog {
 	@apply bg-blue-500;
 }
@@ -38,6 +40,11 @@
 	@apply text-gray-100 bg-gray-700;
 }
 
+body {
+	font-family: 'Sofia Pro', sans-serif;
+	font-size: 14px;
+}
+
 /*Global text-Input*/
 
 .main-input {
@@ -67,10 +74,10 @@
 	}
 }
 .dark .main-input {
-	background-color: #0f172a;
+	background-color: #000;
 	height: 5vh;
 	border-bottom: 15px;
-	border: 1px solid #d1fae5;
+	border: 1px solid #707275;
 	line-height: 18px;
 	input {
 		color: #fff !important;
@@ -88,7 +95,7 @@
 		transition-duration: 0.2s;
 	}
 	label.active {
-		color: #0d9488 !important;
+		color: #04b4cd !important;
 	}
 }
 .s-text-field__wrapper:after,
@@ -170,12 +177,12 @@ table{
 		// background-color: hsl(200, 70%, 50%);
 		span {
 			padding: 0px 8px;
-			color: #7e3af2;
+			color: white;
 			border-bottom: 1px solid #7e3af2;
 		}
 	}
 	path{
-		fill: #7e3af2;
+		fill: white;
 	}
 }
 
@@ -194,12 +201,12 @@ table{
 		transition: 0.2s all ease-out;
 		user-select: none;
 		color: #7a869a;
-		border-color: 1px solid #7e3af2;
+		border-color: 1px solid white;
 		.number .option.ellipsis{
 			padding: 10px 15px;
 		}
 		:hover{
-			background: #7e3af2;
+			background: white;
 			cursor: pointer;
 			color: white;
 			path{
@@ -210,7 +217,7 @@ table{
 			padding: 0px 8px;
 		}
 		svg {
-			border: 1px solid #7e3af2;
+			border: 1px solid white;
 			border-radius: 6px;
 		}
 	}
@@ -219,12 +226,12 @@ table{
 		// background-color: hsl(200, 70%, 50%);
 		span {
 			padding: 0px 8px;
-			color: #7e3af2;
-			border-bottom: 1px solid #7e3af2;
+			color: #0d9488;
+			border-bottom: 1px solid #0d9488;
 		}
 	}
 	path{
-		fill: #7e3af2;
+		fill: #0d9488;
 	}
 }
 .active {

@@ -1,16 +1,15 @@
 <script>
 // @ts-nocheck
-
     import { Card, TextField, Select, Button, Icon } from 'svelte-materialify';
     import { mdiContentSave, mdiDelete } from '@mdi/js';
     import '$sass/tailwind.scss';
-    import { Breadcrumbs} from 'svelte-materialify';
-
-    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
-    const items = [
+    import Header from '$lib/templates/Admin/Header.svelte'
+    export let Breadcrumbs = [
         { text: 'Siswa', href: '/admin/siswa' },
         { text: 'Create', href: '#' },
     ];
+
+    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
     async function handleSubmit() {
       const response = await fetch('http://localhost:3001/siswa',{
           method: 'POST',
@@ -60,12 +59,13 @@
 
 </script>
 
-<main class="px-[20px]">
-   <!-- bradcrumb and title -->
-   <div class="py-3">
-        <span class="text-[17px] font-medium">Create Siswa</span>
-        <Breadcrumbs {items} class=" text-[12px] font-light px-0 py-1"/>
+<div class="border-b dark:border-teal-900 h-[11vh] relative">
+    <div>
+      <Header items={Breadcrumbs}/>
+      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 px-6">Siswa</h2>
     </div>
+</div>
+<main class="px-[20px]">
     <Card class="dark:bg-gray-800 h-[63vh] border bg-white shadow-none dark:border-gray-600">
         <div class="flex flex-cols-2 gap-3 p-3">
             <!-- <form action=""> -->

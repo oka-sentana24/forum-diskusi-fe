@@ -3,8 +3,7 @@
   import { isSideMenuOpen, closeSideMenu } from '$stores/menus'
   import { clickOutside } from '$lib/ioevents/click'
   import { keydownEscape } from '$lib/ioevents/keydown'
-  import SideBar from '$lib/templates/Admin/SideBar.svelte'
-  import Header from '$lib/templates/Admin/Header.svelte'
+  import SideBar from '$lib/components/Sidebar.svelte'
 </script>
 
 <svelte:head>
@@ -15,7 +14,7 @@
 </svelte:head>
 
 <section id="body" class="dark">
-  <div class="flex h-screen  bg-white dark:bg-slate-800 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
+  <div class="flex h-screen  bg-white dark:bg-blue-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
     <!-- Desktop sidebar -->
     <aside
       class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-black md:block flex-shrink-0 border-r border-teal-900"
@@ -41,8 +40,7 @@
     {/if}
 
     <div class="flex flex-col flex-1 w-full">
-      <Header />
-
+      <!-- <Header items={Breadcrumbs}/> -->
       <slot />
     </div>
   </div>
