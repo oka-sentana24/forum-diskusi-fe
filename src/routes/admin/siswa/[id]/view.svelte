@@ -1,9 +1,9 @@
 <script>
-import { Card, Button, Icon, Dialog } from "svelte-materialify";
+import { Card, Button, Icon, Dialog, Snackbar } from "svelte-materialify";
 import { page } from '$app/stores';
-import { mdiAccountEdit, mdiDelete } from '@mdi/js';
+import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
 import Header from '$lib/components/Admin/Header.svelte'
-
+    let snackbar = false;
     let active;
     let id, username, nama, alamat, jenis_kelamin, tempat_lahir, tanggal_lahir, agama, no_tlp, email, kewarganegaraan, kecamatan, kabupaten, nama_ayah, pekerjaan_ayah, nama_ibu, pekerjaan_ibu;
     export let Breadcrumbs = [
@@ -44,6 +44,7 @@ import Header from '$lib/components/Admin/Header.svelte'
     });
 
     if ( response.status === 200) {
+        snackbar = true;
         window.location.href="/admin/siswa";
     }
 }
@@ -69,11 +70,18 @@ import Header from '$lib/components/Admin/Header.svelte'
                     <Icon path={mdiDelete} class="text-white"/>
                 </Button>
                 <Dialog class="pa-4 text-center bg-white" bind:active={active}>
+                    <Icon path={mdiAlert} class= "text-red-500"/>
                     <p class="text-blue-900">Are you sure you want to delete data?</p>
                     <div class="mt-1 ">
-                        <Button text class="success-text" on:click={()=>handleSubmit()} >Accept</Button>
+                        <Button text class="red-text" on:click={()=>handleSubmit()} >Accept</Button>
+                        <Snackbar class="flex-column bg-white text-teal-900" bind:active={snackbar} center text timeout={3000}>
+                            <Icon path={mdiCheckCircle} class="success-text"/>
+                            <div class="mt-1 font-semibold">
+                               <span>Success Update</span>
+                            </div>
+                        </Snackbar>
                         <Button
-                        class="red-text"
+                        class="text-blue-900"
                         text
                         on:click={() => {
                             active = false;

@@ -125,7 +125,7 @@
                         <TextField filled class="main-input text-xs" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
                     </div>
                     <div class="py-3">
-                        <TextField filled class="main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
+                        <TextField filled class="pr-2 main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
                         
                     </div>
                     <div class="py-3">

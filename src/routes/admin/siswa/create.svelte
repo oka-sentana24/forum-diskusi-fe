@@ -20,7 +20,7 @@
               'Content-Type': 'application/json'
           }
       });
-
+      
       if ( response.status === 200) {
         snackbar = true;
          window.location.href="/admin/siswa";
@@ -96,15 +96,15 @@
                         <Select filled items={Jenis_kelamin}  class="main-input dropdown" rules={titleRules} bind:value={data.jenis_kelamin}>Jenis_kelamin</Select>
                     </div>
                     <div class="py-3">
-                        <TextField filled class="main-input text-xs" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
+                        <TextField filled class="main-input text-sm" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
                     </div>
                     <div class="py-3">
-                        <TextField filled class="main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
+                        <TextField filled class="pr-2 main-input text-sm" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
                         
                     </div>
                     <div class="py-3">
                         <!-- <TextField filled class="main-input">Agama</TextField> -->
-                        <Select filled items={Agama} class="main-input dropdown text-xs" rules={titleRules} bind:value={data.agama}>Agama</Select>
+                        <Select filled items={Agama} class="main-input dropdown text-sm" rules={titleRules} bind:value={data.agama}>Agama</Select>
                     </div>
                     <div class="py-3">
                         <TextField filled class="main-input" rules={telponRules} bind:value={data.no_tlp}>No_Tlp</TextField>

@@ -236,4 +236,11 @@ table{
 }
 .active {
 	color: #04b4cd;
-  }
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+	position: relative;
+	right: 3px;
+	bottom: 10px !important;
+}

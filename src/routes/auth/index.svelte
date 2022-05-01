@@ -13,12 +13,14 @@
 	let username = '';
   let password = '';
   let isLoading = false;
+  $: value = '';
+	let error = null;
   
 
-	const titleRules = [(v) => !!v || 'Required'];
-	const emailRules = [
+	const requiredRules = [(v) => !!v || 'Required'];
+	const usernameRules = [
 		(v) => !!v || 'Required',
-		(v) => v.length <= 25 || 'Max 25 characters',
+		(v) => v.length <= 10 || 'Max 10 characters',
 		(v) => {
 			const pattern =
 				/^[0-9]*$/;
@@ -84,10 +86,10 @@
             <!-- login-form -->
 						<form>
 							<div class=" mb-7">
-								<TextField filled class="main-input" rules={emailRules} {titleRules} bind:value={username}>Username</TextField>
+								<TextField filled class="main-input" rules={usernameRules} {requiredRules} bind:value={username} bind:error>Username</TextField>
 							</div>
 							<div class=" mb-4">
-								<TextField filled class="main-input" type={show ? 'text' : 'password'} {titleRules} bind:value={password}>
+								<TextField filled class="main-input" type={show ? 'text' : 'password'} {requiredRules} bind:value={password} bind:error>
 									Password
 									<div
 										slot="append"
@@ -113,8 +115,8 @@
 									>Remember me</Checkbox
 								>
 							</div>
-							<div on:click={()=>handleSubmit()} >
-								<Button class="white white-text w-full h-[5vh] text-sm dark:text-green-1001" disabled>
+							<div on:click={()=>handleSubmit()} class="cursor-pointer">
+								<Button class="white white-text w-full h-[5vh] text-sm dark:text-green-100" disabled={!value || error}>
                   {#if isLoading}
                   loading...
                   {:else}

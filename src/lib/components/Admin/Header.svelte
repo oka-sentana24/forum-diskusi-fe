@@ -50,7 +50,7 @@
     {/if}
 
     <div class:w-full={!withBreadcrumb}>
-      <ul class="flex justify-end items-center flex-shrink-0 space-x-6">
+      <ul class="z-20 flex justify-end items-center flex-shrink-0 space-x-6">
         <!-- Notifications menu -->
         <li class="relative">
           <button
@@ -137,7 +137,7 @@
           </button>
         </li>
         <!-- Profile menu -->
-        <li class="relative">
+        <li class="relative z-20">
           <button
             id="nav-profile-photo"
             class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"

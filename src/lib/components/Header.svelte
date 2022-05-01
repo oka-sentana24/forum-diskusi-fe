@@ -12,6 +12,8 @@
     } from '$stores/menus'
     import { clickOutside } from '$lib/ioevents/click'
     import { keydownEscape } from '$lib/ioevents/keydown'
+    import '$sass/tailwind.scss';
+
   
     const withSearch = true
   </script>
@@ -150,10 +152,10 @@
             {/if}
           </li>
           <!-- Profile menu -->
-          <li class="relative">
+          <li class="profile relative">
             <button
               id="nav-profile-photo"
-              class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
+              class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none z-30"
               on:click={toggleProfileMenu}
               use:keydownEscape
               on:keydown-escape={closeProfileMenu}
@@ -173,7 +175,7 @@
                 on:click-outside={closeProfileMenu}
                 use:keydownEscape
                 on:keydown-escape={closeProfileMenu}
-                class="absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
+                class=" z-30 absolute right-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                 aria-label="submenu"
               >
                 <li class="flex">
