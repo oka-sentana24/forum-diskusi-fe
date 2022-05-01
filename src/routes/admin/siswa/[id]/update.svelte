@@ -1,18 +1,18 @@
 <script>
     // @ts-nocheck
     
-        import { Card, TextField, Select, Button, Icon } from 'svelte-materialify';
-        import { mdiContentSave, mdiDelete } from '@mdi/js';
+        import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
+        import { mdiContentSave, mdiCheckCircle } from '@mdi/js';
         import '$sass/tailwind.scss';
-        import { Breadcrumbs} from 'svelte-materialify';
         import { page } from '$app/stores';
+        import Header from '$lib/components/Admin/Header.svelte'
 
         // let id = page.query.id;
-    
+        let snackbar = false;
         let data = {username:'', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
-        const items = [
+        const Breadcrumbs = [
             { text: 'Siswa', href: '/admin/siswa' },
-            { text: 'Create', href: '#' },
+            { text: 'Update', href: '#' },
         ];
         fetch(`http://localhost:3001/siswa/${$page.params.id}`)
             .then((resp) => resp.json())
@@ -48,7 +48,9 @@
           });
     
           if ( response.status === 200) {
-             window.location.href="/admin/siswa";
+
+                snackbar = true;
+                window.location.href="/admin/siswa";
           }
           // what do you do with a non-redirect?
     
@@ -85,74 +87,81 @@
         ];
     
     </script>
-    
-    <main class="px-[20px]">
-       <!-- bradcrumb and title -->
-       <div class="py-3">
-            <span class="text-[17px] font-medium">Create Siswa</span>
-            <Breadcrumbs {items} class=" text-[12px] font-light px-0 py-1"/>
+
+<div class="border-b dark:border-teal-900 h-[12vh] relative">
+    <div>
+        <div class="pb-2">
+            <Header items={Breadcrumbs}/>
         </div>
-        <Card class="dark:bg-gray-800 h-[63vh] border bg-white shadow-none dark:border-gray-600">
+        <div class="flex justify-between items-center px-6">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Update Siswa</h2>
+            <Button class=" bg-white hover:bg-blue-400 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-teal-900 hover:text-white"/></Button>
+            <Snackbar class="flex-column bg-white text-teal-900" bind:active={snackbar} center text timeout={3000}>
+                <Icon path={mdiCheckCircle}/>
+                <div class="mt-1 font-semibold">
+                   <span>Success Update</span>
+                </div>
+            </Snackbar>
+        </div>
+    </div>
+</div>
+    <main class="p-[20px]">
+        <Card class="dark:bg-blue-800 h-[63vh] bg-white shadow-none">
             <div class="flex flex-cols-2 gap-3 p-3">
-                <!-- <form action=""> -->
-                    <div class="w-full">
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={validateNisn} bind:value={data.username}>Nisn</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.nama}>Nama</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.alamat}>Alamat</TextField>
-                        </div>
-                        <div class="py-3">
-                            <Select filled items={Jenis_kelamin}  class="main-input dropdown" rules={titleRules} bind:value={data.jenis_kelamin}>Jenis_kelamin</Select>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input text-xs" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
-                            
-                        </div>
-                        <div class="py-3">
-                            <!-- <TextField filled class="main-input">Agama</TextField> -->
-                            <Select filled items={Agama} class="main-input dropdown text-xs" rules={titleRules} bind:value={data.agama}>Agama</Select>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={telponRules} bind:value={data.no_tlp}>No_Tlp</TextField>
-                        </div>
+                <div class="w-full">
+                    <div class="py-3">
+                        <TextField filled class="main-input cursor-not-allowed" rules={validateNisn} bind:value={data.username} disabled>Nisn</TextField>
                     </div>
-                    <div class="w-full">
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={emailRules} bind:value={data.email}>Email</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.kewarganegaraan}>Kewarganegaraan</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.kecamatan}>Kecamatan</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.kabupaten}>Kabupaten</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ayah}>Nama Ayah</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ayah}>Pekerjaan Ayah</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ibu}>Nama Ibu</TextField>
-                        </div>
-                        <div class="py-3">
-                            <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ibu}>Pekerjaan Ibu</TextField>
-                        </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama}>Nama</TextField>
                     </div>
-                <!-- </form> -->
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.alamat}>Alamat</TextField>
+                    </div>
+                    <div class="py-3">
+                        <Select filled items={Jenis_kelamin}  class="main-input dropdown" rules={titleRules} bind:value={data.jenis_kelamin}>Jenis_kelamin</Select>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input text-xs" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
+                        
+                    </div>
+                    <div class="py-3">
+                        <!-- <TextField filled class="main-input">Agama</TextField> -->
+                        <Select filled items={Agama} class="main-input dropdown text-xs" rules={titleRules} bind:value={data.agama}>Agama</Select>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={telponRules} bind:value={data.no_tlp}>No_Tlp</TextField>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={emailRules} bind:value={data.email}>Email</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kewarganegaraan}>Kewarganegaraan</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kecamatan}>Kecamatan</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kabupaten}>Kabupaten</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ayah}>Nama Ayah</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ayah}>Pekerjaan Ayah</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ibu}>Nama Ibu</TextField>
+                    </div>
+                    <div class="py-3">
+                        <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ibu}>Pekerjaan Ibu</TextField>
+                    </div>
+                </div>
             </div>
         </Card>
-        <div class="flex flex-cols-1 justify-between py-3">
-            <Button class="bg-white text-xs text-gray-900 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-gray-900"/>Save</Button>
-        </div>
     </main>

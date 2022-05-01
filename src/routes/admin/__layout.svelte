@@ -3,7 +3,7 @@
   import { isSideMenuOpen, closeSideMenu } from '$stores/menus'
   import { clickOutside } from '$lib/ioevents/click'
   import { keydownEscape } from '$lib/ioevents/keydown'
-  import SideBar from '$lib/components/Sidebar.svelte'
+  import SideBar from '$lib/components/Admin/Sidebar.svelte'
 </script>
 
 <svelte:head>
@@ -14,10 +14,10 @@
 </svelte:head>
 
 <section id="body" class="dark">
-  <div class="flex h-screen  bg-white dark:bg-blue-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
+  <div class="flex h-screen bg-teal-50 dark:bg-blue-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
     <!-- Desktop sidebar -->
     <aside
-      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-black md:block flex-shrink-0 border-r border-teal-900"
+      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-black md:block flex-shrink-0 border-r dark:border-teal-900 border-gray-200"
     >
       <SideBar />
     </aside>

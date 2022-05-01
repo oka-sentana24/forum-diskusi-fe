@@ -1,5 +1,5 @@
 <script lang="ts">
-    import DataTable from "$lib/components/DataTable.svelte"
+    import DataTable from "$src/lib/components/Admin/DataTable.svelte"
     import { Button, Icon, TextField, List, ListGroup, ListItem, Input } from 'svelte-materialify';
     import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
     import { createEventDispatcher } from 'svelte';

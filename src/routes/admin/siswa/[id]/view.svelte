@@ -1,13 +1,14 @@
 <script>
-import { Card, Button, Icon } from "svelte-materialify";
+import { Card, Button, Icon, Dialog } from "svelte-materialify";
 import { page } from '$app/stores';
-import { Breadcrumbs} from 'svelte-materialify';
-import { mdiContentSave, mdiDelete } from '@mdi/js';
-    
+import { mdiAccountEdit, mdiDelete } from '@mdi/js';
+import Header from '$lib/components/Admin/Header.svelte'
+
+    let active;
     let id, username, nama, alamat, jenis_kelamin, tempat_lahir, tanggal_lahir, agama, no_tlp, email, kewarganegaraan, kecamatan, kabupaten, nama_ayah, pekerjaan_ayah, nama_ibu, pekerjaan_ibu;
-    const items = [
+    export let Breadcrumbs = [
         { text: 'Siswa', href: '/admin/siswa' },
-        { text: 'Show', href: '#' },
+        { text: 'View', href: '#' },
     ];
     // @ts-ignore
 	fetch(`http://localhost:3001/siswa/${$page.params.id}`)
@@ -33,59 +34,60 @@ import { mdiContentSave, mdiDelete } from '@mdi/js';
             pekerjaan_ibu = res.pekerjaan_ibu;
 
 	})
-    // async function handleDELETE() {
-    //     console.log("handleDELETE")
-    //       const response = await fetch(`http://localhost:3001/siswa/${$page.params.id}`,{
-    //           method: 'DELETE',
-    //           credentials: 'same-origin',
-    //           headers: {
-    //               'Content-Type': 'application/json'
-    //           }
-    //       });
-    
-    //       if ( response.status === 200) {
-    //          window.location.href="/admin/siswa";
-    //       }
-    //       // what do you do with a non-redirect?
-          
-    // }
     async function handleSubmit() {
-          const response = await fetch(`http://localhost:3001/siswa/${$page.params.id}`,{
-              method: 'DELETE',
-              credentials: 'same-origin',
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          });
-    
-          if ( response.status === 200) {
-             window.location.href="/admin/siswa";
-          }
-          // what do you do with a non-redirect?
-    
+        const response = await fetch(`http://localhost:3001/siswa/${$page.params.id}`,{
+            method: 'DELETE',
+            credentials: 'same-origin',
+            headers: {
+            'Content-Type': 'application/json'
         }
+    });
+
+    if ( response.status === 200) {
+        window.location.href="/admin/siswa";
+    }
+}
     
 </script>
 
-<!-- <main>
-    {id}
-    {username}
-</main> -->
-
-<main class="px-[20px]">
-   <div class="flex flex-cols-2 justify-between items-center">
-    <div class="py-3">
-        <span class="text-[17px] font-medium">Show Siswa</span>
-        <Breadcrumbs {items} class=" text-[12px] font-light px-0 py-1"/>
-    </div>
+<div class="border-b dark:border-teal-900 h-[12vh] relative">
     <div>
-        <a href="/admin/siswa/{id}/update">
-            <Button class="text-white bg-purple-500 text-xs rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Edit</Button>
-        </a>
+        <div class="pb-2">
+            <Header items={Breadcrumbs}/>
+        </div>
+        <div class="flex justify-between items-center px-6">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Update Siswa</h2>
+            <div class="flex gap-5">
+                <a href="/admin/siswa/{id}/update">
+                    <Button class="bg-white text-xs text-white rounded-sm">
+                        <Icon path={mdiAccountEdit} class="text-teal-900"/>
+                    </Button>
+                </a>
+                <Button class="bg-red-500 text-xs text-white rounded-sm"on:click={() => {
+                   (active = true)
+                  }}>
+                    <Icon path={mdiDelete} class="text-white"/>
+                </Button>
+                <Dialog class="pa-4 text-center bg-white" bind:active={active}>
+                    <p class="text-blue-900">Are you sure you want to delete data?</p>
+                    <div class="mt-1 ">
+                        <Button text class="success-text" on:click={()=>handleSubmit()} >Accept</Button>
+                        <Button
+                        class="red-text"
+                        text
+                        on:click={() => {
+                            active = false;
+                        }}>
+                        Dismiss
+                        </Button>
+                    </div>  
+                </Dialog>
+            </div>
+        </div>
     </div>
-   </div>
-
-    <Card class="dark:bg-gray-800 h-[63vh] border dark:border-gray-700">
+</div>
+<main class="p-[20px]">
+    <Card class="dark:bg-blue-800 h-[63vh] rounded-sm">
         <div class="p-5 flex flex-cols-2 gap-20">
             <div>
                 <label for="" class="text-xs text-gray-400">id</label>
@@ -162,9 +164,4 @@ import { mdiContentSave, mdiDelete } from '@mdi/js';
             </div>
         </div>
     </Card>
-    <!-- <Button class="bg-red-500 text-xs text-white rounded-sm"><Icon path={mdiDelete} class="text-white" on:click={()=>handleSubmit()}/>Delete</Button> -->
-    <div class="flex flex-cols-1 justify-between py-3">
-        <span></span>
-        <Button class="bg-red-500 text-xs text-white rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiDelete} class="text-white"/>Delete</Button>
-    </div>
 </main>

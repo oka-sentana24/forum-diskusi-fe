@@ -4,19 +4,20 @@
 
 <script lang="ts">
 //Module
-    import Header from '$lib/templates/Admin/Header.svelte'
-    import DataTable from "$lib/components/DataTable.svelte"
+    import Header from '$lib/components/Admin/Header.svelte'
+    import DataTable from "$lib/components/Admin/DataTable.svelte"
     import { Button, Icon, TextField, List, ListGroup, ListItem, Input } from 'svelte-materialify';
     import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
     import { createEventDispatcher } from 'svelte';
     import { onMount } from "svelte";
+    import { mdiAccountPlus } from '@mdi/js';
 //variable
     let Breadcrumbs = [
         { text: 'Siswa', href: '#' },
     ];
     let shown = false;
     let dispatch = createEventDispatcher();
-    let columns = ["Nisn", "Nama", "Jurusan", "Kelas", "Alamat", "Jenis Kelamin", "Tempat lahir", "Tanggal Lahir", "Agama", "No tlp", "Email","Kewarganegaraan", "Kecamatan", "Kabupaten"]
+    let columns = ["Nisn", "Nama", "Jurusan", "Kelas", "Alamat", "Jenis Kelamin", "Tempat lahir", "Tanggal Lahir", "Agama", "No tlp", "Email", "Kecamatan", "Kabupaten"]
     let dataList = [];
 
     const titleRules = [(v) => !!v || 'Required'];
@@ -33,16 +34,27 @@
 
 </script>
 
-<div class="border-b dark:border-teal-900 h-[11vh] relative">
-  <div>
+<div class="border-b dark:border-teal-900 h-[14vh] relative">
+  <!-- <div>
     <Header items={Breadcrumbs}/>
     <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 px-6">Siswa</h2>
-  </div>
+  </div> -->
+    <div>
+        <div class="pb-2">
+            <Header items={Breadcrumbs}/>
+        </div>
+        <div class="flex justify-between items-center px-6">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Siswa</h2>
+            <a href="/admin/siswa/create">
+                <Button class="text-white bg-purple-500 text-sm rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"><Icon path={mdiAccountPlus}/></Button>
+            </a>
+        </div>
+    </div>
 </div>
 
 <main class="h-full overflow-y-auto">
-    <section class="px-[20px]">
-        <div class=" flex flex-cols-2 justify-between py-5">
+    <section class="p-[20px]">
+        <!-- <div class=" flex flex-cols-2 justify-between py-5">
             <div class="py-2">
                 <Button class="dark:bg-gray-800 rounded-sm text-sm gap-3" on:click={show}>
                     <span class="gap-3 text-sm">filter</span>
@@ -66,7 +78,7 @@
                     <Button class="text-white bg-purple-500 text-sm rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Create +</Button>
                 </a>
             </div>
-        </div>
+        </div> -->
         <DataTable columns={columns} items={dataList} type={"siswa"}/>
     </section>
 </main>

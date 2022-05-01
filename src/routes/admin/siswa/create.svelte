@@ -1,7 +1,7 @@
 <script>
 // @ts-nocheck
-    import { Card, TextField, Select, Button, Icon } from 'svelte-materialify';
-    import { mdiContentSave, mdiDelete } from '@mdi/js';
+    import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
+    import { mdiContentSave, mdiCheckCircle } from '@mdi/js';
     import '$sass/tailwind.scss';
     import Header from '$lib/templates/Admin/Header.svelte'
     export let Breadcrumbs = [
@@ -10,6 +10,7 @@
     ];
 
     let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
+    let snackbar = false;
     async function handleSubmit() {
       const response = await fetch('http://localhost:3001/siswa',{
           method: 'POST',
@@ -21,6 +22,7 @@
       });
 
       if ( response.status === 200) {
+        snackbar = true;
          window.location.href="/admin/siswa";
       }
       // what do you do with a non-redirect?
@@ -59,14 +61,25 @@
 
 </script>
 
-<div class="border-b dark:border-teal-900 h-[11vh] relative">
+<div class="border-b dark:border-teal-900 h-[12vh] relative">
     <div>
-      <Header items={Breadcrumbs}/>
-      <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200 px-6">Siswa</h2>
+        <div class="pb-2">
+            <Header items={Breadcrumbs}/>
+        </div>
+        <div class="flex justify-between items-center px-6">
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">Create Siswa</h2>
+            <Button class=" bg-white hover:bg-blue-400 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-teal-900 hover:text-white"/></Button>
+            <Snackbar class="flex-column bg-white text-teal-900" bind:active={snackbar} center text timeout={3000}>
+                <Icon path={mdiCheckCircle}/>
+                <div class="mt-1 font-semibold">
+                   <span>Success create Siswa</span>
+                </div>
+            </Snackbar>
+        </div>
     </div>
 </div>
-<main class="px-[20px]">
-    <Card class="dark:bg-gray-800 h-[63vh] border bg-white shadow-none dark:border-gray-600">
+<main class="p-[20px]">
+    <Card class="dark:bg-blue-800 h-[63vh] bg-white shadow-none">
         <div class="flex flex-cols-2 gap-3 p-3">
             <!-- <form action=""> -->
                 <div class="w-full">
@@ -126,7 +139,4 @@
             <!-- </form> -->
         </div>
     </Card>
-    <div class="flex flex-cols-1 justify-between py-3">
-        <Button class="bg-white text-xs text-gray-900 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-gray-900"/>Save</Button>
-    </div>
 </main>
