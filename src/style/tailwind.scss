@@ -48,7 +48,7 @@ body {
 /*Global text-Input*/
 
 .main-input {
-	background-color:#f4f5f7;
+	background-color: #f4f5f7;
 	height: 5vh;
 	border-bottom: 15px;
 	border: 1px solid #99f6e4;
@@ -108,6 +108,7 @@ body {
 	position: relative !important;
 	left: 14px !important;
 	bottom: 6px !important;
+	color: #f44336;
 }
 .s-input__control {
 	height: 6vh !important;
@@ -118,14 +119,14 @@ body {
 }
 
 //tabel-custum
-table{
-    width: 100%;
+table {
+	width: 100%;
 	position: sticky;
 	z-index: 1;
 }
 
 //dropdown
-.dropdown{
+.dropdown {
 	.s-menu {
 		background: white;
 		border-radius: 0;
@@ -135,13 +136,13 @@ table{
 	label {
 		margin-top: -7px;
 	}
-	input{
+	input {
 		margin-top: -12px !important;
 	}
-	span{
-		color: white;	
+	span {
+		color: white;
 	}
-	i{
+	i {
 		margin-top: -15px;
 	}
 }
@@ -153,7 +154,7 @@ table{
 	border-radius: 3px;
 	// box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 	gap: 5px;
-	.option{
+	.option {
 		padding: 10px 0px;
 		display: flex;
 		align-items: center;
@@ -161,10 +162,10 @@ table{
 		transition: 0.2s all ease-out;
 		user-select: none;
 		color: #7a869a;
-		.number .option.ellipsis{
+		.number .option.ellipsis {
 			padding: 10px 15px;
 		}
-		:hover{
+		:hover {
 			background: #000;
 			cursor: pointer;
 		}
@@ -172,7 +173,7 @@ table{
 			padding: 0px 8px;
 		}
 	}
-	.active{
+	.active {
 		// color: hsl(200, 70%, 50%);
 		// background-color: hsl(200, 70%, 50%);
 		span {
@@ -181,7 +182,7 @@ table{
 			border-bottom: 1px solid #7e3af2;
 		}
 	}
-	path{
+	path {
 		fill: white;
 	}
 }
@@ -193,7 +194,7 @@ table{
 	border-radius: 3px;
 	// box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 	gap: 5px;
-	.option{
+	.option {
 		padding: 10px 0px;
 		display: flex;
 		align-items: center;
@@ -202,14 +203,14 @@ table{
 		user-select: none;
 		color: #7a869a;
 		border-color: 1px solid white;
-		.number .option.ellipsis{
+		.number .option.ellipsis {
 			padding: 10px 15px;
 		}
-		:hover{
+		:hover {
 			background: white;
 			cursor: pointer;
 			color: white;
-			path{
+			path {
 				fill: white;
 			}
 		}
@@ -221,7 +222,7 @@ table{
 			border-radius: 6px;
 		}
 	}
-	.active{
+	.active {
 		// color: hsl(200, 70%, 50%);
 		// background-color: hsl(200, 70%, 50%);
 		span {
@@ -230,7 +231,7 @@ table{
 			border-bottom: 1px solid #0d9488;
 		}
 	}
-	path{
+	path {
 		fill: #0d9488;
 	}
 }
@@ -239,7 +240,7 @@ table{
 }
 
 ::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+	filter: invert(1);
 	position: relative;
 	right: 3px;
 	bottom: 10px !important;
