@@ -4,28 +4,50 @@
     import { mdiContentSave, mdiCheckCircle } from '@mdi/js';
     import '$sass/tailwind.scss';
     import Header from '$lib/templates/Admin/Header.svelte'
+    import { onMount } from 'svelte';
+
+
     export let Breadcrumbs = [
         { text: 'Siswa', href: '/admin/siswa' },
         { text: 'Create', href: '#' },
     ];
 
-    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', nama_ayah:'', pekerjaan_ayah:'', nama_ibu:'', pekerjaan_ibu:''  }
+    let data = {
+        username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', kewarganegaraan:'', kecamatan:'', kabupaten:'', kelasId:'', jurusanId:'', nama_ibu:'', pekerjaan_ibu:''  }
     let snackbar = false;
+
+    let dataSource = [];
+    let jurusan = []
+	onMount(async () => {
+		const res = await fetch(`http://localhost:3001/kelas/list`);
+		const data = await res.json();
+		dataSource = data;
+
+        const responseJurusan = await fetch(`http://localhost:3001/jurusan/list`);
+		const dataJurusan = await responseJurusan.json();
+		jurusan = dataJurusan;
+	});
+
+    
     async function handleSubmit() {
+    const token = localStorage.getItem('token');
       const response = await fetch('http://localhost:3001/siswa',{
           method: 'POST',
           credentials: 'same-origin',
           body: JSON.stringify({ ...data }),
           headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              authorization: `Bearer ${token}`
           }
       });
       
-      if ( response.status === 200) {
+      if ( response.status === 200 ||  response.status === 201) {
         snackbar = true;
-         window.location.href="/admin/siswa";
+         window.location.href="http://localhost:3000/admin/siswa";
       }
       // what do you do with a non-redirect?
+
+      console.log('return', handleSubmit)
 
     }
 
@@ -93,6 +115,21 @@
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.alamat}>Alamat</TextField>
                     </div>
                     <div class="py-3">
+                        {#each dataSource as datas}
+                        <Select filled items = {[datas.grade]} class="main-input dropdown text-sm" rules={titleRules} bind:value={data.kelasId}>Kelas</Select>
+                        {/each}
+                    </div>
+                    <!-- <div class="py-3">
+                        {#each jurusan as jurusans}
+                        <Select filled items = {[jurusans.nama]} class="main-input dropdown text-sm" rules={titleRules} bind:value={data.jurusanId}>jurusan</Select>
+                        {/each}
+                    </div> -->
+                    <div class="py-3">
+                        {#each jurusan as jurusans}
+                            <Select filled items = {[jurusans.nama]}  class="main-input dropdown" rules={titleRules} bind:value={data.jurusanId}>Jurusan</Select>
+                        {/each}
+                    </div>
+                    <div class="py-3">
                         <Select filled items={Jenis_kelamin}  class="main-input dropdown" rules={titleRules} bind:value={data.jenis_kelamin}>Jenis_kelamin</Select>
                     </div>
                     <div class="py-3">
@@ -122,12 +159,6 @@
                     </div>
                     <div class="py-3">
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.kabupaten}>Kabupaten</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ayah}>Nama Ayah</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.pekerjaan_ayah}>Pekerjaan Ayah</TextField>
                     </div>
                     <div class="py-3">
                         <TextField filled class="main-input" rules={titleRules} bind:value={data.nama_ibu}>Nama Ibu</TextField>

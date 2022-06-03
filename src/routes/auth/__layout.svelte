@@ -21,6 +21,6 @@
           <ProgressCircular size={30} width={3} indeterminate color="success" />
         </span>
       </div>
-      </div>
+    </div>
 	</div>
 </Loader>

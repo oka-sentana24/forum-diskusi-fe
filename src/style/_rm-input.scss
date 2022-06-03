@@ -1,0 +1,41 @@
+.dark .filled{
+	background-color: #000 !important;
+	border-radius: 0px !important;
+	height: 54px;
+	font-size: 14px;
+	label{
+		color: gray;
+	}
+	label.active {
+		color: #04b4cd;
+	}
+}
+
+.s-text-field__wrapper:after,
+.s-text-field__wrapper:before {
+	border-radius: unset !important;
+	width: inherit !important;
+	content: none !important;
+}
+.dense{
+	min-height: 55px !important;
+	margin-bottom: 0px;
+}
+.s-input__details{
+	position: absolute !important;
+    top: 77px !important;
+    left: 14px !important;
+	color: red;
+}
+.s-input.dense .s-input__slot {
+    margin-bottom: 0px !important;
+}
+.error{
+	border: 1px solid red;
+}
+
+.primary-text {
+    color: white !important;
+    caret-color: white !important;
+	border: 1px solid #04b4cd !important;
+}

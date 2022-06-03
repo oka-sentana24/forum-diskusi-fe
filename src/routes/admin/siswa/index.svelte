@@ -70,8 +70,8 @@
 									{datas.nama}
 								</a>
 							</DataTableCell>
-							<DataTableCell>{datas.jurusanId}</DataTableCell>
-							<DataTableCell>{datas.kelasId}</DataTableCell>
+							<DataTableCell>{datas.jurusan.nama}</DataTableCell>
+							<DataTableCell>{datas.kelas.grade}</DataTableCell>
 							<DataTableCell>{datas.alamat}</DataTableCell>
 							<DataTableCell>{datas.jenis_kelamin}</DataTableCell>
 							<DataTableCell>{datas.tanggal_lahir}</DataTableCell>

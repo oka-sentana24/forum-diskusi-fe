@@ -13,6 +13,7 @@
 	$: value = '';
 	let error = null;
 
+
 	async function handleSubmit() {
 		const response = await fetch('http://localhost:3001/signin', {
 			method: 'POST',
@@ -25,6 +26,7 @@
 
 		if (response.status === 200) {
 			let body = await response.json();
+			localStorage.setItem('token', body.token)
 
 			var decoded: any = jwt_decode(body.token);
 			isLoading = true;
@@ -38,16 +40,16 @@
 			}
 		}
 	}
+	
 </script>
 
 <section>
 	<form>
-		<div class="mb-7">
+		<div class="relative py-4">
 			<TextField
+				dense
 				filled
-				class="main-input"
 				bind:value={username}
-				bind:error
 				rules={[
 					(v) => !!v || 'Required',
 					(v) => v.length <= 10 || 'Max 10 characters',
@@ -56,16 +58,18 @@
 						return pattern.test(v) || 'Invalid username.';
 					}
 				]}
-				validateOnBlur>Username</TextField
+				>Username</TextField
 			>
 		</div>
-		<div class="mb-4">
+		<div class="relative py-4">
 			<TextField
-				filled
-				class="main-input"
-				type={show ? 'text' : 'password'}
-				bind:value={password}
-				bind:error
+			filled
+			dense
+			type={show ? 'text' : 'password'}
+			bind:value={password}
+			rules={[
+				(v) => !!v || 'Required',
+			]}
 			>
 				Password
 				<div
@@ -78,18 +82,18 @@
 					<Icon path={show ? mdiEyeOff : mdiEye} />
 				</div>
 			</TextField>
-		</div>
-		<div class="py-4 flex flex-cols-2 items-center gap-10 justify-between">
-			<div class="text-sm ">
-				<Checkbox bind:group value="1" type="password" name="password" autocomplete="off"
-					>Remember me</Checkbox
-				>
+			<div class="mt-6">
+				<span class="text-sm">
+					<a class="dark:text-blue-400 hover:underline" href="./forgot-password">
+						Forgot your password?
+					</a>
+				</span>
 			</div>
-			<span class="text-sm">
-				<a class="text-sm font-medium  dark:text-blue-400 hover:underline" href="./forgot-password">
-					Forgot your password?
-				</a>
-			</span>
+		</div>
+		<div class="text-sm ">
+			<Checkbox bind:group value="1" type="password" name="password" autocomplete="off" class="bg-transparent"
+				>Remember me</Checkbox
+			>
 		</div>
 		<div on:click={() => handleSubmit()} class="cursor-pointer py-4">
 			<Button
