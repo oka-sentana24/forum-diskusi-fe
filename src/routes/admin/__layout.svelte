@@ -3,7 +3,8 @@
   import { isSideMenuOpen, closeSideMenu } from '$stores/menus'
   import { clickOutside } from '$lib/ioevents/click'
   import { keydownEscape } from '$lib/ioevents/keydown'
-  import SideBar from '$lib/components/Admin/Sidebar.svelte'
+  import SideBar from '$lib/components/Sidebar.svelte'
+  import { fly } from 'svelte/transition';
 </script>
 
 <svelte:head>
@@ -13,34 +14,28 @@
   />
 </svelte:head>
 
-<section id="body" class="dark">
-  <div class="flex h-screen bg-teal-50 dark:bg-blue-900 overflow-hidden transition-all duration-500" class:overflow-hidden={$isSideMenuOpen}>
-    <!-- Desktop sidebar -->
+<section id="body">
+  <div class="flex h-screen bg-gray-200 dark:bg-gray-700 overflow-hidden " class:overflow-hidden={$isSideMenuOpen}>
     <aside
-      class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-black md:block flex-shrink-0 border-r dark:border-teal-900 border-gray-200"
+      class="z-20 hidden w-[15%] overflow-y-auto bg-white md:block flex-shrink-0 border-r border-gray-300 dark:border-gray-600 dark:bg-gray-800"
     >
       <SideBar />
     </aside>
 
-    <!-- Mobile sidebar -->
-    <!-- Backdrop -->
     {#if $isSideMenuOpen}
-      <div
-        class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-      />
       <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-[53px] overflow-y-auto bg-white dark:bg-gray-800"
+        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-[65px] overflow-y-auto bg-white dark:bg-gray-800"
         use:clickOutside={['nav-mobile-hamburger']}
         on:click-outside={closeSideMenu}
         use:keydownEscape
         on:keydown-escape={closeSideMenu}
+        transition:fly="{{ x: -200, duration: 2000 }}"
       >
         <SideBar />
       </aside>
     {/if}
 
     <div class="flex flex-col flex-1 w-full">
-      <!-- <Header items={Breadcrumbs}/> -->
       <slot />
     </div>
   </div>

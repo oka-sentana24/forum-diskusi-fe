@@ -1,6 +1,5 @@
 <script lang="ts">
 	import '$sass/tailwind.scss';
-	import '$sass/tailwind.scss';
 	import { TextField, Button, Icon, Checkbox } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 	import jwt_decode from 'jwt-decode';
@@ -77,27 +76,27 @@
 					on:click={() => {
 						show = !show;
 					}}
-					class="text-blue-600"
+					class="text-purple-500"
 				>
 					<Icon path={show ? mdiEyeOff : mdiEye} />
 				</div>
 			</TextField>
 			<div class="mt-6">
 				<span class="text-sm">
-					<a class="dark:text-blue-400 hover:underline" href="./forgot-password">
+					<a class="text-gray-600 hover:underline" href="./forgot-password">
 						Forgot your password?
 					</a>
 				</span>
 			</div>
 		</div>
-		<div class="text-sm ">
+		<div class="text-sm text-gray-600">
 			<Checkbox bind:group value="1" type="password" name="password" autocomplete="off" class="bg-transparent"
 				>Remember me</Checkbox
 			>
 		</div>
 		<div on:click={() => handleSubmit()} class="cursor-pointer py-4">
 			<Button
-				class="white white-text w-full h-[5vh] text-sm dark:text-green-100"
+				class="w-full h-[5vh] text-sm text-white bg-purple-900"
 				disabled={!value || error}
 			>
 				{#if isLoading}

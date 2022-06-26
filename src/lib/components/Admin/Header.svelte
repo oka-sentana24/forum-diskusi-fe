@@ -20,7 +20,7 @@
 	export let items;
 </script>
 
-<header class="z-10 bg-blue-900 border-b dark:border-teal-900">
+<header class="z-50 bg-blue-900 border-b dark:border-teal-900">
 	<div class="flex items-center justify-between px-6 py-2 mx-auto text-blue-600 dark:text-white">
 		<!-- Mobile hamburger -->
 		<button

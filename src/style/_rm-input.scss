@@ -1,14 +1,8 @@
-.dark .filled{
-	background-color: #000 !important;
+.filled {
+	background-color: #edebfe !important;
 	border-radius: 0px !important;
 	height: 54px;
-	font-size: 14px;
-	label{
-		color: gray;
-	}
-	label.active {
-		color: #04b4cd;
-	}
+	font-size: 16px;
 }
 
 .s-text-field__wrapper:after,
@@ -17,25 +11,52 @@
 	width: inherit !important;
 	content: none !important;
 }
-.dense{
+
+.dense {
 	min-height: 55px !important;
 	margin-bottom: 0px;
 }
-.s-input__details{
+
+.s-input__details {
 	position: absolute !important;
-    top: 77px !important;
-    left: 14px !important;
+	top: 77px !important;
+	left: 14px !important;
 	color: red;
 }
+
 .s-input.dense .s-input__slot {
-    margin-bottom: 0px !important;
+	margin-bottom: 0px !important;
 }
-.error{
-	border: 1px solid red;
+
+.error {
+	border: 2px solid red;
 }
 
 .primary-text {
-    color: white !important;
-    caret-color: white !important;
-	border: 1px solid #04b4cd !important;
+	color: #707275 !important;
+	caret-color: #707275 !important;
+	border: 1px solid #707275 !important;
+}
+
+.dark .filled {
+	background-color: #edebfe !important;
+	border-radius: 0px !important;
+	height: 54px;
+	font-size: 16px;
+}
+
+.dark .primary-text {
+	color: #707275 !important;
+	caret-color: #707275 !important;
+	border: 1px solid #707275 !important;
+}
+
+.s-menu {
+	left: 0px;
+	transform-origin: left top;
+	z-index: 8;
+	position: absolute;
+	top: 55px !important;
+	background: white;
+	border: unset !important;
 }
