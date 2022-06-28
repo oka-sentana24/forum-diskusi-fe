@@ -1,61 +1,107 @@
 <script lang="ts">
-    import DataTable from "$src/lib/components/Admin/DataTable.svelte"
-    import { Button, Icon, TextField, List, ListGroup, ListItem, Input } from 'svelte-materialify';
-    import { mdiChevronUp, mdiChevronDown } from '@mdi/js';
-    import { createEventDispatcher } from 'svelte';
-    import { onMount } from "svelte";
-    import { goto } from '$app/navigation';
+	import Header from '$lib/components/Header.svelte';
+	import '$sass/tailwind.scss';
+	import { onMount } from 'svelte';
+	import {
+		Button,
+		Icon,
+		DataTable,
+		DataTableHead,
+		DataTableRow,
+		DataTableCell,
+		DataTableBody
+	} from 'svelte-materialify';
+	import { mdiPlus } from '@mdi/js';
+	import { paginate, LightPaginationNav } from 'svelte-paginate';
 
-    // create variable
-    let shown = false;
-    let dispatch = createEventDispatcher();
-    let columns = ["Nip", "Nama", "Alamat", "Jenis Kelamin", "Tempat Lahir", "Tanggal Lahir", "Agama", "No tlp", "Email", "Jabatan", "Ktp", "Kewarganegaraan", "Kecamatan", "Kabupaten"]
-    let dataList = [];
-    const titleRules = [(v) => !!v || 'Required'];
-    
-    //logic
-    function show() {
-        shown = !shown;
-				dispatch('show', shown);
-	}
-    onMount(async () => {
-        const res = await fetch(`http://localhost:3001/guru/page`);
-        const data = await res.json();
-        dataList= data.paginateData;
-    });
+	let currentPage = 1;
+	let pageSize = 10;
+	$: paginatedItems = paginate({ items, pageSize, currentPage });
+	let Breadcrumbs = [{ text: 'guru', href: '#' }];
+	let columns = [
+		'Nip',
+		'Nama',
+		'Jurusan',
+		'Kelas',
+		'Alamat',
+		'Jenis Kelamin',
+		'Tanggal Lahir',
+		'Agama',
+		'No tlp',
+		'Email',
+		'Jabatan',
+		'Ktp'
+	];
+	let items = [];
 
-    function handleDetail(event) {
-        goto('/project/' + event.detail.body.id);
-    }
+	onMount(async () => {
+		const res = await fetch(`http://localhost:3001/guru/list`);
+		const data = await res.json();
+		items = data;
+	});
 </script>
 
-<main>
-    <section class="px-[20px]">
-        <div class=" flex flex-cols-2 justify-between py-5">
-            <div class="py-2">
-                <Button class="dark:bg-gray-800 rounded-sm text-xs gap-3" on:click={show}>
-                    <span class="gap-3 text-xs">filter</span>
-                    <span>
-                        <Icon path={shown ? mdiChevronUp : mdiChevronDown} />
-                    </span>
-                </Button>
-                {#if shown}
-                    <span class="text-xs px-5 text-blue-500">
-                        apply
-                    </span>
-                    <div class="py-3 flex gap-3"> 
-                        <TextField filled class="main-input" {titleRules}>Name</TextField>
-                        <TextField filled class="main-input" {titleRules}>Name</TextField>
-                        <TextField filled class="main-input" {titleRules}>Name</TextField>
-                    </div>
-                {/if}
-            </div>
-            <div class="py-2">
-                <a href="/admin/guru/create">
-                    <Button class="text-white bg-purple-500 text-xs rounded-sm active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Create</Button>
-                </a>
-            </div>
-        </div>
-        <DataTable columns={columns} items={dataList} on:details={handleDetail} type={"guru"}/>
-    </section>
+<svelte:head>
+	<title>guru</title>
+</svelte:head>
+
+<main class="h-full overflow-y-auto">
+	<Header items={Breadcrumbs} />
+	<section class="h-full">
+		<main class="h-full overflow-y-auto">
+			<div class="relative top-[5rem] px-5">
+				<div class="overflow-auto">
+					<div class="flex justify-end py-[20px]">
+						<a href="/admin/guru/create">
+							<Button class="text-white bg-purple-700 text-xs rounded-sm">
+								Create
+								<Icon path={mdiPlus} class="text-xs" />
+							</Button>
+						</a>
+					</div>
+					<DataTable
+						class="block bg-white border-2 border-rose-600 dark:bg-gray-800 h-[60vh] overflow-auto rounded-none w-full"
+					>
+						<DataTableHead class="p-2 bg-purple-500 text-white sticky top-0 rounded-none">
+							<DataTableRow>
+								{#each columns as column}
+									<DataTableCell>{column}</DataTableCell>
+								{/each}
+							</DataTableRow>
+						</DataTableHead>
+						<DataTableBody>
+							{#each paginatedItems as items}
+								<DataTableRow class="text-gray-500">
+									<DataTableCell>{items.username}</DataTableCell>
+									<DataTableCell>
+										<a href="/admin/siswa/{items.id}/view" class="text-purple-600">
+											{items.nama}
+										</a>
+									</DataTableCell>
+									<DataTableCell>{items.jurusan.nama}</DataTableCell>
+									<DataTableCell>{items.kelas.grade}</DataTableCell>
+									<DataTableCell>{items.alamat}</DataTableCell>
+									<DataTableCell>{items.jenis_kelamin}</DataTableCell>
+									<DataTableCell>{items.tanggal_lahir}</DataTableCell>
+									<DataTableCell>{items.agama}</DataTableCell>
+									<DataTableCell>{items.no_tlp}</DataTableCell>
+									<DataTableCell>{items.email}</DataTableCell>
+									<DataTableCell>{items.jabatan}</DataTableCell>
+									<DataTableCell>{items.ktp}</DataTableCell>
+								</DataTableRow>
+							{/each}
+						</DataTableBody>
+					</DataTable>
+					<LightPaginationNav
+						totalItems={items.length}
+						{pageSize}
+						{currentPage}
+						limit={1}
+						showStepOptions={true}
+						on:setPage={(e) => (currentPage = e.detail.page)}
+					/>
+				</div>
+			</div>
+		</main>
+	</section>
 </main>

@@ -1,127 +1,240 @@
 <script>
-// @ts-nocheck
+	// @ts-nocheck
+	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
+	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import '$sass/tailwind.scss';
+	import Header from '$lib/components/Header.svelte';
+	import { onMount } from 'svelte';
 
-    import { Card, TextField, Select, Button, Icon } from 'svelte-materialify';
-    import { mdiContentSave, mdiDelete } from '@mdi/js';
-    import '$sass/tailwind.scss';
-    import { Breadcrumbs} from 'svelte-materialify';
-
-    let data = {username: '', nama: '', alamat:'', jenis_kelamin:'', tempat_lahir:'', tanggal_lahir:'', agama:'', no_tlp:'', email:'', jabatan:'', ktp:'',  kewarganegaraan:'', kecamatan:''  }
-    const items = [
-        { text: 'Guru', href: '/admin/guru' },
-        { text: 'Create', href: '#' },
-    ];
-    async function handleSubmit() {
-      const response = await fetch('http://localhost:3001/guru',{
-          method: 'POST',
-          credentials: 'same-origin',
-          body: JSON.stringify({ ...data }),
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      });
-
-      if ( response.status === 200) {
-         window.location.href="/admin/guru";
-      }
-      // what do you do with a non-redirect?
-
-    }
-
-    const Jenis_kelamin = [
-     'Laki-Laki','Perempuan'
-    ];
-    const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
-    const titleRules = [(v) => !!v || 'Required'];
-	const validateNisn = [
-		(v) => !!v || 'Required',
-		(v) => v.length <= 10 || 'Max 10 characters',
-		(v) => {
-			const pattern =
-				/^[0-9]*$/;
-			return pattern.test(v) || 'Invalid type from number';
-		}
+	export let Breadcrumbs = [
+		{ text: 'Siswa', href: '/admin/siswa' },
+		{ text: 'Create', href: '#' }
 	];
-    const emailRules = [
-        (v) => !!v || 'Required',
-        (v) => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(v) || 'Invalid e-mail.';
-        },
-    ];
-    const telponRules = [
-        (v) => !!v || 'Required',
-        (v) => v.length <= 25 || 'Max 25 characters',
-        (v) => {
-        const pattern = /^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/;
-        return pattern.test(v) || 'Invalid e-mail.';
-        },
-    ];
 
+	let data = {
+		username: '',
+		nama: '',
+		alamat: '',
+		jenis_kelamin: '',
+		tempat_lahir: '',
+		tanggal_lahir: '',
+		agama: '',
+		no_tlp: '',
+		email: '',
+		jabatan: '',
+		ktp: '',
+		kewarganegaraan: '',
+		kecamatan: '',
+		kabupaten: '',
+		kelasId: '',
+		jurusanId: ''
+	};
+	let snackbar = false;
+	let fetchKelas = [];
+	let dataKelas = [];
+	let fetchJurusan = [];
+	let dataJurusan = [];
+	const Jenis_kelamin = ['Laki-Laki', 'Perempuan'];
+	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
+
+	onMount(() => {
+		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
+			fetchKelas = res;
+			console.log('debug:', res);
+			dataKelas = fetchKelas.map((val) => {
+				return { name: val.grade, value: val.id };
+			});
+		});
+
+		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
+			fetchJurusan = res;
+			console.log('debug:', res);
+			dataJurusan = fetchJurusan.map((val) => {
+				return { name: val.nama, value: val.id };
+			});
+		});
+	});
+	async function getFetchKelas(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
+
+	async function getFetchJurusan(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
+	async function handleSubmit() {
+		const token = localStorage.getItem('token');
+		const response = await fetch('http://localhost:3001/guru', {
+			method: 'POST',
+			credentials: 'same-origin',
+			body: JSON.stringify({ ...data }),
+			headers: {
+				'Content-Type': 'application/json',
+				authorization: `Bearer ${token}`
+			}
+		});
+
+		if (response.status === 200 || response.status === 201) {
+			snackbar = true;
+			window.location.href = 'http://localhost:3000/admin/guru';
+		}
+		// what do you do with a non-redirect?
+
+		console.log('return', handleSubmit);
+	}
 </script>
 
-<main class="px-[20px]">
-   <!-- bradcrumb and title -->
-   <div class="py-3">
-        <span class="text-[17px] font-medium">Create Siswa</span>
-        <Breadcrumbs {items} class=" text-[12px] font-light px-0 py-1"/>
-    </div>
-    <Card class="dark:bg-gray-800 h-[63vh] border bg-white shadow-none dark:border-gray-600">
-        <div class="flex flex-cols-2 gap-3 p-3">
-            <!-- <form action=""> -->
-                <div class="w-full">
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={validateNisn} bind:value={data.username}>Nip</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.nama}>Nama</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.alamat}>Alamat</TextField>
-                    </div>
-                    <div class="py-3">
-                        <Select filled items={Jenis_kelamin}  class="main-input dropdown" rules={titleRules} bind:value={data.jenis_kelamin}>Jenis_kelamin</Select>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input text-xs" rules={titleRules} bind:value={data.tempat_lahir}>Tempat_lahir</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input text-xs" type="date" placeholder="date" bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField>
-                        
-                    </div>
-                    <div class="py-3">
-                        <!-- <TextField filled class="main-input">Agama</TextField> -->
-                        <Select filled items={Agama} class="main-input dropdown text-xs" rules={titleRules} bind:value={data.agama}>Agama</Select>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={telponRules} bind:value={data.no_tlp}>No_Tlp</TextField>
-                    </div>
-                </div>
-                <div class="w-full">
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={emailRules} bind:value={data.email}>Email</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.jabatan}>Jabatan</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.ktp}>ktp</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kewarganegaraan}>Kewarganegaraan</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kecamatan}>Kecamatan</TextField>
-                    </div>
-                    <div class="py-3">
-                        <TextField filled class="main-input" rules={titleRules} bind:value={data.kabupaten}>Kabupaten</TextField>
-                    </div>
-                </div>
-            <!-- </form> -->
-        </div>
-    </Card>
-    <div class="flex flex-cols-1 justify-between py-3">
-        <Button class="bg-white text-xs text-gray-900 rounded-sm" on:click={()=>handleSubmit()}><Icon path={mdiContentSave} class="text-gray-900"/>Save</Button>
-        <Button class="bg-red-500 text-xs text-white rounded-sm"><Icon path={mdiDelete} class="text-white"/>Delete</Button>
-    </div>
+<main class="h-full overflow-y-auto">
+	<Header items={Breadcrumbs} />
+	<section class="h-full">
+		<main class="h-full overflow-y-auto">
+			<div class="relative top-[5rem] px-5">
+				<Card class="dark:bg-blue-800 h-[84vh] bg-white shadow-none">
+					<div class="p-5">
+						<div class="p-3 bg-purple-300">
+							<span>Data Diri</span>
+						</div>
+						<div class="flex flex-cols-2 gap-3">
+							<div class="w-full">
+								<div class="relative py-3">
+									<TextField
+										dense
+										filled
+										bind:value={data.username}
+										rules={[
+											(v) => !!v || 'Required',
+											(v) => v.length <= 10 || 'Max 10 characters',
+											(v) => {
+												const pattern = /^[0-9]*$/;
+												return pattern.test(v) || 'Invalid username.';
+											}
+										]}>Nip</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
+										>Nama</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<Select
+										filled
+										dense
+										items={Jenis_kelamin}
+										class="main-input dropdown"
+										bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input text-sm" bind:value={data.tempat_lahir}
+										>Tempat_lahir</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField
+										dense
+										filled
+										class="pr-2 main-input text-sm"
+										type="date"
+										placeholder="date"
+										bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField
+									>
+								</div>
+							</div>
+							<div class="w-full">
+								<div class="relative py-3">
+									<Select
+										dense
+										filled
+										items={Agama}
+										class="main-input dropdown text-sm"
+										bind:value={data.agama}>Agama</Select
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.no_tlp}
+										>No Tlp</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.email}
+										>Email</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.jabatan}
+										>Jabatan</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.ktp}>Ktp</TextField>
+								</div>
+							</div>
+						</div>
+						<div class="p-3 bg-purple-300">
+							<span>Data Alamat</span>
+						</div>
+						<div class="flex flex-cols-2 gap-3">
+							<div class="w-full">
+								<div class="relative py-3">
+									<TextField
+										dense
+										filled
+										bind:value={data.alamat}
+										rules={[(v) => !!v || 'Required']}>Alamat</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.kewarganegaraan}
+										>Kewarganegaraan</TextField
+									>
+								</div>
+							</div>
+							<div class="w-full">
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.kecamatan}
+										>Kecamatan</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled class="main-input" bind:value={data.kabupaten}
+										>Kabupaten</TextField
+									>
+								</div>
+							</div>
+						</div>
+						<div class="p-3 bg-purple-300">
+							<span>Data Alamat</span>
+						</div>
+						<div class="flex flex-cols-2 gap-3">
+							<div class="w-full">
+								<div class="relative py-4">
+									<Select dense filled items={dataKelas} bind:value={data.kelasId}>Kelas</Select>
+								</div>
+							</div>
+							<div class="w-full">
+								<div class="relative py-4">
+									<Select dense filled items={dataJurusan} bind:value={data.jurusanId}
+										>Jurusan</Select
+									>
+								</div>
+							</div>
+						</div>
+					</div>
+				</Card>
+				<div class="flex justify-end py-[20px]">
+					<Button class=" bg-white hover:bg-blue-400 rounded-sm" on:click={() => handleSubmit()}
+						><Icon path={mdiContentSave} class="text-teal-900 hover:text-white" />Save</Button
+					>
+					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
+						<Icon path={mdiCheckCircle} />
+						<span class="mt-1 font-semibold"> Success create Guru </span>
+					</Snackbar>
+				</div>
+			</div>
+		</main>
+	</section>
 </main>
