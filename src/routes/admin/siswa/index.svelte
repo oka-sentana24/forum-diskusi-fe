@@ -47,16 +47,17 @@
 				<div class="overflow-auto">
 					<div class="flex justify-end py-[20px]">
 						<a href="/admin/siswa/create">
-							<Button class="text-white bg-purple-700 text-xs rounded-sm">
-								Create
-								<Icon path={mdiPlus} class="text-xs" />
-							</Button>
+							<Button class="text-gray-800 bg-white text-sm rounded-sm"
+								><Icon path={mdiPlus} class="text-xs" />Create</Button
+							>
 						</a>
 					</div>
 					<DataTable
 						class="block bg-white border-2 border-rose-600 dark:bg-gray-800 h-[74vh] overflow-auto rounded-none w-full"
 					>
-						<DataTableHead class="p-2 bg-purple-500 text-white sticky top-0 rounded-none">
+						<DataTableHead
+							class="p-2 bg-teal-400 dark:bg-teal-800 text-white sticky top-0 rounded-none"
+						>
 							<DataTableRow>
 								{#each columns as column}
 									<DataTableCell>{column}</DataTableCell>

@@ -12,7 +12,6 @@
 	$: value = '';
 	let error = null;
 
-
 	async function handleSubmit() {
 		const response = await fetch('http://localhost:3001/signin', {
 			method: 'POST',
@@ -25,7 +24,7 @@
 
 		if (response.status === 200) {
 			let body = await response.json();
-			localStorage.setItem('token', body.token)
+			localStorage.setItem('token', body.token);
 
 			var decoded: any = jwt_decode(body.token);
 			isLoading = true;
@@ -39,7 +38,6 @@
 			}
 		}
 	}
-	
 </script>
 
 <section>
@@ -56,19 +54,16 @@
 						const pattern = /^[0-9]*$/;
 						return pattern.test(v) || 'Invalid username.';
 					}
-				]}
-				>Username</TextField
+				]}>Username</TextField
 			>
 		</div>
 		<div class="relative py-4">
 			<TextField
-			filled
-			dense
-			type={show ? 'text' : 'password'}
-			bind:value={password}
-			rules={[
-				(v) => !!v || 'Required',
-			]}
+				filled
+				dense
+				type={show ? 'text' : 'password'}
+				bind:value={password}
+				rules={[(v) => !!v || 'Required']}
 			>
 				Password
 				<div
@@ -76,7 +71,7 @@
 					on:click={() => {
 						show = !show;
 					}}
-					class="text-purple-500"
+					class="text-teal-500"
 				>
 					<Icon path={show ? mdiEyeOff : mdiEye} />
 				</div>
@@ -90,15 +85,17 @@
 			</div>
 		</div>
 		<div class="text-sm text-gray-600">
-			<Checkbox bind:group value="1" type="password" name="password" autocomplete="off" class="bg-transparent"
-				>Remember me</Checkbox
+			<Checkbox
+				bind:group
+				value="1"
+				type="password"
+				name="password"
+				autocomplete="off"
+				class="bg-transparent">Remember me</Checkbox
 			>
 		</div>
 		<div on:click={() => handleSubmit()} class="cursor-pointer py-4">
-			<Button
-				class="w-full h-[5vh] text-sm text-white bg-purple-900"
-				disabled={!value || error}
-			>
+			<Button class="w-full h-[5vh] text-sm text-white bg-teal-500" disabled={!value || error}>
 				{#if isLoading}
 					loading...
 				{:else}
