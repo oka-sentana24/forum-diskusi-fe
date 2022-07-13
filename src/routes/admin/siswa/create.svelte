@@ -92,14 +92,14 @@
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
 			<div class="relative top-[5rem] px-5">
-				<Card class="dark:bg-blue-800 h-[84vh] bg-white shadow-none">
+				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
 					<div class="p-5">
 						<div class="p-3 bg-purple-300">
 							<span>Data Diri</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -114,12 +114,12 @@
 										]}>Nisn</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
 										>Nama</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										filled
 										dense
@@ -128,12 +128,12 @@
 										bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input text-sm" bind:value={data.tempat_lahir}
 										>Tempat_lahir</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -145,7 +145,7 @@
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										dense
 										filled
@@ -154,22 +154,22 @@
 										bind:value={data.agama}>Agama</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.no_tlp}
 										>No Tlp</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.email}
 										>Email</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.nama_ibu}
 										>Nama Ibu</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.pekerjaan_ibu}
 										>Pekerjaan Ibu</TextField
 									>
@@ -181,7 +181,7 @@
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -189,19 +189,19 @@
 										rules={[(v) => !!v || 'Required']}>Alamat</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kewarganegaraan}
 										>Kewarganegaraan</TextField
 									>
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kecamatan}
 										>Kecamatan</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kabupaten}
 										>Kabupaten</TextField
 									>
