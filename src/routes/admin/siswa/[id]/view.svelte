@@ -26,7 +26,7 @@
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`http://localhost:3001/siswa/list/${$page.params.id}`)
+	fetch(`https://stark-wildwood-45887.herokuapp.com/siswa/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -47,13 +47,16 @@
 			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
 	async function handleSubmit() {
-		const response = await fetch(`http://localhost:3001/siswa/list/${$page.params.id}`, {
-			method: 'DELETE',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json'
+		const response = await fetch(
+			`https://stark-wildwood-45887.herokuapp.com/siswa/list/${$page.params.id}`,
+			{
+				method: 'DELETE',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			}
-		});
+		);
 
 		if (response.status === 200) {
 			snackbar = true;

@@ -21,13 +21,13 @@
 		agama: '',
 		no_tlp: '',
 		email: '',
-		jabatan: '',
-		ktp: '',
 		kewarganegaraan: '',
 		kecamatan: '',
 		kabupaten: '',
 		kelasId: '',
-		jurusanId: ''
+		jurusanId: '',
+		nama_ibu: '',
+		pekerjaan_ibu: ''
 	};
 	let snackbar = false;
 	let fetchKelas = [];
@@ -38,7 +38,7 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
+		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
@@ -46,7 +46,7 @@
 			});
 		});
 
-		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
+		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
@@ -67,7 +67,7 @@
 	}
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
-		const response = await fetch('http://localhost:3001/guru', {
+		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/guru', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -91,15 +91,15 @@
 	<Header items={Breadcrumbs} />
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
-			<div class="relative top-[5rem] px-5">
-				<Card class="dark:bg-blue-800 h-[84vh] bg-white shadow-none">
+			<div class="relative top-[6rem] px-5">
+				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
 					<div class="p-5">
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Diri</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -111,15 +111,15 @@
 												const pattern = /^[0-9]*$/;
 												return pattern.test(v) || 'Invalid username.';
 											}
-										]}>Nip</TextField
+										]}>Nisn</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
 										>Nama</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										filled
 										dense
@@ -128,12 +128,12 @@
 										bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input text-sm" bind:value={data.tempat_lahir}
 										>Tempat_lahir</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -145,7 +145,7 @@
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										dense
 										filled
@@ -154,32 +154,34 @@
 										bind:value={data.agama}>Agama</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.no_tlp}
 										>No Tlp</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.email}
 										>Email</TextField
 									>
 								</div>
-								<div class="relative py-3">
-									<TextField dense filled class="main-input" bind:value={data.jabatan}
-										>Jabatan</TextField
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.nama_ibu}
+										>Nama Ibu</TextField
 									>
 								</div>
-								<div class="relative py-3">
-									<TextField dense filled class="main-input" bind:value={data.ktp}>Ktp</TextField>
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.pekerjaan_ibu}
+										>Pekerjaan Ibu</TextField
+									>
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -187,26 +189,26 @@
 										rules={[(v) => !!v || 'Required']}>Alamat</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kewarganegaraan}
 										>Kewarganegaraan</TextField
 									>
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kecamatan}
 										>Kecamatan</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kabupaten}
 										>Kabupaten</TextField
 									>
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -226,12 +228,14 @@
 					</div>
 				</Card>
 				<div class="flex justify-end py-[20px]">
-					<Button class=" bg-white hover:bg-blue-400 rounded-sm" on:click={() => handleSubmit()}
-						><Icon path={mdiContentSave} class="text-teal-900 hover:text-white" />Save</Button
+					<Button
+						class=" bg-purple-500 hover:bg-purple-900 text-white rounded-sm"
+						on:click={() => handleSubmit()}
+						><Icon path={mdiContentSave} class="text-white" />Save</Button
 					>
 					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
 						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success create Guru </span>
+						<span class="mt-1 font-semibold"> Success create Siswa </span>
 					</Snackbar>
 				</div>
 			</div>

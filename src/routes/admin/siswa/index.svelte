@@ -38,10 +38,10 @@
 	let nama = '';
 
 	onMount(async () => {
-		const res = await fetch(`http://localhost:3001/siswa/list`);
+		const res = await fetch(`https://stark-wildwood-45887.herokuapp.com/siswa/list`);
 		const data = await res.json();
 		items = data;
-		var url = new URL('http://localhost:3001/siswa/list?nama'),
+		var url = new URL('https://stark-wildwood-45887.herokuapp.com/siswa/list?nama'),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -49,7 +49,9 @@
 
 	async function searchSiswa(nama) {
 		// bind ke on:submit
-		let response = await fetch(`http://localhost:3001/siswa/list?nama=${nama}`);
+		let response = await fetch(
+			`https://stark-wildwood-45887.herokuapp.com/siswa/list?nama=${nama}`
+		);
 		const data = await response.json();
 		items = data;
 	}
@@ -80,11 +82,14 @@
 									<span> Apply </span>
 								</button>
 							{/if}
+							{#if nama}
+								<button type="reset">reset</button>
+							{/if}
 						</div>
 					</div>
 					<div class="flex justify-end">
 						<a href="/admin/siswa/create">
-							<Button class="text-gray-800 bg-white text-sm rounded-sm"
+							<Button class="text-white bg-purple-500 hover:bg-purple-900 text-sm rounded-sm"
 								><Icon path={mdiPlus} class="text-xs" />Create</Button
 							>
 						</a>
@@ -92,11 +97,8 @@
 				</div>
 				<div class="py-3 relative">
 					{#if isopenFilter}
-						<div class="flex items-center justify-center gap-5 w-[70%]">
-							<TextField dense filled>Nisn</TextField>
+						<div class="flex items-center justify-center gap-5 w-[15%]">
 							<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
-							<TextField dense filled>Kelas</TextField>
-							<TextField dense filled>Jurusan</TextField>
 						</div>
 					{/if}
 				</div>

@@ -38,7 +38,7 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
+		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
@@ -46,7 +46,7 @@
 			});
 		});
 
-		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
+		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
@@ -67,7 +67,7 @@
 	}
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
-		const response = await fetch('http://localhost:3001/siswa', {
+		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/siswa', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -91,10 +91,10 @@
 	<Header items={Breadcrumbs} />
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
-			<div class="relative top-[5rem] px-5">
+			<div class="relative top-[6rem] px-5">
 				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
 					<div class="p-5">
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Diri</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -176,7 +176,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -208,7 +208,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-purple-300">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -228,8 +228,10 @@
 					</div>
 				</Card>
 				<div class="flex justify-end py-[20px]">
-					<Button class=" bg-white hover:bg-blue-400 rounded-sm" on:click={() => handleSubmit()}
-						><Icon path={mdiContentSave} class="text-teal-900 hover:text-white" />Save</Button
+					<Button
+						class=" bg-purple-500 hover:bg-purple-900 text-white rounded-sm"
+						on:click={() => handleSubmit()}
+						><Icon path={mdiContentSave} class="text-white" />Save</Button
 					>
 					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
 						<Icon path={mdiCheckCircle} />

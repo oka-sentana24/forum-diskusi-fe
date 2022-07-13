@@ -15,6 +15,7 @@
 		agama,
 		no_tlp,
 		email,
+		jabatan,
 		kewarganegaraan,
 		kecamatan,
 		kabupaten,
@@ -22,11 +23,11 @@
 		nama_ibu,
 		pekerjaan_ibu;
 	export let Breadcrumbs = [
-		{ text: 'Siswa', href: '/admin/siswa' },
+		{ text: 'Guru', href: '/admin/guru' },
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`http://localhost:3001/siswa/list/${$page.params.id}`)
+	fetch(`https://stark-wildwood-45887.herokuapp.com/guru/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -40,6 +41,7 @@
 			agama = res.agama;
 			no_tlp = res.no_tlp;
 			email = res.email;
+			jabatan = res.jabatan;
 			kewarganegaraan = res.kewarganegaraan;
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
@@ -47,17 +49,20 @@
 			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
 	async function handleSubmit() {
-		const response = await fetch(`http://localhost:3001/siswa/list/${$page.params.id}`, {
-			method: 'DELETE',
-			credentials: 'same-origin',
-			headers: {
-				'Content-Type': 'application/json'
+		const response = await fetch(
+			`https://stark-wildwood-45887.herokuapp.com/guru/list/${$page.params.id}`,
+			{
+				method: 'DELETE',
+				credentials: 'same-origin',
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			}
-		});
+		);
 
 		if (response.status === 200) {
 			snackbar = true;
-			window.location.href = '/admin/siswa';
+			window.location.href = '/admin/guru';
 		}
 	}
 </script>
@@ -69,7 +74,7 @@
 			<div class="relative top-[5rem] px-5">
 				<div class="overflow-auto">
 					<div class="flex justify-end py-[20px]">
-						<a href="/admin/siswa/{id}/update">
+						<a href="/admin/guru/{id}/update">
 							<Button class="text-white bg-purple-700 text-xs rounded-sm">
 								Update
 								<Icon path={mdiAccountEdit} class="text-xs" />
