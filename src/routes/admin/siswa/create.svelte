@@ -36,18 +36,19 @@
 	let dataJurusan = [];
 	const Jenis_kelamin = ['Laki-Laki', 'Perempuan'];
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
+	const Grade = ['X', 'XI', 'XII'];
 
 	onMount(() => {
-		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
+		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
-				return { name: val.grade, value: val.id };
+				return { name: val.nama, grade: val.grade, value: val.id };
 			});
 			console.log('debug:testing',dataKelas)
 		});
 
-		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
+		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
@@ -68,7 +69,7 @@
 	}
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
-		const response = await fetch('http://localhost:3001/siswa', {
+		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/siswa', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -80,7 +81,7 @@
 
 		if (response.status === 200 || response.status === 201) {
 			snackbar = true;
-			window.location.href = 'http://localhost:3000/admin/siswa';
+			window.location.href = '/admin/siswa';
 		}
 		// what do you do with a non-redirect?
 

@@ -12,10 +12,13 @@
 	];
 
 	let data = {
-		nama: '',
-		grade: ''
+		nama: ''
 	};
 	let snackbar = false;
+	let fetchKelas = [];
+	let dataKelas = [];
+	let fetchJurusan = [];
+	let dataJurusan = [];
 
 	async function handleSubmit() {
 		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/jurusan', {
@@ -45,7 +48,7 @@
 				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
 					<div class="p-5">
 						<div class="p-3 bg-teal-200">
-							<span>Data jurusan</span>
+							<span>Data Jurusan</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
