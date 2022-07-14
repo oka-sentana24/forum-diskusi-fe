@@ -9,7 +9,7 @@
 
 	export let Breadcrumbs = [
 		{ text: 'Siswa', href: '/admin/siswa' },
-		{ text: 'Create', href: '#' }
+		{ text: 'Update', href: '#' }
 	];
 
 	let data = {

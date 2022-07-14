@@ -36,7 +36,6 @@
 	let dataJurusan = [];
 	const Jenis_kelamin = ['Laki-Laki', 'Perempuan'];
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
-	const Grade = ['X', 'XI', 'XII'];
 
 	onMount(() => {
 		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
@@ -94,9 +93,9 @@
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
 			<div class="relative top-[6rem] px-5">
-				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
+				<Card class="dark:bg-gray-800 md:h-[84vh] bg-white shadow-none sm:h-full">
 					<div class="p-5">
-						<div class="p-3 bg-teal-200">
+						<div class="p-3 bg-teal-200 dark:bg-teal-700">
 							<span>Data Diri</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -178,7 +177,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-teal-200">
+						<div class="p-3 bg-teal-200 dark:bg-teal-700">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
@@ -210,8 +209,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-teal-200">
-							<span>Data Alamat</span>
+						<div class="p-3 bg-teal-200 dark:bg-teal-700">
+							<span>Data Jurusan</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">

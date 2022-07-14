@@ -74,8 +74,8 @@
 					<div class="flex justify-end py-[20px]">
 						<a href="/admin/siswa/{id}/update">
 							<Button class="text-white bg-purple-700 text-xs rounded-sm">
-								Update
 								<Icon path={mdiAccountEdit} class="text-xs" />
+								Update
 							</Button>
 						</a>
 					</div>

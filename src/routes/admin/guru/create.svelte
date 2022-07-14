@@ -21,13 +21,13 @@
 		agama: '',
 		no_tlp: '',
 		email: '',
+		jabatan:'',
+		ktp:'',
 		kewarganegaraan: '',
 		kecamatan: '',
 		kabupaten: '',
 		kelasId: '',
 		jurusanId: '',
-		nama_ibu: '',
-		pekerjaan_ibu: ''
 	};
 	let snackbar = false;
 	let fetchKelas = [];
@@ -111,7 +111,7 @@
 												const pattern = /^[0-9]*$/;
 												return pattern.test(v) || 'Invalid username.';
 											}
-										]}>Nisn</TextField
+										]}>Nip</TextField
 									>
 								</div>
 								<div class="relative py-4">
@@ -165,13 +165,13 @@
 									>
 								</div>
 								<div class="relative py-4">
-									<TextField dense filled class="main-input" bind:value={data.nama_ibu}
-										>Nama Ibu</TextField
+									<TextField dense filled class="main-input" bind:value={data.jabatan}
+										>Jabatan</TextField
 									>
 								</div>
 								<div class="relative py-4">
-									<TextField dense filled class="main-input" bind:value={data.pekerjaan_ibu}
-										>Pekerjaan Ibu</TextField
+									<TextField dense filled class="main-input" bind:value={data.ktp}
+										>Ktp</TextField
 									>
 								</div>
 							</div>

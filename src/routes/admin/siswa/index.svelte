@@ -97,7 +97,7 @@
 				</div>
 				<div class="py-3 relative">
 					{#if isopenFilter}
-						<div class="flex items-center justify-center gap-5 w-[15%]">
+						<div class="flex items-center justify-center gap-5 md:w-[15%] sm:w-[20%]">
 							<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
 						</div>
 					{/if}
