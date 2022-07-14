@@ -38,15 +38,16 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
+		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
 				return { name: val.grade, value: val.id };
 			});
+			console.log('debug:testing',dataKelas)
 		});
 
-		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
+		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
@@ -67,7 +68,7 @@
 	}
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
-		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/siswa', {
+		const response = await fetch('http://localhost:3001/siswa', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),

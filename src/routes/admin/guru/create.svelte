@@ -79,7 +79,7 @@
 
 		if (response.status === 200 || response.status === 201) {
 			snackbar = true;
-			window.location.href = 'http://localhost:3000/admin/guru';
+			window.location.href = '/admin/guru';
 		}
 		// what do you do with a non-redirect?
 
