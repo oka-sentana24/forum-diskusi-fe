@@ -6,8 +6,8 @@
 </script>
 
 <section id="body" class={randCls}>
-	<header class="flex justify-center items-center w-full h-screen bg-gray-50 dark:bg-gray-900">
-		<Card class="bg-white rounded-lg shadow-xl dark:bg-gray-800 w-[465px] shadow-xs">
+	<header class="flex justify-center items-center w-full h-screen bg-gray-50">
+		<Card class="bg-white rounded-lg shadow-xl w-[465px] shadow-xs mx-5">
 			<div class="p-[20px]">
 				<div class="mb-4">
 					<h1 class="text-2xl font-bold py-2 text-gray-700">Sign In</h1>

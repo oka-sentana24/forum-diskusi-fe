@@ -17,7 +17,7 @@
 <section id="body">
   <div class="flex h-screen bg-gray-200 dark:bg-gray-700 overflow-hidden " class:overflow-hidden={$isSideMenuOpen}>
     <aside
-      class="z-20 hidden w-[15%] overflow-y-auto bg-white md:block flex-shrink-0 border-r border-gray-300 dark:border-gray-600 dark:bg-gray-800"
+      class="z-20 hidden w-[300px] overflow-y-auto bg-white md:block flex-shrink-0 border-r border-gray-300 dark:border-gray-600 dark:bg-gray-800"
     >
       <SideBar />
     </aside>

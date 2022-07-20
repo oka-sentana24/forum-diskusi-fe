@@ -27,7 +27,7 @@
 	$: activeUrl = $page.url;
 </script>
 
-<section class="text-base font-bold text-black dark:text-white ">
+<section class="md:text-sm sm:text-xs font-bold text-black dark:text-white ">
 	<!--Sidebar Brands-->
 	<div class="border-b border-gray-200 p-5 dark:border-gray-600">
 		<div class="flex gap-2 items-center">

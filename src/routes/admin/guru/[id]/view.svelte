@@ -27,7 +27,7 @@
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`https://stark-wildwood-45887.herokuapp.com/guru/list/${$page.params.id}`)
+	fetch(`http://localhost:3001/guru/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -45,12 +45,10 @@
 			kewarganegaraan = res.kewarganegaraan;
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
-			nama_ayah = res.nama_ayah;
-			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
 	async function handleSubmit() {
 		const response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/guru/list/${$page.params.id}`,
+			`http://localhost:3001/guru/list/${$page.params.id}`,
 			{
 				method: 'DELETE',
 				credentials: 'same-origin',
@@ -137,14 +135,6 @@
 								<label for="" class="text-xs text-gray-400">Kabupaten</label>
 								<div class="pb-2">
 									{kabupaten}
-								</div>
-								<label for="" class="text-xs text-gray-400">Nama Ibu</label>
-								<div class="pb-2">
-									{nama_ibu}
-								</div>
-								<label for="" class="text-xs text-gray-400">Nama Ibu</label>
-								<div class="pb-2">
-									{pekerjaan_ibu}
 								</div>
 							</div>
 						</div>

@@ -22,7 +22,7 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchSiswa(`https://stark-wildwood-45887.herokuapp.com/kelas/list/${$page.params.id}`).then(
+		getFetchSiswa(`http://localhost:3001/kelas/list/${$page.params.id}`).then(
 			(res) => {
 				data = res;
 				console.log('debug:', res);
@@ -36,7 +36,7 @@
 	}
 	async function handleSubmit() {
 		const response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/kelas/update/${$page.params.id}`,
+			`http://localhost:3001/kelas/update/${$page.params.id}`,
 			{
 				method: 'PUT',
 				credentials: 'same-origin',
@@ -74,18 +74,12 @@
 										dense
 										filled
 										bind:value={data.id}
-										rules={[
-											(v) => !!v || 'Required',
-											(v) => v.length <= 10 || 'Max 10 characters',
-											(v) => {
-												const pattern = /^[0-9]*$/;
-												return pattern.test(v) || 'Invalid username.';
-											}
-										]}>id</TextField
+										disabled
+										>id</TextField
 									>
 								</div>
 								<div class="relative py-3">
-									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
+									<TextField dense filled bind:value={data.nama}
 										>Nama</TextField
 									>
 								</div>
@@ -104,9 +98,9 @@
 						on:click={() => handleSubmit()}
 						><Icon path={mdiContentSave} class="text-white" />Save</Button
 					>
-					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
+					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={3000}>
 						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success Update Siswa </span>
+						<span class="mt-1 font-semibold"> Success </span>
 					</Snackbar>
 				</div>
 			</div>

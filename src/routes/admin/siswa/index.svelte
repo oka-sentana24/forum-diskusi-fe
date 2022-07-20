@@ -38,10 +38,10 @@
 	let nama = '';
 
 	onMount(async () => {
-		const res = await fetch(`https://stark-wildwood-45887.herokuapp.com/siswa/list`);
+		const res = await fetch(`http://localhost:3001/siswa/list`);
 		const data = await res.json();
 		items = data;
-		var url = new URL('https://stark-wildwood-45887.herokuapp.com/siswa/list?nama'),
+		var url = new URL('http://localhost:3001/siswa/list?nama'),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -50,7 +50,7 @@
 	async function searchSiswa(nama) {
 		// bind ke on:submit
 		let response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/siswa/list?nama=${nama}`
+			`http://localhost:3001/siswa/list?nama=${nama}`
 		);
 		const data = await response.json();
 		items = data;
@@ -125,7 +125,7 @@
 												{items.nama}
 											</a>
 										</DataTableCell>
-										<DataTableCell>{items.jurusan.nama}</DataTableCell>
+										<DataTableCell>{items.jurusan.kelas_jurusan}</DataTableCell>
 										<DataTableCell>{items.kelas.grade}</DataTableCell>
 										<DataTableCell>{items.alamat}</DataTableCell>
 										<DataTableCell>{items.jenis_kelamin}</DataTableCell>

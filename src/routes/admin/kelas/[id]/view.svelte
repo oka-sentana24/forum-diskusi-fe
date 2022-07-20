@@ -1,10 +1,8 @@
 <script>
-	import { Card, Button, Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import { Card, Button, Icon } from 'svelte-materialify';
 	import { page } from '$app/stores';
-	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
+	import { mdiAccountEdit } from '@mdi/js';
 	import Header from '$lib/components/Header.svelte';
-	let snackbar = false;
-	let active;
 	let id,
 		nama,
 		grade
@@ -13,7 +11,7 @@
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`https://stark-wildwood-45887.herokuapp.com/kelas/list/${$page.params.id}`)
+	fetch(`http://localhost:3001/kelas/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;

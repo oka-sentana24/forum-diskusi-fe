@@ -15,13 +15,11 @@
 	let data = {
 		id: '',
 		nama: '',
+		kelas_jurusan:''
 	};
 	let snackbar = false;
-	const Jenis_kelamin = ['Laki-Laki', 'Perempuan'];
-	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
-
 	onMount(() => {
-		getFetchSiswa(`https://stark-wildwood-45887.herokuapp.com/jurusan/list/${$page.params.id}`).then(
+		getFetchSiswa(`http://localhost:3001/jurusan/list/${$page.params.id}`).then(
 			(res) => {
 				data = res;
 				console.log('debug:', res);
@@ -35,7 +33,7 @@
 	}
 	async function handleSubmit() {
 		const response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/jurusan/update/${$page.params.id}`,
+			`http://localhost:3001/jurusan/update/${$page.params.id}`,
 			{
 				method: 'PUT',
 				credentials: 'same-origin',
@@ -51,8 +49,6 @@
 			window.location.href = '/admin/jurusan';
 		}
 		// what do you do with a non-redirect?
-
-		console.log('return', handleSubmit);
 	}
 </script>
 
@@ -63,9 +59,6 @@
 			<div class="relative top-[6rem] px-5">
 				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
 					<div class="p-5">
-						<div class="p-3 bg-teal-200 dark:bg-teal-900">
-							<span>Data Diri</span>
-						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
 								<div class="relative py-3">
@@ -74,19 +67,17 @@
 										filled
 										bind:value={data.id}
 										disabled
-										rules={[
-											(v) => !!v || 'Required',
-											(v) => v.length <= 10 || 'Max 10 characters',
-											(v) => {
-												const pattern = /^[0-9]*$/;
-												return pattern.test(v) || 'Invalid username.';
-											}
-										]}>id</TextField
+										>id</TextField
 									>
 								</div>
 								<div class="relative py-3">
-									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
+									<TextField dense filled bind:value={data.nama}
 										>Nama</TextField
+									>
+								</div>
+								<div class="relative py-3">
+									<TextField dense filled bind:value={data.kelas_jurusan}
+										>Kelas Jurusan</TextField
 									>
 								</div>
 							</div>
@@ -101,7 +92,7 @@
 					>
 					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
 						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success Update Siswa </span>
+						<span class="mt-1 font-semibold"> Success</span>
 					</Snackbar>
 				</div>
 			</div>

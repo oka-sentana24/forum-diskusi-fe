@@ -21,7 +21,7 @@
 	let dataJurusan = [];
 
 	async function handleSubmit() {
-		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/jurusan', {
+		const response = await fetch('http://localhost:3001/jurusan', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),

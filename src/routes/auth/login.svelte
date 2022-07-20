@@ -13,7 +13,7 @@
 	let error = null;
 
 	async function handleSubmit() {
-		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/signin', {
+		const response = await fetch('http://localhost:3001/signin', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ username, password }),
@@ -94,8 +94,8 @@
 				class="bg-transparent">Remember me</Checkbox
 			>
 		</div>
-		<div on:click={() => handleSubmit()} class="cursor-pointer py-4">
-			<Button class="w-full h-[5vh] text-sm text-white bg-teal-500" disabled={!value || error}>
+		<div class="cursor-pointer py-4">
+			<Button class="w-full h-[53px] text-sm text-white bg-teal-500" on:click={() => handleSubmit()} >
 				{#if isLoading}
 					loading...
 				{:else}

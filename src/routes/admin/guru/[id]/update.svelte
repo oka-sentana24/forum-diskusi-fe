@@ -13,22 +13,24 @@
 	];
 
 	let data = {
-		username: '',
-		nama: '',
-		alamat: '',
-		jenis_kelamin: '',
-		tempat_lahir: '',
-		tanggal_lahir: '',
-		agama: '',
-		no_tlp: '',
-		email: '',
-		kewarganegaraan: '',
-		kecamatan: '',
-		kabupaten: '',
-		kelasId: '',
-		jurusanId: '',
-		nama_ibu: '',
-		pekerjaan_ibu: ''
+		username: "",
+		password: "",
+		nama: "",
+		alamat: "",
+		jenis_kelamin: "",
+		tempat_lahir: "",
+		tanggal_lahir: "",
+		agama: "",
+		no_tlp: "",
+		email: "",
+		jabatan:"",
+		ktp: "",
+		bidang_study: "",
+		kewarganegaraan: "",
+		kecamatan: "",
+		kabupaten: "",
+		kelasId: "",
+		jurusanId: "",
 	};
 	let snackbar = false;
 	let fetchKelas = [];
@@ -39,14 +41,14 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchSiswa(`https://stark-wildwood-45887.herokuapp.com/guru/list/${$page.params.id}`).then(
+		getFetchSiswa(`http://localhost:3001/guru/list/${$page.params.id}`).then(
 			(res) => {
 				data = res;
 				console.log('debug:', res);
 			}
 		);
 
-		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
+		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
@@ -54,7 +56,7 @@
 			});
 		});
 
-		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
+		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
@@ -81,7 +83,7 @@
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
 		const response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/guru/update/${$page.params.id}`,
+			`http://localhost:3001/guru/update/${$page.params.id}`,
 			{
 				method: 'PUT',
 				credentials: 'same-origin',
@@ -108,14 +110,14 @@
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
 			<div class="relative top-[6rem] px-5">
-				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
+				<Card class="dark:bg-gray-800 h-[93vh] bg-white shadow-none">
 					<div class="p-5">
-						<div class="p-3 bg-teal-200 dark:bg-teal-900">
+						<div class="p-3 bg-teal-200">
 							<span>Data Diri</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -127,15 +129,15 @@
 												const pattern = /^[0-9]*$/;
 												return pattern.test(v) || 'Invalid username.';
 											}
-										]}>Nisn</TextField
+										]}>Nip</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
 										>Nama</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										filled
 										dense
@@ -144,12 +146,12 @@
 										bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input text-sm" bind:value={data.tempat_lahir}
 										>Tempat_lahir</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -161,7 +163,7 @@
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<Select
 										dense
 										filled
@@ -170,34 +172,34 @@
 										bind:value={data.agama}>Agama</Select
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.no_tlp}
 										>No Tlp</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.email}
 										>Email</TextField
 									>
 								</div>
-								<div class="relative py-3">
-									<TextField dense filled class="main-input" bind:value={data.nama_ibu}
-										>Nama Ibu</TextField
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.jabatan}
+										>Jabatan</TextField
 									>
 								</div>
-								<div class="relative py-3">
-									<TextField dense filled class="main-input" bind:value={data.pekerjaan_ibu}
-										>Pekerjaan Ibu</TextField
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.ktp}
+										>Ktp</TextField
 									>
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-teal-200 dark:bg-teal-800">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField
 										dense
 										filled
@@ -205,32 +207,37 @@
 										rules={[(v) => !!v || 'Required']}>Alamat</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kewarganegaraan}
 										>Kewarganegaraan</TextField
 									>
 								</div>
 							</div>
 							<div class="w-full">
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kecamatan}
 										>Kecamatan</TextField
 									>
 								</div>
-								<div class="relative py-3">
+								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.kabupaten}
 										>Kabupaten</TextField
 									>
 								</div>
 							</div>
 						</div>
-						<div class="p-3 bg-teal-200 dark:bg-teal-800">
+						<div class="p-3 bg-teal-200">
 							<span>Data Alamat</span>
 						</div>
 						<div class="flex flex-cols-2 gap-3">
 							<div class="w-full">
 								<div class="relative py-4">
 									<Select dense filled items={dataKelas} bind:value={data.kelasId}>Kelas</Select>
+								</div>
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.bidang_study}
+										>bidang_study</TextField
+									>
 								</div>
 							</div>
 							<div class="w-full">
@@ -249,9 +256,9 @@
 						on:click={() => handleSubmit()}
 						><Icon path={mdiContentSave} class="text-white" />Save</Button
 					>
-					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
+					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={3000}>
 						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success Update Siswa </span>
+						<span class="mt-1 font-semibold"> Success </span>
 					</Snackbar>
 				</div>
 			</div>

@@ -20,17 +20,17 @@
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let Breadcrumbs = [{ text: 'Siswa', href: '#' }];
-	let columns = ['id', 'Nama', 'Grade'];
+	let Breadcrumbs = [{ text: 'Jurusan', href: '#' }];
+	let columns = ['id', 'Nama', 'Kelas Jurusan'];
 	let items = [];
 	let active = false;
 	let nama = '';
 
 	onMount(async () => {
-		const res = await fetch(`https://stark-wildwood-45887.herokuapp.com/jurusan/list`);
+		const res = await fetch(`http://localhost:3001/jurusan/list`);
 		const data = await res.json();
 		items = data;
-		var url = new URL('https://stark-wildwood-45887.herokuapp.com/jurusan/list?nama'),
+		var url = new URL('http://localhost:3001/jurusan/list?nama'),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -39,7 +39,7 @@
 	async function searchSiswa(nama) {
 		// bind ke on:submit
 		let response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/jurusan/list?nama=${nama}`
+			`http://localhost:3001/jurusan/list?nama=${nama}`
 		);
 		const data = await response.json();
 		items = data;
@@ -113,6 +113,9 @@
 											<a href="/admin/jurusan/{items.id}/view" class="text-purple-600">
 												{items.nama}
 											</a>
+										</DataTableCell>
+										<DataTableCell>
+											{items.kelas_jurusan}
 										</DataTableCell>
 									</DataTableRow>
 								{/each}

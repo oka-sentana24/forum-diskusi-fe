@@ -20,13 +20,14 @@
 		kabupaten,
 		nama_ayah,
 		nama_ibu,
-		pekerjaan_ibu;
+		pekerjaan_ibu,
+		pekerjaan_ayah
 	export let Breadcrumbs = [
 		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`https://stark-wildwood-45887.herokuapp.com/siswa/list/${$page.params.id}`)
+	fetch(`http://localhost:3001/siswa/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -44,11 +45,12 @@
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
 			nama_ayah = res.nama_ayah;
+			pekerjaan_ayah = res.pekerjaan_ayah
 			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
 	async function handleSubmit() {
 		const response = await fetch(
-			`https://stark-wildwood-45887.herokuapp.com/siswa/list/${$page.params.id}`,
+			`http://localhost:3001/siswa/list/${$page.params.id}`,
 			{
 				method: 'DELETE',
 				credentials: 'same-origin',
@@ -136,11 +138,19 @@
 								<div class="pb-2">
 									{kabupaten}
 								</div>
+								<label for="" class="text-xs text-gray-400">Nama Ayah</label>
+								<div class="pb-2">
+									{nama_ayah}
+								</div>
+								<label for="" class="text-xs text-gray-400">Pekerjaan Ayah</label>
+								<div class="pb-2">
+									{pekerjaan_ayah}
+								</div>
 								<label for="" class="text-xs text-gray-400">Nama Ibu</label>
 								<div class="pb-2">
 									{nama_ibu}
 								</div>
-								<label for="" class="text-xs text-gray-400">Nama Ibu</label>
+								<label for="" class="text-xs text-gray-400">Pekerjaan Ibu</label>
 								<div class="pb-2">
 									{pekerjaan_ibu}
 								</div>

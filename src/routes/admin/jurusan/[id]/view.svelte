@@ -1,22 +1,23 @@
 <script>
-	import { Card, Button, Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import { Card, Button, Icon} from 'svelte-materialify';
 	import { page } from '$app/stores';
-	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
+	import { mdiAccountEdit} from '@mdi/js';
 	import Header from '$lib/components/Header.svelte';
-	let snackbar = false;
-	let active;
 	let id,
-		nama
+		nama,
+		kelasJurusan
+
 	export let Breadcrumbs = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`https://stark-wildwood-45887.herokuapp.com/jurusan/list/${$page.params.id}`)
+	fetch(`http://localhost:3001/jurusan/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
 			nama = res.nama;
+			kelasJurusan = res.kelas_jurusan;
 		});
 </script>
 
@@ -44,6 +45,10 @@
 								<label for="" class="text-xs text-gray-400">Nama</label>
 								<div class="pb-2">
 									{nama}
+								</div>
+								<label for="" class="text-xs text-gray-400">Kelas Jurusan</label>
+								<div class="pb-2">
+									{kelasJurusan}
 								</div>
 							</div>
 						</div>

@@ -12,22 +12,24 @@
 	];
 
 	let data = {
-		username: '',
-		nama: '',
-		alamat: '',
-		jenis_kelamin: '',
-		tempat_lahir: '',
-		tanggal_lahir: '',
-		agama: '',
-		no_tlp: '',
-		email: '',
-		kewarganegaraan: '',
-		kecamatan: '',
-		kabupaten: '',
-		kelasId: '',
-		jurusanId: '',
-		nama_ibu: '',
-		pekerjaan_ibu: ''
+		username:"",
+		nama:"",
+		alamat: "",
+		jenis_kelamin:"",
+		tempat_lahir:"",
+		tanggal_lahir:"",
+		agama:"",
+		no_tlp:"",
+		email:"",
+		kewarganegaraan: "",
+		kecamatan: "",
+		kabupaten: "",
+		nama_ibu: "",
+		nama_ayah:"",
+		pekerjaan_ibu: "",
+		pekerjaan_ayah:"",
+		kelasId: "",
+		jurusanId: ""
 	};
 	let snackbar = false;
 	let fetchKelas = [];
@@ -38,7 +40,7 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchKelas('https://stark-wildwood-45887.herokuapp.com/kelas/list').then((res) => {
+		getFetchKelas('http://localhost:3001/kelas/list').then((res) => {
 			fetchKelas = res;
 			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
@@ -47,11 +49,11 @@
 			console.log('debug:testing',dataKelas)
 		});
 
-		getFetchJurusan('https://stark-wildwood-45887.herokuapp.com/jurusan/list').then((res) => {
+		getFetchJurusan('http://localhost:3001/jurusan/list').then((res) => {
 			fetchJurusan = res;
 			console.log('debug:', res);
 			dataJurusan = fetchJurusan.map((val) => {
-				return { name: val.nama, value: val.id };
+				return { name: val.kelas_jurusan, value: val.id };
 			});
 		});
 	});
@@ -68,7 +70,7 @@
 	}
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
-		const response = await fetch('https://stark-wildwood-45887.herokuapp.com/siswa', {
+		const response = await fetch('http://localhost:3001/siswa', {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -93,7 +95,7 @@
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
 			<div class="relative top-[6rem] px-5">
-				<Card class="dark:bg-gray-800 md:h-[84vh] bg-white shadow-none sm:h-full">
+				<Card class="dark:bg-gray-800 md:h-[93vh] bg-white shadow-none sm:h-full">
 					<div class="p-5">
 						<div class="p-3 bg-teal-200 dark:bg-teal-700">
 							<span>Data Diri</span>
@@ -144,8 +146,6 @@
 										bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField
 									>
 								</div>
-							</div>
-							<div class="w-full">
 								<div class="relative py-4">
 									<Select
 										dense
@@ -155,6 +155,8 @@
 										bind:value={data.agama}>Agama</Select
 									>
 								</div>
+							</div>
+							<div class="w-full">
 								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.no_tlp}
 										>No Tlp</TextField
@@ -163,6 +165,16 @@
 								<div class="relative py-4">
 									<TextField dense filled class="main-input" bind:value={data.email}
 										>Email</TextField
+									>
+								</div>
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.nama_ayah}
+										>Nama Ayah</TextField
+									>
+								</div>
+								<div class="relative py-4">
+									<TextField dense filled class="main-input" bind:value={data.pekerjaan_ayah}
+										>Pekerjaan Ayah</TextField
 									>
 								</div>
 								<div class="relative py-4">
@@ -236,7 +248,7 @@
 					>
 					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
 						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success create Siswa </span>
+						<span class="mt-1 font-semibold"> Success </span>
 					</Snackbar>
 				</div>
 			</div>
