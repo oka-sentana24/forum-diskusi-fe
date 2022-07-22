@@ -6,7 +6,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import { onMount } from 'svelte';
 
-	export let Breadcrumbs = [
+	export let items = [
 		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'Create', href: '#' }
 	];
@@ -41,7 +41,7 @@
 </script>
 
 <main class="h-full overflow-y-auto">
-	<Header items={Breadcrumbs} />
+	<Header items={items} />
 	<section class="h-full">
 		<main class="h-full overflow-y-auto">
 			<div class="relative top-[6rem] px-5">

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import '$sass/tailwind.scss';
 	import { TextField, Button, Icon, Checkbox } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
 	import jwt_decode from 'jwt-decode';
+	import { variables } from '$lib/variables';
+
 
 	let show = false;
 	let group = ['2'];
@@ -13,7 +14,7 @@
 	let error = null;
 
 	async function handleSubmit() {
-		const response = await fetch('http://localhost:3001/signin', {
+		const response = await fetch(`${variables.basePath}/signin`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ username, password }),
@@ -42,7 +43,7 @@
 
 <section>
 	<form>
-		<div class="relative py-4">
+		<div class="relative py-3">
 			<TextField
 				dense
 				filled
@@ -57,7 +58,7 @@
 				]}>Username</TextField
 			>
 		</div>
-		<div class="relative py-4">
+		<div class="relative py-3">
 			<TextField
 				filled
 				dense
@@ -76,15 +77,15 @@
 					<Icon path={show ? mdiEyeOff : mdiEye} />
 				</div>
 			</TextField>
-			<div class="mt-6">
-				<span class="text-sm">
-					<a class="text-gray-600 hover:underline" href="./forgot-password">
+			<div class="mt-3">
+				<span>
+					<a class="text-gray-600 hover:underline hover:text-teal-500" href="./forgot-password">
 						Forgot your password?
 					</a>
 				</span>
 			</div>
 		</div>
-		<div class="text-sm text-gray-600">
+		<div class="text-gray-600">
 			<Checkbox
 				bind:group
 				value="1"
@@ -95,12 +96,14 @@
 			>
 		</div>
 		<div class="cursor-pointer py-4">
-			<Button class="w-full h-[53px] text-sm text-white bg-teal-500" on:click={() => handleSubmit()} >
-				{#if isLoading}
+			<Button size="large" class="w-full bg-teal-800 hover:bg-teal-700 white-text" on:click={() => handleSubmit()} >
+				<span class="normal-case">
+					{#if isLoading}
 					loading...
-				{:else}
-					Login
-				{/if}
+					{:else}
+						Login
+					{/if}
+				</span>
 			</Button>
 		</div>
 	</form>

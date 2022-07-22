@@ -1,42 +1,69 @@
 <script lang="ts">
-  import '$lib/tailwind.css'
-  import { isSideMenuOpen, closeSideMenu } from '$stores/menus'
-  import { clickOutside } from '$lib/ioevents/click'
-  import { keydownEscape } from '$lib/ioevents/keydown'
-  import SideBar from '$lib/components/Sidebar.svelte'
-  import { fly } from 'svelte/transition';
+	import { Menu } from './../../constant';
+	import Sidebar from '$components/Sidebar.svelte';
+	import '../../app.css';
+	import { isSideMenuOpen, closeSideMenu } from '$stores/menus'
+	import { clickOutside } from '$lib/ioevents/click';
+	import { keydownEscape } from '$lib/ioevents/keydown';
+	import { fly } from 'svelte/transition';
+	import { Avatar, Icon } from 'svelte-materialify';
+	import { mdiWindowClose  } from '@mdi/js';
+
+	let sideMenu = Menu;
+
 </script>
 
-<svelte:head>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-</svelte:head>
-
-<section id="body">
-  <div class="flex h-screen bg-gray-200 dark:bg-gray-700 overflow-hidden " class:overflow-hidden={$isSideMenuOpen}>
-    <aside
-      class="z-20 hidden w-[300px] overflow-y-auto bg-white md:block flex-shrink-0 border-r border-gray-300 dark:border-gray-600 dark:bg-gray-800"
-    >
-      <SideBar />
-    </aside>
-
-    {#if $isSideMenuOpen}
-      <aside
-        class="fixed inset-y-0 z-20 flex-shrink-0 w-64 mt-[65px] overflow-y-auto bg-white dark:bg-gray-800"
-        use:clickOutside={['nav-mobile-hamburger']}
-        on:click-outside={closeSideMenu}
-        use:keydownEscape
-        on:keydown-escape={closeSideMenu}
-        transition:fly="{{ x: -200, duration: 2000 }}"
-      >
-        <SideBar />
-      </aside>
-    {/if}
-
-    <div class="flex flex-col flex-1 w-full">
-      <slot />
-    </div>
-  </div>
-</section>
+<main>
+	<div class="flex h-screen bg-slate-100 overflow-hidden" class:overflow-hidden={$isSideMenuOpen}>
+		<aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative">
+			<Sidebar>
+				<ul class="mt-3 ml-0 pl-0">
+					{#each sideMenu as item }
+						<div class="px-5 py-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+							<a href={item.url}>
+								<div class="flex flex-cols-2 items-center gap-5">
+									<Icon path={item.svg}/>
+									<span>{item.name}</span>
+								</div>
+							</a>
+						</div>
+					{/each}
+				</ul>
+			</Sidebar>
+		</aside>
+		{#if $isSideMenuOpen}
+			<aside
+				class="fixed inset-y-0 z-20 flex-shrink-0"
+				use:clickOutside={['nav-mobile-hamburger']}
+				use:keydownEscape
+				on:keydown-escape={closeSideMenu}
+				transition:fly="{{ x: -200, duration: 2000 }}"
+			>
+			<div class="flex flex-cols-2">
+				<Sidebar>
+					<ul class="mt-5 ml-0 pl-0">
+						{#each sideMenu as item }
+							<div class="px-5 py-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+								<a href={item.url} on:click={closeSideMenu}>
+									<div class="flex flex-cols-2 items-center gap-5">
+										<Icon path={item.svg}/>
+										<span>{item.name}</span>
+									</div>
+								</a>
+							</div>
+						{/each}
+					</ul>
+				</Sidebar>
+				<div class="h-16 absolute left-[243px] flex items-center">
+					<div on:click={closeSideMenu}>
+						<Avatar size="25px" class="bg-black text-white border border-gray-300"><Icon path={mdiWindowClose} size="5px"/></Avatar>
+					</div>
+				</div>
+			</div>
+			</aside>
+		{/if}
+		<div class="w-full">
+			<slot/>
+		</div>
+	</div>
+</main>
