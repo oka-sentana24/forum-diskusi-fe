@@ -2,31 +2,27 @@
 	// @ts-nocheck
 	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
 	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
-	import '$sass/tailwind.scss';
-	import Header from '$lib/components/Header.svelte';
+	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
+	import { variables } from '$lib/variables';
 
 	export let items = [
-		{ text: 'Siswa', href: '/admin/siswa' },
+		{ text: 'Jurusan', href: '/admin/jurusan' },
 		{ text: 'Create', href: '#' }
 	];
 
 	let data = {
-		nama: ''
+		nama: '',
+		kelas_jurusan: ''
 	};
 	let snackbar = false;
-	let fetchKelas = [];
-	let dataKelas = [];
-	let fetchJurusan = [];
-	let dataJurusan = [];
-
 	async function handleSubmit() {
-		const response = await fetch('http://localhost:3001/jurusan', {
+		const response = await fetch(`${variables.basePath}/jurusan`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			}
 		});
 
@@ -40,42 +36,48 @@
 	}
 </script>
 
-<main class="h-full overflow-y-auto">
-	<Header items={items} />
-	<section class="h-full">
-		<main class="h-full overflow-y-auto">
-			<div class="relative top-[6rem] px-5">
-				<Card class="dark:bg-gray-800 h-[84vh] bg-white shadow-none">
-					<div class="p-5">
-						<div class="p-3 bg-teal-200">
-							<span>Data Jurusan</span>
+<Header {items} />
+<main class=" overflow-auto h-screen">
+	<div class="m-5 relative">
+		<!-- data table -->
+		<div class="absolute w-full">
+			<Card class="bg-white shadow-none">
+				<div class="p-5">
+					<!-- <div class="flex flex-cols-2 gap-3"> -->
+					<div class="w-full">
+						<div class="relative py-3">
+							<TextField dense filled bind:value={data.nama}>Nama</TextField>
 						</div>
-						<div class="flex flex-cols-2 gap-3">
-							<div class="w-full">
-								<div class="relative py-4">
-									<TextField
-										dense
-										filled
-										bind:value={data.nama}
-										>Nama</TextField
-									>
-								</div>
-							</div>
+					</div>
+					<div class="w-full">
+						<div class="relative py-3">
+							<TextField dense filled bind:value={data.kelas_jurusan}>kelas jurusan</TextField>
 						</div>
-					</div></Card
+					</div>
+					<!-- </div> -->
+				</div></Card
+			>
+			<div class="flex justify-end py-5">
+				<Button
+					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
+					on:click={() => handleSubmit()}
 				>
-				<div class="flex justify-end py-[20px]">
-					<Button
-						class=" bg-purple-500 hover:bg-purple-900 text-white rounded-sm"
-						on:click={() => handleSubmit()}
-						><Icon path={mdiContentSave} class="text-white" />Save</Button
-					>
-					<Snackbar class="flex-column" bind:active={snackbar} bottom center timeout={30000}>
-						<Icon path={mdiCheckCircle} />
-						<span class="mt-1 font-semibold"> Success create Siswa </span>
-					</Snackbar>
-				</div>
+					<div class="flex items-center gap-2 text-white">
+						<Icon path={mdiContentSave} />
+						<span class="normal-case">Save</span>
+					</div>
+				</Button>
+				<Snackbar
+					class="flex-column bg-teal-700"
+					bind:active={snackbar}
+					bottom
+					center
+					timeout={3000}
+				>
+					<Icon path={mdiCheckCircle} />
+					<span class="mt-1 font-semibold"> Success </span>
+				</Snackbar>
 			</div>
-		</main>
-	</section>
+		</div>
+	</div>
 </main>

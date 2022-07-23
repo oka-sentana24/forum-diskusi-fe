@@ -28,7 +28,7 @@ export const Menu = [
 	},
 	{
 		name: 'User',
-		url: '/admin/user',
+		url: '/admin/users',
 		svg: mdiAccount
 	},
 ];

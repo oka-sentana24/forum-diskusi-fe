@@ -1,59 +1,88 @@
 <script>
-	import { Card, Button, Icon } from 'svelte-materialify';
+	import { Card, Button, Icon, Snackbar } from 'svelte-materialify';
 	import { page } from '$app/stores';
-	import { mdiAccountEdit } from '@mdi/js';
-	import Header from '$lib/components/Header.svelte';
-	let id,
-		nama,
-		grade
-	export let Breadcrumbs = [
+	import { mdiAccountEdit, mdiCheckCircle } from '@mdi/js';
+	import Header from '$components/Header.svelte';
+	import { variables } from '$lib/variables';
+	let id, nama, grade;
+	export let items = [
 		{ text: 'Kelas', href: '/admin/kelas' },
 		{ text: 'View', href: '#' }
 	];
+	let snackbar = false;
 	// @ts-ignore
-	fetch(`http://localhost:3001/kelas/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/kelas/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
 			nama = res.nama;
 			grade = res.grade;
 		});
+	async function handleSubmit() {
+		const response = await fetch(`${variables.basePath}/kelas/list/${$page.params.id}`, {
+			method: 'DELETE',
+			credentials: 'same-origin',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (response.status === 200) {
+			snackbar = true;
+			window.location.href = '/admin/kelas';
+		}
+	}
 </script>
 
-<main class="h-full overflow-y-auto">
-	<Header items={Breadcrumbs} />
-	<section class="h-full">
-		<main class="h-full overflow-y-auto">
-			<div class="relative top-[5rem] px-5">
-				<div class="overflow-auto">
-					<div class="flex justify-end py-[20px]">
-						<a href="/admin/kelas/{id}/update">
-							<Button class="text-white bg-purple-700 text-xs rounded-sm">
-								<Icon path={mdiAccountEdit} class="text-xs" />
-								Update
-							</Button>
-						</a>
+<Header {items} />
+<main>
+	<div class="m-5 relative">
+		<!-- create and filter -->
+		<div class="flex justify-end py-5 gap-2 items-center">
+			<a href="/admin/kelas/{id}/update">
+				<Button
+					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
+				>
+					<div class="normal-case text-sm text-white flex items-center gap-1">
+						<Icon path={mdiAccountEdit} size="20px" />
+						<span> Update </span>
 					</div>
-					<Card class="dark:bg-blue-800 h-[70vh] bg-white shadow-none">
-						<div class="p-5 flex flex-cols-2 gap-20">
-							<div>
-								<label for="" class="text-xs text-gray-400">id</label>
-								<div class="pb-2">
-									{id}
-								</div>
-								<label for="" class="text-xs text-gray-400">Nama</label>
-								<div class="pb-2">
-									{nama}
-								</div>
-								<label for="" class="text-xs text-gray-400">Grade</label>
-								<div class="pb-2">
-									{grade}
-								</div>
-							</div>
-						</div>
-					</Card>
+				</Button>
+			</a>
+			<Button
+				class="bg-red-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
+				on:click={() => handleSubmit()}
+			>
+				<div class="normal-case text-sm text-white flex items-center gap-1">
+					<Icon path={mdiAccountEdit} size="20px" />
+					<span> Delete </span>
 				</div>
-			</div>
-		</main>
-	</section>
+			</Button>
+			<Snackbar class="flex-column bg-teal-700" bind:active={snackbar} bottom center timeout={3000}>
+				<Icon path={mdiCheckCircle} />
+				<span class="mt-1 font-semibold"> Delete Success </span>
+			</Snackbar>
+		</div>
+		<!-- data table -->
+		<div class="absolute w-full overflow-auto">
+			<Card class="bg-white shadow-none">
+				<div class="p-5 flex flex-cols-2 gap-20">
+					<div>
+						<label for="" class="text-xs text-gray-400">id</label>
+						<div class="pb-2">
+							{id}
+						</div>
+						<label for="" class="text-xs text-gray-400">Nama</label>
+						<div class="pb-2">
+							{nama}
+						</div>
+						<label for="" class="text-xs text-gray-400">Grade</label>
+						<div class="pb-2">
+							{grade}
+						</div>
+					</div>
+				</div>
+			</Card>
+		</div>
+	</div>
 </main>

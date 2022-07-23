@@ -1,6 +1,5 @@
-<!-- <script lang="ts">
-	import Header from '$lib/components/Header.svelte';
-	import '$sass/tailwind.scss';
+<script>
+	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import {
 		Button,
@@ -12,25 +11,26 @@
 		DataTableBody,
 		TextField
 	} from 'svelte-materialify';
-	import { mdiPlus } from '@mdi/js';
+	import { mdiPlus, mdiChevronDown } from '@mdi/js';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
 	import { mdiChevronUp } from '@mdi/js';
+	import { variables } from '$lib/variables';
 
 	let isopenFilter = false;
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let Breadcrumbs = [{ text: 'Kelas', href: '#' }];
+	let data = [{ text: 'Kelas', href: '#' }];
 	let columns = ['id', 'Nama', 'Grade'];
 	let items = [];
 	let active = false;
 	let nama = '';
 
 	onMount(async () => {
-		const res = await fetch(`http://localhost:3001/kelas/list`);
+		const res = await fetch(`${variables.basePath}/kelas/list`);
 		const data = await res.json();
 		items = data;
-		var url = new URL('http://localhost:3001/kelas/list?nama'),
+		var url = new URL(`${variables.basePath}/kelas/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -38,9 +38,7 @@
 
 	async function searchSiswa(nama) {
 		// bind ke on:submit
-		let response = await fetch(
-			`http://localhost:3001/kelas/list?nama=${nama}`
-		);
+		let response = await fetch(`${variables.basePath}/kelas/list?nama=${nama}`);
 		const data = await response.json();
 		items = data;
 	}
@@ -50,105 +48,94 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Siswa</title>
-</svelte:head>
-
-<main class="h-full overflow-y-auto">
-	<Header items={Breadcrumbs} />
-	<section class="h-full">
-		<main class="h-full overflow-y-auto">
-			<div class="relative top-[5rem] px-5">
-				<div class="flex flex-cols-2 justify-between items-center pt-5">
-					<div>
-						<div class="flex flex-cols-2 items-center gap-5">
-							<Button on:click={() => (isopenFilter = !isopenFilter)}
-								>filter
-								<Icon path={mdiChevronUp} rotate={active ? 0 : 180} />
-							</Button>
+<Header items={data} />
+<main>
+	<div class="m-5 relative">
+		<!-- create and filter -->
+		<div class="flex flex-cols-2 justify-between items-center pt-5">
+			<div>
+				<div class="flex flex-cols-2 items-center gap-5">
+					<Button
+						on:click={() => (isopenFilter = !isopenFilter)}
+						class="bg-slate-400 p-5 rounded-md shadow-lg text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
+					>
+						<div class="normal-case text-sm gap-2 flex items-center ">
+							<span> Filter </span>
 							{#if isopenFilter}
-								<button on:click={() => searchSiswa(nama)}>
-									<span> Apply </span>
-								</button>
-							{/if}
-							{#if nama}
-								<button type="reset">reset</button>
+								<Icon path={mdiChevronUp} size="20px" />
+							{:else}
+								<Icon path={mdiChevronDown} size="20px" />
 							{/if}
 						</div>
-					</div>
-					<div class="flex justify-end">
-						<a href="/admin/kelas/create">
-							<Button class="text-white bg-purple-500 hover:bg-purple-900 text-sm rounded-sm"
-								><Icon path={mdiPlus} class="text-xs" />Create</Button
-							>
-						</a>
-					</div>
-				</div>
-				<div class="py-3 relative">
+					</Button>
 					{#if isopenFilter}
-						<div class="flex items-center justify-center gap-5 w-[15%]">
-							<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
-						</div>
+						<button on:click={() => searchSiswa(nama)}>
+							<span> Apply </span>
+						</button>
+					{/if}
+					{#if nama}
+						<button type="reset">reset</button>
 					{/if}
 				</div>
-				<div class="overflow-auto">
-					<div>
-						<DataTable
-							class="block bg-white border-2 border-rose-600 dark:bg-gray-800 h-[60vh] overflow-auto rounded-none w-full"
-						>
-							<DataTableHead
-								class="p-2 bg-teal-400 dark:bg-teal-800 text-white sticky top-0 rounded-none"
-							>
-								<DataTableRow>
-									{#each columns as column}
-										<DataTableCell>{column}</DataTableCell>
-									{/each}
-								</DataTableRow>
-							</DataTableHead>
-							<DataTableBody>
-								{#each paginatedItems as items}
-									<DataTableRow class="text-gray-500">
-										<DataTableCell>{items.id}</DataTableCell>
-										<DataTableCell>
-											<a href="/admin/kelas/{items.id}/view" class="text-purple-600">
-												{items.nama}
-											</a>
-										</DataTableCell>
-										<DataTableCell>{items.grade}</DataTableCell>
-									</DataTableRow>
-								{/each}
-							</DataTableBody>
-						</DataTable>
-						<LightPaginationNav
-							totalItems={items.length}
-							{pageSize}
-							{currentPage}
-							limit={1}
-							showStepOptions={true}
-							on:setPage={(e) => (currentPage = e.detail.page)}
-						/>
-					</div>
-				</div>
 			</div>
-		</main>
-	</section>
-</main> -->
-
-<script>
-	import Header from '$components/Header.svelte';
-	import { Breadcrumbs, MaterialApp } from 'svelte-materialify';
-
-	const item = [
-    { text: 'Dashboard', href: '/' },
-  	];
-</script>
-
-<Header>
-	<Breadcrumbs {item} style="padding:0px"/>
-</Header>
-
-<main>
-	<div class="p-5">
-		Dasboard
+			<div
+				class="flex justify-end transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
+			>
+				<a href="/admin/kelas/create">
+					<Button class="bg-teal-500 p-5 rounded-md shadow-lg">
+						<div class="normal-case text-sm text-white flex items-center gap-1">
+							<span> Create </span>
+							<Icon path={mdiPlus} size="20px" />
+						</div>
+					</Button>
+				</a>
+			</div>
+		</div>
+		<div class="py-3 relative">
+			{#if isopenFilter}
+				<div class="flex items-center justify-center gap-5 md:w-[15%] sm:w-[20%]">
+					<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
+				</div>
+			{/if}
+		</div>
+		<!-- data table -->
+		<div class="absolute w-full overflow-auto">
+			<div>
+				<DataTable
+					class="block bg-white border-2 border-rose-600 dark:bg-gray-800 h-[60vh] overflow-auto rounded-none w-full"
+				>
+					<DataTableHead
+						class="p-2 bg-teal-400 dark:bg-teal-800 text-white sticky top-0 rounded-none"
+					>
+						<DataTableRow>
+							{#each columns as column}
+								<DataTableCell>{column}</DataTableCell>
+							{/each}
+						</DataTableRow>
+					</DataTableHead>
+					<DataTableBody>
+						{#each paginatedItems as items}
+							<DataTableRow class="text-gray-500">
+								<DataTableCell>{items.id}</DataTableCell>
+								<DataTableCell>
+									<a href="/admin/kelas/{items.id}/view" class="text-purple-600">
+										{items.nama}
+									</a>
+								</DataTableCell>
+								<DataTableCell>{items.grade}</DataTableCell>
+							</DataTableRow>
+						{/each}
+					</DataTableBody>
+				</DataTable>
+				<LightPaginationNav
+					totalItems={items.length}
+					{pageSize}
+					{currentPage}
+					limit={1}
+					showStepOptions={true}
+					on:setPage={(e) => (currentPage = e.detail.page)}
+				/>
+			</div>
+		</div>
 	</div>
 </main>
