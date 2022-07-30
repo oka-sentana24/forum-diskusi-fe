@@ -104,7 +104,7 @@
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="h-full bg-white shadow-none">
+			<Card class="h-full bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5">
 					<div class="p-2 bg-teal-500 text-white">
 						<span>Data Diri</span>

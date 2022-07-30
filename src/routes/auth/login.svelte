@@ -4,7 +4,6 @@
 	import jwt_decode from 'jwt-decode';
 	import { variables } from '$lib/variables';
 
-
 	let show = false;
 	let group = ['2'];
 	let username = '';
@@ -31,7 +30,7 @@
 			isLoading = true;
 
 			if (decoded.role === 'PENGGUNA') {
-				window.location.href = '/landing';
+				window.location.href = '/chat';
 			} else if (decoded.role === 'ADMIN') {
 				window.location.href = '/admin';
 			} else {
@@ -96,10 +95,14 @@
 			>
 		</div>
 		<div class="cursor-pointer py-4">
-			<Button size="large" class="w-full bg-teal-800 hover:bg-teal-700 white-text" on:click={() => handleSubmit()} >
+			<Button
+				size="large"
+				class="w-full bg-teal-800 hover:bg-teal-700 white-text"
+				on:click={() => handleSubmit()}
+			>
 				<span class="normal-case">
 					{#if isLoading}
-					loading...
+						loading...
 					{:else}
 						Login
 					{/if}

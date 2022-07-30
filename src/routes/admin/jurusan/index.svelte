@@ -56,7 +56,7 @@
 				<div class="flex flex-cols-2 items-center gap-5">
 					<Button
 						on:click={() => (isopenFilter = !isopenFilter)}
-						class="bg-slate-400 p-5 rounded-md shadow-lg text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
+						class="bg-slate-400 p-5 rounded-md shadow-lg text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 dark:bg-gray-800"
 					>
 						<div class="normal-case text-sm gap-2 flex items-center ">
 							<span> Filter </span>
@@ -114,10 +114,10 @@
 					</DataTableHead>
 					<DataTableBody>
 						{#each paginatedItems as items}
-							<DataTableRow class="text-gray-500">
+							<DataTableRow class="text-gray-500 dark:text-gray-300">
 								<DataTableCell>{items.id}</DataTableCell>
 								<DataTableCell>
-									<a href="/admin/jurusan/{items.id}/view" class="text-purple-600">
+									<a href="/admin/jurusan/{items.id}/view" class="text-teal-500">
 										{items.nama}
 									</a>
 								</DataTableCell>

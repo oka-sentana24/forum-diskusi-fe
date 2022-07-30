@@ -52,10 +52,10 @@
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="bg-white shadow-none">
+			<Card class="bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
+						<div class="w-full dark:text-gray-300">
 							<div class="relative py-3">
 								<TextField dense filled bind:value={data.id} disabled>id</TextField>
 							</div>

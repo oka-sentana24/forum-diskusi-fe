@@ -1,6 +1,6 @@
 <script>
-    import BurgerMenu from './Hamburger.svelte'
-    import { Avatar, Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
+	import BurgerMenu from './Hamburger.svelte';
+	import { Avatar, Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
 	import {
 		isDark,
 		isNotificationsMenuOpen,
@@ -19,28 +19,25 @@
 	let active = false;
 	export let items;
 </script>
-<div class="bg-white border-b border-gray-300 w-full h-20">
-    <div class="flex flex-cols-2 items-center justify-between p-5">
-        <div class="flex flex-cols-2 items-center justify-center gap-5">
-            <!-- Mobile Burger -->
+
+<div class="bg-white border-b border-gray-300 w-full h-20 dark:bg-gray-800 dark:border-gray-600">
+	<div class="flex flex-cols-2 items-center justify-between p-5">
+		<div class="flex flex-cols-2 items-center justify-center gap-5">
+			<!-- Mobile Burger -->
 			<div class="md:hidden">
 				<BurgerMenu />
 			</div>
 			<div>
 				<Breadcrumbs {items} let:item class="py-2 px-0">
 					{#if item.href}
-						<a
-							class="s-breadcrumb-item"
-							href={item.href}
-							class:disabled={item.disabled}
-						>
+						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
 							{item.text}
 						</a>
 					{/if}
 				</Breadcrumbs>
 			</div>
-        </div>
-        <div>
+		</div>
+		<div>
 			<!-- profile -->
 			<button
 				id="nav-profile-photo"
@@ -134,5 +131,5 @@
 				</div>
 			{/if}
 		</div>
-    </div>
+	</div>
 </div>

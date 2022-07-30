@@ -1,25 +1,28 @@
 <script>
+	import { username } from './../../../../stores/videoChat.ts';
+	import { variables } from '$lib/variables';
 	// @ts-nocheck
 	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
 	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { variables } from '$lib/variables';
-
 	export let items = [
-		{ text: 'Kelas', href: '/admin/kelas' },
+		{ text: 'Uses', href: '/admin/uses' },
 		{ text: 'Update', href: '#' }
 	];
 
 	let data = {
-		id: '',
-		nama: '',
-		grade: ''
+		username: '',
+		password: ''
 	};
 	let snackbar = false;
+	let fetchKelas = [];
+	let dataKelas = [];
+	let fetchJurusan = [];
+	let dataJurusan = [];
 	onMount(() => {
-		getFetchSiswa(`${variables.basePath}/kelas/list/${$page.params.id}`).then((res) => {
+		getFetchSiswa(`${variables.basePath}/users/list/${$page.params.id}`).then((res) => {
 			data = res;
 			console.log('debug:', res);
 		});
@@ -30,18 +33,20 @@
 		});
 	}
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/kelas/update/${$page.params.id}`, {
+		const token = localStorage.getItem('token');
+		const response = await fetch(`${variables.basePath}/siswa/update/${$page.params.id}`, {
 			method: 'PUT',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				authorization: `Bearer ${token}`
 			}
 		});
 
 		if (response.status === 200 || response.status === 201) {
 			snackbar = true;
-			window.location.href = '/admin/kelas';
+			window.location.href = '/admin/users';
 		}
 		// what do you do with a non-redirect?
 
@@ -54,21 +59,41 @@
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="bg-white shadow-none dark:bg-gray-800">
+			<Card class="block bg-white rounded-none dark:bg-gray-800">
 				<div class="p-5">
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
-							<div class="relative py-3">
-								<TextField dense filled bind:value={data.id} disabled>id</TextField>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled bind:value={data.nama}>Nama</TextField>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input text-sm" bind:value={data.grade}
-									>Grade</TextField
-								>
-							</div>
+					<div class="w-full">
+						<div class="relative py-3">
+							<TextField dense filled bind:value={data.id} disabled>Username</TextField>
+						</div>
+						<div class="relative py-3">
+							<TextField
+								dense
+								filled
+								bind:value={data.username}
+								rules={[
+									(v) => !!v || 'Required',
+									(v) => v.length <= 10 || 'Max 10 characters',
+									(v) => {
+										const pattern = /^[0-9]*$/;
+										return pattern.test(v) || 'Invalid username.';
+									}
+								]}>Username</TextField
+							>
+						</div>
+						<div class="relative py-3">
+							<TextField
+								dense
+								filled
+								bind:value={data.password}
+								rules={[
+									(v) => !!v || 'Required',
+									(v) => v.length <= 10 || 'Max 10 characters',
+									(v) => {
+										const pattern = /^[0-9]*$/;
+										return pattern.test(v) || 'Invalid username.';
+									}
+								]}>Password</TextField
+							>
 						</div>
 					</div>
 				</div>
