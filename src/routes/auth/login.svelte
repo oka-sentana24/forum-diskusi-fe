@@ -27,6 +27,8 @@
 			localStorage.setItem('token', body.token);
 
 			var decoded: any = jwt_decode(body.token);
+			localStorage.setItem('username', decoded.username);
+			localStorage.setItem('jurusan', decoded.jurusan);
 			isLoading = true;
 
 			if (decoded.role === 'PENGGUNA') {

@@ -50,6 +50,7 @@
     "@fontsource/fira-mono": "^4.5.0",
     "@lukeed/uuid": "^2.0.0",
     "@mdi/js": "^6.6.96",
+    "@supabase/supabase-js": "^1.35.4",
     "@sveltejs/svelte-virtual-list": "^3.0.1",
     "axios": "^0.27.2",
     "cookie": "^0.4.1",

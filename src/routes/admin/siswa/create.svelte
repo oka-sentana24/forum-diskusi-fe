@@ -82,7 +82,7 @@
 
 		if (response.status === 500 || response.status === 201) {
 			snackbar = true;
-			window.location.href = '/admin/siswa';
+			// window.location.href = '/admin/siswa';
 		}
 		// what do you do with a non-redirect?
 
