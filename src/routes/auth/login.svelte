@@ -7,7 +7,6 @@
 	import FormField from '@smui/form-field';
 	import Checkbox from '@smui/checkbox';
 	import Button, { Label } from '@smui/button';
-	import HelperText from '@smui/textfield/helper-text';
 	import { Icon } from 'svelte-materialify';
 	import IconButton from '@smui/icon-button';
 	import { mdiEyeOff, mdiEye } from '@mdi/js';
@@ -16,8 +15,7 @@
 	/* variable */
 	let checked = false;
 	let show = false;
-	let username = '';
-	let password = '';
+	let isLoading = false;
 
 	/* validation function */
 	let schema = yup.object().shape({
@@ -28,7 +26,6 @@
 			.label('Username')
 			.nullable(true)
 			.transform((v, o) => (o === '' ? null : v)),
-		// email: yup.string().required().email().label('Email address'),
 		password: yup
 			.number()
 			.required()
@@ -36,24 +33,38 @@
 			.label('password')
 			.nullable(true)
 			.transform((v, o) => (o === '' ? null : v))
-		// answer: yup
-		// 	.number()
-		// 	.required()
-		// 	.positive()
-		// 	.oneOf([6], 'Answer is wrong')
-		// 	.label('Answer')
-		// 	.nullable(true)
-		// 	.transform((v, o) => (o === '' ? null : v)),
-		// gender: yup.string().required().label('Gender')
 	});
 	let fields = { username: '', password: '' };
 	let submitted = false;
 	let isValid;
-	function formSubmit() {
+	async function formSubmit() {
 		submitted = true;
 		isValid = schema.isValidSync(fields);
 		if (isValid) {
-			handleSubmit();
+			const response = await fetch(`${variables.basePath}/signin`, {
+				method: 'POST',
+				credentials: 'same-origin',
+				body: JSON.stringify({ ...fields }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			if (response.status === 200) {
+				isLoading = true;
+				let body = await response.json();
+				localStorage.setItem('token', body.token);
+				var decoded: any = jwt_decode(body.token);
+				localStorage.setItem('username', decoded.username);
+				localStorage.setItem('jurusan', decoded.jurusan);
+
+				if (decoded.role === 'PENGGUNA') {
+					window.location.href = '/chat';
+				} else if (decoded.role === 'ADMIN') {
+					window.location.href = '/admin';
+				} else {
+					console.log('no user');
+				}
+			}
 		}
 	}
 	$: invalid = (username) => {
@@ -62,33 +73,6 @@
 		}
 		return false;
 	};
-
-	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/signin`, {
-			method: 'POST',
-			credentials: 'same-origin',
-			body: JSON.stringify({ ...fields }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		if (response.status === 200) {
-			let body = await response.json();
-			localStorage.setItem('token', body.token);
-			var decoded: any = jwt_decode(body.token);
-			localStorage.setItem('username', decoded.username);
-			localStorage.setItem('jurusan', decoded.jurusan);
-
-			if (decoded.role === 'PENGGUNA') {
-				window.location.href = '/chat';
-			} else if (decoded.role === 'ADMIN') {
-				window.location.href = '/admin';
-			} else {
-				console.log('no user');
-			}
-		}
-	}
 </script>
 
 <Form class="form" {schema} {fields} submitHandler={formSubmit} {submitted} color="#b00020">
@@ -118,14 +102,16 @@
 		</Textfield>
 		<Message name="password" />
 	</div>
-	<div class="text-xs font-normal text-teal-400 mt-2">Forgot password?</div>
+	<div class="text-sm font-normal text-teal-400 mt-2">Forgot password?</div>
 	<FormField class="flex gap-1 mt-4">
 		<Checkbox bind:checked />
-		<span slot="label" class=" text-xs">Remember me.</span>
+		<span slot="label" class=" text-sm">Remember me.</span>
 	</FormField>
 	<div class="mt-4">
 		<Button color="secondary" class="w-full h-[45px] normal-case bg-teal-700" variant="raised">
-			<Label>Sign In</Label>
+			<Label>
+				{isLoading ? 'loading...' : 'Sign In'}
+			</Label>
 		</Button>
 	</div>
 </Form>

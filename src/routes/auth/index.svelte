@@ -13,7 +13,7 @@
 			<div class="p-5">
 				<div class="mb-2">
 					<h1 class="text-2xl font-bold leading-9 text-slate-500">Sign In</h1>
-					<span class="text-xs font-normal leading-5">
+					<span class="text-sm font-normal leading-5">
 						Dont have an account? <span class="text-teal-400">Contact administrator</span>
 					</span>
 				</div>
