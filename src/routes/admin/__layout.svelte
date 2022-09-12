@@ -43,11 +43,11 @@
 				<ul class="mt-3 ml-0 pl-0">
 					{#each sideMenu as item}
 						<div
-							class="px-5 py-3 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+							class="px-5 py-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
 						>
 							<a href={item.url}>
-								<div class="flex flex-cols-2 items-center gap-5">
-									<Icon path={item.svg} />
+								<div class="flex flex-cols-2 items-center gap-5 text-gray-500 hover:text-teal-600">
+									<Icon path={item.svg} size="20" />
 									<span>{item.name}</span>
 								</div>
 							</a>

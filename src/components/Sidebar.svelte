@@ -8,7 +8,7 @@
 	>
 		<img class="object-cover w-10 h-9" src={brands} alt="Brands" />
 		<a href="/">
-			<span class="font-bold"> ONE_SKA </span>
+			<span class="font-bold text-gray-500"> ONE_SKA </span>
 		</a>
 	</div>
 	<slot />

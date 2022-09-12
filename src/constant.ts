@@ -1,4 +1,11 @@
-import { mdiChartBar,mdiAccountSchool,mdiHumanMaleBoardPoll, mdiGoogleClassroom, mdiGraph, mdiAccount } from '@mdi/js';
+import {
+	mdiChartBar,
+	mdiAccountSchool,
+	mdiHumanMaleBoardPoll,
+	mdiGoogleClassroom,
+	mdiGraph,
+	mdiAccount
+} from '@mdi/js';
 
 export const Menu = [
 	{
@@ -7,22 +14,22 @@ export const Menu = [
 		svg: mdiChartBar
 	},
 	{
-		name: 'Siswa',
+		name: 'Student',
 		url: '/admin/siswa',
 		svg: mdiAccountSchool
 	},
 	{
-		name: 'Guru',
+		name: 'Teacher',
 		url: '/admin/guru',
 		svg: mdiHumanMaleBoardPoll
 	},
 	{
-		name: 'Kelas',
+		name: 'Class',
 		url: '/admin/kelas',
 		svg: mdiGoogleClassroom
 	},
 	{
-		name: 'Jurusan',
+		name: 'Major',
 		url: '/admin/jurusan',
 		svg: mdiGraph
 	},
@@ -30,5 +37,5 @@ export const Menu = [
 		name: 'User',
 		url: '/admin/users',
 		svg: mdiAccount
-	},
+	}
 ];

@@ -1,4 +1,5 @@
 <script>
+	import { spring } from 'svelte/motion';
 	import BurgerMenu from './Hamburger.svelte';
 	import { Avatar, Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
 	import {
@@ -31,7 +32,9 @@
 				<Breadcrumbs {items} let:item class="py-2 px-0">
 					{#if item.href}
 						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
-							{item.text}
+							<span class="text-gray-400">
+								{item.text}
+							</span>
 						</a>
 					{/if}
 				</Breadcrumbs>

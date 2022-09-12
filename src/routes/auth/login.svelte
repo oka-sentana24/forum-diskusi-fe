@@ -94,7 +94,11 @@
 			invalid={invalid('password')}
 			type={show ? 'text' : 'password'}
 		>
-			<IconButton class="material-icons" slot="trailingIcon" on:click={() => (show = !show)}>
+			<IconButton
+				class="relative bottom-4 text-sm"
+				slot="trailingIcon"
+				on:click={() => (show = !show)}
+			>
 				<div class="flex items-center text-sm">
 					<Icon path={show ? mdiEye : mdiEyeOff} />
 				</div>
@@ -108,7 +112,7 @@
 		<span slot="label" class=" text-sm">Remember me.</span>
 	</FormField>
 	<div class="mt-4">
-		<Button color="secondary" class="w-full h-[45px] normal-case bg-teal-700" variant="raised">
+		<Button color="secondary" class="w-full h-[45px] normal-case bg-teal-600" variant="raised">
 			<Label>
 				{isLoading ? 'loading...' : 'Sign In'}
 			</Label>

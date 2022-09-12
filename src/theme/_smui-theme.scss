@@ -13,8 +13,9 @@
 
 html,
 body {
-  background-color: theme.$surface;
-  color: theme.$on-surface;
+	font-family: 'Sofia Pro', sans-serif !important;
+	font-size: 14px !important;
+  line-height: 18px !important;
 }
 
 a {
@@ -80,11 +81,11 @@ label.mdc-text-field.mdc-text-field--filled.mdc-ripple-upgraded {
   margin: calc((var(--mdc-checkbox-touch-target-size, 20px) - 40px) / 2) !important;
 }
 
-button.material-icons.mdc-icon-button.mdc-icon-button--display-flex.mdc-ripple-upgraded--unbounded.mdc-ripple-upgraded {
-  position: relative;
-  bottom: 17px;
-  font-size: 14px;
-}
+// button.material-icons.mdc-icon-button.mdc-icon-button--display-flex.mdc-ripple-upgraded--unbounded.mdc-ripple-upgraded {
+//   position: relative;
+//   bottom: 17px;
+//   font-size: 14px;
+// }
 label.mdc-text-field.mdc-text-field--filled.mdc-text-field--invalid.mdc-ripple-upgraded {
   border: 1px solid rgb(176, 0, 32);
 }
@@ -96,6 +97,55 @@ p.invalid{
 .invalid {
   border-color: red !important;
 }
+
+
+/* mat tabel styles */
+.mdc-data-table__cell, .mdc-data-table__header-cell {
+  border-bottom-style: none !important;
+  border-bottom-width: 0px;
+}
+.mdc-data-table__header-cell {
+  background-color: #0694a2 !important;
+}
+.mdc-data-table {
+  background-color: #fff !important;
+  border-radius: 0px !important;
+  border-width: 0px !important; 
+  border-style: none !important;
+}
+.mdc-data-table__header-cell {
+  color: white !important;
+  font-size: 14px !important;
+}
+.mdc-data-table .mdc-data-table__header-cell:first-child {
+  border-top-left-radius: 0px !important;
+  border-top-left-radius: unset !important;
+  width: 70px !important;
+}
+.mdc-data-table .mdc-data-table__header-cell:last-child {
+  border-top-right-radius: 0px !important;
+  border-top-right-radius: unset !important;
+}
+.mdc-checkbox.mdc-data-table__header-row-checkbox{
+  display: inherit !important;
+  align-items: center !important;
+}
+.mdc-checkbox.mdc-data-table__row-checkbox{
+  display: inherit;
+  align-items: center;
+}
+
+/* pagination */
+.light-pagination-nav .pagination-nav {
+  display: flex;
+  justify-content: right !important;
+  box-shadow: unset !important;
+  padding: 5px 20px !important;
+  border-top: 1px solid rgba(213, 214, 215) !important;
+  border-radius: 0px !important;
+}
+
+
 
 
 
