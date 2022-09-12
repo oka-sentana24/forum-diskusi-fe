@@ -1,36 +1,37 @@
-import { supabase } from '$stores/';
 import { writable, get } from 'svelte/store';
 export const chat = writable([]);
+export const chatRoomId = writable('');
 
 const isAdded = false;
 const initChatCount = 25;
 const tableName = 'Message';
 
-export const loadChat = async () => {
-	const { data, error } = await supabase
-		.from(tableName)
-		.select()
-		.order('id', { ascending: false })
-		.limit(initChatCount);
-	chat.set(data.reverse());
+// export const loadChat = async () => {
+// 	const { data, error } = await supabase
+// 		.from(tableName)
+// 		.select()
+// 		.order('id', { ascending: false })
+// 		.limit(initChatCount);
 
-	const mySubscription = supabase
-		.from(tableName)
-		.on('INSERT', (payload) => {
-			chat.set([...data, payload.new]);
-			loadChat();
-		})
-		.subscribe();
-};
+// 	chat.set(data.reverse());
 
-export const loadMore = async () => {
-	const { data, error } = await supabase
-		.from(tableName)
-		.select()
-		.order('id', { ascending: false })
-		.limit((initChatCount += 5));
-	chat.set(data.reverse());
-};
+// 	const mySubscription = supabase
+// 		.from(tableName)
+// 		.on('INSERT', (payload) => {
+// 			chat.set([...data, payload.new]);
+// 			loadChat();
+// 		})
+// 		.subscribe();
+// };
+
+// export const loadMore = async () => {
+// 	const { data, error } = await supabase
+// 		.from(tableName)
+// 		.select()
+// 		.order('id', { ascending: false })
+// 		.limit((initChatCount += 5));
+// 	chat.set(data.reverse());
+// };
 
 export const sendMessage = async (
 	message,

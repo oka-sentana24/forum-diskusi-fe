@@ -52,10 +52,13 @@
 			if (response.status === 200) {
 				isLoading = true;
 				let body = await response.json();
+
+				console.log('body', body);
+
 				localStorage.setItem('token', body.token);
 				var decoded: any = jwt_decode(body.token);
 				localStorage.setItem('username', decoded.username);
-				localStorage.setItem('jurusan', decoded.jurusan);
+				localStorage.setItem('penggunaId', body.user.id);
 
 				if (decoded.role === 'PENGGUNA') {
 					window.location.href = '/chat';

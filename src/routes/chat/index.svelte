@@ -1,16 +1,24 @@
 <script>
+	import { chatRoomId } from './../../stores/chatStore';
 	import Card from '@smui/card';
 	import { supabase } from '../../supabase';
 	import { onMount } from 'svelte';
 	let test = '';
-	let isLoading = true;
+	let isLoading = false;
 	let chatMessages = [];
 	let Message;
+	let authPenggunaId;
+
+	let unsubscribeChatRoomId;
 
 	onMount(() => {
-		console.log('mounted');
-		fetchMessages();
-		testSubscribe();
+		authPenggunaId = localStorage.getItem('penggunaId');
+		unsubscribeChatRoomId = chatRoomId.subscribe(fetchMessages);
+
+		return () => {
+			Message.unsubscribe();
+			unsubscribeChatRoomId();
+		};
 	});
 	// async function handleSubmit() {
 	// 	let username = localStorage.getItem('username');
@@ -20,18 +28,9 @@
 	// 		.insert([{ username: username, message: test, group_id: jurusan }]);
 	// }
 
-	async function testSubscribe() {
-		supabase
-			.from('Jurusan')
-			.on('*', (payload) => {
-				console.log('test', payload);
-			})
-			.subscribe();
-	}
-
-	async function subscribeMessage() {
+	async function subscribeMessage(roomId) {
 		Message = supabase
-			.from(`Message`)
+			.from(`Message:roomId=eq.${roomId}`)
 			.on('*', (payload) => {
 				console.log('payload recieved', payload);
 				chatMessages = [...chatMessages, payload.new];
@@ -39,22 +38,25 @@
 			.subscribe();
 	}
 
-	async function fetchMessages() {
-		let { data: messages } = await supabase.from('Message').select('*');
+	async function fetchMessages(roomId) {
+		console.log('called rid', roomId);
+		if (roomId === '') return;
+		isLoading = true;
+		let { data: messages } = await supabase.from('Message').select('*').eq('roomId', roomId);
 		console.log('old messages', messages);
 		chatMessages = messages;
-		subscribeMessage();
+		subscribeMessage(roomId);
 		isLoading = false;
 	}
 </script>
 
-<main>
-	<!-- <input type="text" placeholder="input di sini" bind:value={test} />
-	<button on:click={() => handleSubmit()}>submite</button> -->
+<main class="h-full">
+	<!-- <input type="text" placeholder="input di sini" bind:value={test} /> -->
+	<!-- <button on:click={() => handleSubmit()}>submite</button> -->
 
 	<!-- {#if isLoading}
 		<p>Loading....</p>
-	{:else}
+	{:else if chatMessages.length}
 		<div>
 			{#each chatMessages as message}
 				<div>{message.text}</div>
@@ -64,20 +66,30 @@
 		</div>
 	{/if} -->
 
-	<div class="container mx-auto">
-		<div class="hidden lg:col-span-2 lg:block">
+	<div class="container mx-auto h-full">
+		<div class="lg:col-span-2 lg:block">
 			<div class="w-full">
 				<Card>
 					<div class="relative w-full p-6 overflow-y-auto h-[40rem]">
-						<ul class="space-y-2">
+						<ul class="pl-0 space-y-2">
 							{#if isLoading}
 								<p>Loading....</p>
-							{:else}
-								<div class=" py-3">
+							{:else if chatMessages.length}
+								<div class="flex flex-col py-3">
 									{#each chatMessages as message}
-										<div class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow">
-											{message.text}
-										</div>
+										{#if message.penggunaId === authPenggunaId}
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
+											>
+												{message.text}
+											</div>
+										{:else}
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
+											>
+												{message.text}
+											</div>
+										{/if}
 									{:else}
 										<div>No messages...</div>
 									{/each}
