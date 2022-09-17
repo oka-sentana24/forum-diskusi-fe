@@ -1,13 +1,14 @@
 <script lang="ts">
+	// @ts-nocheck
 	/* Module */
+	import { Icon } from 'svelte-materialify';
+	import { mdiChevronUp, mdiChevronDown, mdiPlus, mdiFolderSettingsOutline } from '@mdi/js';
 	import DataTable, { Head, Body, Row, Cell, Pagination } from '@smui/data-table';
-	import Button, { Label } from '@smui/button';
+	import Button from '$components/Button.svelte';
 	import Textfield from '@smui/textfield';
 	import Header from '$components/Header.svelte';
 	import { variables } from '$lib/variables';
 	import { onMount } from 'svelte';
-	import { mdiChevronUp, mdiChevronDown, mdiPlus, mdiFolderSettingsOutline } from '@mdi/js';
-	import { Icon } from 'svelte-materialify';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
 	/* Interfaces */
 	type Jurusan = {
@@ -66,23 +67,19 @@
 		<div class="flex justify-between">
 			<div>
 				<div class="flex flex-span-2 items-center justify-start gap-5">
-					<Button
-						variant="raised"
-						on:click={() => (isOpenFilter = !isOpenFilter)}
-						class="bg-gray-400"
-					>
-						<Label class="text-xs normal-case text-white"
-							>Filter
-							<Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} />
-						</Label>
+					<Button type="filter" click={() => (isOpenFilter = !isOpenFilter)}>
+						<div class="flex flex-span-1 gap-1 items-center">
+							Filter
+							<Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} size="20px" />
+						</div>
 					</Button>
 					{#if isOpenFilter}
 						<span
-							class="text-gray-400 hover:text-teal-600 text-xs normal-case"
+							class="text-gray-400 hover:text-indigo-500 normal-case"
 							on:click={() => searchSiswa(nama)}>Apply</span
 						>
-						<span class="text-gray-400 hover:text-teal-600 text-xs normal-case" on:click={reset}
-							>reset</span
+						<span class="text-gray-400 hover:text-indigo-500 normal-case" on:click={reset}
+							>Reset</span
 						>
 					{/if}
 				</div>
@@ -99,11 +96,13 @@
 				</div>
 			</div>
 			<div>
-				<Button variant="raised" class="bg-teal-300" href="/admin/jurusan/create">
-					<Label class="text-xs normal-case text-white"
-						>Create <Icon path={mdiPlus} size="15px" /></Label
-					>
-				</Button>
+				<a href="/admin/jurusan/create">
+					<Button type="create" click>
+						<div class="flex flex-span-1 gap-1 items-center">
+							Create <Icon path={mdiPlus} size="15px" />
+						</div>
+					</Button>
+				</a>
 			</div>
 		</div>
 	</section>
@@ -113,26 +112,26 @@
 			<Head>
 				<Row>
 					{#each columns as column}
-						<Cell>{column}</Cell>
+						<Cell class="text-base">{column}</Cell>
 					{/each}
 				</Row>
 			</Head>
 			<Body>
 				{#if isloading === items.length <= 0}
 					<div class="absolute flex items-center justify-center w-full h-[60vh]">
-						<span class="grid items-center">
+						<span class="grid items-center text-base gap-y-2">
 							<Icon path={mdiFolderSettingsOutline} />
 							Tidak ada jurusan yang ditemukan
 						</span>
 					</div>
 				{:else if items.length >= 1}
 					{#each paginatedItems as item, index}
-						<Row class="text-gray-500">
+						<Row class="text-gray-500 text-base">
 							<Cell>
 								{index + 1}
 							</Cell>
 							<Cell>
-								<a href="/admin/jurusan/{item.id}/view" class="text-teal-500">
+								<a href="/admin/jurusan/{item.id}/view" class="text-indigo-500 text-base">
 									{item.nama}
 								</a>
 							</Cell>
@@ -140,7 +139,7 @@
 					{/each}
 				{:else}
 					<div class="absolute flex items-center justify-center w-full h-[60vh]">
-						<span class="grid items-center"> loading... </span>
+						<span class="grid items-center text-base"> loading... </span>
 					</div>
 				{/if}
 			</Body>

@@ -99,43 +99,6 @@
 		<aside class="z-20 hidden md:block flex-shrink-0 relative">
 			<Sidebar>
 				<div>
-					<!-- <div class="px-2 py-4">
-						<div
-							class="flex items-center justify-between"
-							on:click={() => (isUserChat = !isUserChat)}
-						>
-							<div class="flex items-center justify-start gap-2">
-								{#if isUserChat}
-									<Icon path={mdiChevronDown} size="20px" />
-								{:else}
-									<Icon path={mdiChevronRight} size="20px" />
-								{/if}
-
-								<span>Chat</span>
-							</div>
-							<Icon path={mdiPlus} size="20px" />
-						</div>
-					</div> -->
-					<!-- {#if isUserChat}
-						<div
-							class="h-[300px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-						>
-							{#each roomData as data}
-								<div class="flex items-center justify-between px-5">
-									<ListItem>
-										<span slot="prepend" class="ml-n2">
-											<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-										</span>
-										{data.nama}
-									</ListItem>
-									<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-								</div>
-							{/each}
-						</div>
-					{/if} -->
-				</div>
-				<Divider />
-				<div>
 					<div class="px-2 py-4">
 						<div
 							class="flex items-center justify-between"
@@ -183,43 +146,6 @@
 			>
 				<div class="flex flex-cols-2">
 					<Sidebar>
-						<div>
-							<!-- <div class="px-2 py-4">
-								<div
-									class="flex items-center justify-between"
-									on:click={() => (isUserChat = !isUserChat)}
-								>
-									<div class="flex items-center justify-start gap-2">
-										{#if isUserChat}
-											<Icon path={mdiChevronDown} size="20px" />
-										{:else}
-											<Icon path={mdiChevronRight} size="20px" />
-										{/if}
-
-										<span>Chat</span>
-									</div>
-									<Icon path={mdiPlus} size="20px" />
-								</div>
-							</div> -->
-							<!-- {#if isUserChat}
-								<div
-									class="h-[300px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-								>
-									{#each users as data}
-										<div class="flex items-center justify-between px-5">
-											<ListItem>
-												<span slot="prepend" class="ml-n2">
-													<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-												</span>
-												{data.nama}
-											</ListItem>
-											<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-										</div>
-									{/each}
-								</div>
-							{/if} -->
-						</div>
-						<Divider />
 						<div>
 							<div class="px-2 py-4">
 								<div

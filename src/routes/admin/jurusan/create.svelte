@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
 	import { Icon } from 'svelte-materialify';
 	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
@@ -6,7 +6,10 @@
 	import { variables } from '$lib/variables';
 	import Textfield from '@smui/textfield';
 	import Card from '@smui/card/src/Card.svelte';
-	import Button, { Label } from '@smui/button';
+	import type { SnackbarComponentDev } from '@smui/snackbar';
+	// import Snackbar, { Label } from '@smui/snackbar';
+	import { Snackbar } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
 
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
@@ -16,7 +19,11 @@
 	let data = {
 		nama: ''
 	};
-	let snackbar = false;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: bollean = false;
+	let isLoading = false;
+	// let snackbar = false;
+	let responseMessage = '';
 	async function handleSubmit() {
 		const response = await fetch(`${variables.basePath}/jurusan`, {
 			method: 'POST',
@@ -27,27 +34,29 @@
 			}
 		});
 
+		let message = await response.json();
 		if (response.status === 200 || response.status === 201) {
-			snackbar = true;
-			window.location.href = '/admin/jurusan';
+			isLoading = true;
+			responseMessage = message.message;
+			snackbarSuccess = true;
+			setTimeout(() => {
+				window.location.href = '/admin/jurusan';
+			}, 5000);
 		} else {
-			console.log('no data');
+			responseMessage = message.message;
+			snackbarError = false;
 		}
-		// what do you do with a non-redirect?
-
 		console.log('return', handleSubmit);
 	}
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen">
+<main class="overflow-auto h-screen">
 	<div class="m-5 relative">
 		<div class="absolute w-full">
 			<Card>
 				<div class="p-5">
-					<div class="p-2 bg-teal-400 text-white">
-						<span>Buat Jurusan</span>
-					</div>
+					<!-- <Title text="Create Jurusan" /> -->
 					<div class="w-full">
 						<div class="relative py-3">
 							<Textfield variant="filled" label="Nama" type="text" bind:value={data.nama} />
@@ -56,12 +65,24 @@
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button variant="raised" on:click={() => handleSubmit()} class="bg-teal-700">
-					<Label class=" flex flex-span-2 only:items-center justify-center gap-2">
-						<Icon path={mdiContentSave} size="20" />
-						<span class="normal-case">Save</span>
-					</Label>
+				<Button type="save" click={() => handleSubmit()}>
+					<div class="flex flex-span-1 gap-3 items-center">
+						<Icon path={mdiContentSave} />
+						{isLoading ? 'loading...' : 'save'}
+					</div>
 				</Button>
+				<Snackbar
+					class="flex-column bg-green-500 flex items-center"
+					bind:active={snackbarSuccess}
+					top
+					center
+					timeout={3000}
+				>
+					{responseMessage}
+				</Snackbar>
+				<Snackbar class="flex-column" bind:active={snackbarError} top center timeout={3000}>
+					{responseMessage}
+				</Snackbar>
 			</div>
 		</div>
 	</div>

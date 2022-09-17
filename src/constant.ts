@@ -29,7 +29,7 @@ export const Menu = [
 		svg: mdiGoogleClassroom
 	},
 	{
-		name: 'Major',
+		name: 'Jurusan',
 		url: '/admin/jurusan',
 		svg: mdiGraph
 	},

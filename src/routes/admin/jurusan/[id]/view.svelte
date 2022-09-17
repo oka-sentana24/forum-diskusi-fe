@@ -6,7 +6,8 @@
 	import Header from '$components/Header.svelte';
 	import Card from '@smui/card';
 	import { Icon } from 'svelte-materialify';
-	import Button, { Label } from '@smui/button';
+	import Button from '$components/Button.svelte';
+	// import Button, { Label } from '@smui/button';
 
 	let id, nama;
 
@@ -41,19 +42,15 @@
 <main>
 	<div class="m-5 relative">
 		<div class="flex justify-end py-5 gap-2 items-center">
-			<Button href="/admin/jurusan/{id}/update" class="bg-teal-500 p-5 rounded-md shadow-lg">
-				<Label class="normal-case text-sm text-white flex items-center gap-1">
-					<Icon path={mdiAccountEdit} size="15px" />
-					<span> Update </span>
-				</Label>
-			</Button>
-			<Button class="bg-red-500 p-5 rounded-md shadow-lg" on:click={() => handleSubmit()}>
-				<Label class="normal-case text-sm text-white flex items-center gap-1">
-					<Label>
-						<Icon path={mdiDelete} size="15px" />
-						Delete
-					</Label>
-				</Label>
+			<a href="/admin/jurusan/{id}/update">
+				<Button type="edit" click>
+					<Icon path={mdiAccountEdit} size="24px" />
+					Edit
+				</Button>
+			</a>
+			<Button type="danger" click={() => handleSubmit()}>
+				<Icon path={mdiDelete} size="24px" />
+				Delete
 			</Button>
 		</div>
 		<!-- data table -->

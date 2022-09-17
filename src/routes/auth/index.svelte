@@ -1,24 +1,29 @@
 <script lang="ts">
 	/* import module */
 	import Login from './login.svelte';
-	import Card from '@smui/card';
+	import Description from '$components/Description.svelte';
+	import Card from '$components/Card.svelte';
+	import Title from '$src/components/Title.svelte';
 
 	const rands = [''];
 	const randCls = rands[Math.floor(Math.random() * rands.length)];
+	let invalidTaxId = false;
+	let exoticTaxId = '';
 </script>
 
 <section id="body" class={randCls}>
 	<header class="flex justify-center items-center w-full h-screen bg-slate-300">
-		<Card class="w-[460px] max-h-[414px] rounded-none">
-			<div class="p-5">
-				<div class="mb-2">
-					<h1 class="text-2xl font-bold leading-9 text-slate-500">Sign In</h1>
-					<span class="text-sm font-normal leading-5">
-						Dont have an account? <span class="text-teal-400">Contact administrator</span>
-					</span>
-				</div>
-				<Login />
+		<Card type="login">
+			<div class="mb-2">
+				<Title text="Sign in" />
+				<!-- <span class="">
+					Dont have an account? <span class="text-teal-400">Contact administrator</span>
+				</span> -->
+				<Description text="Dont have an account?">
+					<span>Contact administrator</span>
+				</Description>
 			</div>
+			<Login />
 		</Card>
 	</header>
 </section>

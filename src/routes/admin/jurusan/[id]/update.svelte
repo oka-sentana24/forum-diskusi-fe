@@ -1,18 +1,14 @@
 <script lang="ts">
 	// @ts-nocheck
 	import { Icon } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import { mdiContentSave } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { variables } from '$lib/variables';
 	import Card from '@smui/card';
 	import Textfield from '@smui/textfield';
-	import Button, { Label } from '@smui/button';
-	import type { SnackbarComponentDev } from '@smui/snackbar';
-	import Snackbar, { Label, Actions } from '@smui/snackbar';
-	import IconButton from '@smui/icon-button';
-	import Button from '@smui/button';
+	import Button from '$components/Button.svelte';
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
 		{ text: 'Update', href: '#' }
@@ -71,47 +67,12 @@
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<!-- <Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
-				>
-					<div class="flex items-center gap-2 text-white">
-						<Label>
-							<Icon path={mdiContentSave} />
-							<span class="normal-case">Save</span>
-						</Label>
-					</div>
-				</Button> -->
-				<!-- <Snackbar
-					class="flex-column bg-green-700 text-white"
-					bind:active={snackbar}
-					bottom
-					center
-					timeout={3000}
-				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
-				</Snackbar> -->
-
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
-				>
-					<div class="flex items-center gap-2 text-white">
+				<Button type="save" click={() => handleSubmit()}>
+					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						<span class="normal-case">Save</span>
+						save
 					</div>
 				</Button>
-				<Snackbar
-					class="flex-column bg-green-700 text-white"
-					bind:active={snackbar}
-					bottom
-					center
-					timeout={3000}
-				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
-				</Snackbar>
 			</div>
 		</div>
 	</div>
