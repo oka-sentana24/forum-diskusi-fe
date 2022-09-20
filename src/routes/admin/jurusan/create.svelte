@@ -1,7 +1,7 @@
 <script lang="ts">
 	// @ts-nocheck
 	import { Icon } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import { mdiContentSave, mdiAlertRhombus, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { variables } from '$lib/variables';
 	import Textfield from '@smui/textfield';
@@ -10,6 +10,7 @@
 	// import Snackbar, { Label } from '@smui/snackbar';
 	import { Snackbar } from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
+	import HelperText from '@smui/textfield/helper-text';
 
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
@@ -20,8 +21,10 @@
 		nama: ''
 	};
 	let snackbarSuccess: boolean = false;
-	let snackbarError: bollean = false;
+	let snackbarError: boolean = false;
 	let isLoading = false;
+	let dirty = false;
+	let errorNama = false;
 	// let snackbar = false;
 	let responseMessage = '';
 	async function handleSubmit() {
@@ -59,25 +62,49 @@
 					<!-- <Title text="Create Jurusan" /> -->
 					<div class="w-full">
 						<div class="relative py-3">
-							<Textfield variant="filled" label="Nama" type="text" bind:value={data.nama} />
+							<Textfield
+								type="text"
+								variant="filled"
+								bind:dirty
+								bind:value={data.nama}
+								label="Jurusan"
+								input$pattern={'^(?![s-])[w -]+$'}
+								bind:invalid={errorNama}
+								updateInvalid
+								required
+							>
+								<svelte:fragment slot="helper">
+									{#if data.nama === ''}
+										<HelperText validationMsg slot="helper">
+											<span class="flex flex-span-2 items-center gap-2">
+												<Icon path={mdiAlertRhombus} size="15" />
+												This field is required.
+											</span>
+										</HelperText>
+									{:else}
+										<HelperText slot="helper" class="py-2" />
+									{/if}
+								</svelte:fragment>
+							</Textfield>
 						</div>
 					</div>
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button type="save" click={() => handleSubmit()}>
+				<Button type="save" click={() => handleSubmit()} disabled={data.nama === ''}>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						{isLoading ? 'loading...' : 'save'}
+						save
 					</div>
 				</Button>
 				<Snackbar
-					class="flex-column bg-green-500 flex items-center"
+					class="bg-white text-green-700 gap-5"
 					bind:active={snackbarSuccess}
 					top
 					center
 					timeout={3000}
 				>
+					<Icon path={mdiCheckCircle} size="15" />
 					{responseMessage}
 				</Snackbar>
 				<Snackbar class="flex-column" bind:active={snackbarError} top center timeout={3000}>

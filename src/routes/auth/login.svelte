@@ -14,15 +14,19 @@
 	import { Icon } from 'svelte-materialify';
 
 	/* variable */
-	let checked = false;
-	let show = false;
-	let isLoading = false;
+	let rememberMe = false;
+	let showPassword = false;
+	let isSubmitting = false;
 	let errorUsername = false;
 	let errorPassword = false;
 	let fields = { username: '', password: '' };
 	let dirty = false;
+	let errorMessage = '';
 
 	async function formSubmit() {
+		isSubmitting = true;
+		errorMessage = '';
+
 		const response = await fetch(`${variables.basePath}/signin`, {
 			method: 'POST',
 			credentials: 'same-origin',
@@ -31,14 +35,14 @@
 				'Content-Type': 'application/json'
 			}
 		});
+
+		isSubmitting = false;
+		const body = await response.json();
+		console.info({ body });
+
 		if (response.status === 200) {
-			isLoading = true;
-			let body = await response.json();
-
-			console.log('body', body);
-
 			localStorage.setItem('token', body.token);
-			var decoded: any = jwt_decode(body.token);
+			const decoded: any = jwt_decode(body.token);
 			localStorage.setItem('username', decoded.username);
 			localStorage.setItem('penggunaId', body.user.id);
 
@@ -49,6 +53,9 @@
 			} else {
 				console.log('no user');
 			}
+		} else {
+			errorMessage = body.message;
+			console.info({ errorMessage });
 		}
 	}
 </script>
@@ -80,7 +87,7 @@
 		</svelte:fragment>
 	</Textfield>
 	<Textfield
-		type={show ? 'text' : 'password'}
+		type={showPassword ? 'text' : 'password'}
 		variant="filled"
 		bind:dirty
 		input$maxlength="10"
@@ -94,18 +101,18 @@
 		<IconButton
 			class="relative bottom-[1.2rem]"
 			slot="trailingIcon"
-			on:click={() => (show = !show)}
+			on:click={() => (showPassword = !showPassword)}
 		>
 			<div class="flex items-center">
-				<Icon path={show ? mdiEye : mdiEyeOff} />
+				<Icon path={showPassword ? mdiEye : mdiEyeOff} />
 			</div>
 		</IconButton>
 		<svelte:fragment slot="helper">
-			{#if fields.username === fields.password}
-				<HelperText validationMsg slot="helper">
+			{#if fields.password === ''}
+				<HelperText slot="helper">
 					<span class="flex flex-span-2 items-center gap-2">
 						<Icon path={mdiAlertRhombus} size="15" />
-						Invalid password
+						This field is required.
 					</span>
 				</HelperText>
 			{:else}
@@ -113,14 +120,24 @@
 			{/if}
 		</svelte:fragment>
 	</Textfield>
+	{#if errorMessage}
+		<div class="flex flex-span-2 items-center gap-2 text-red-500 text-sm">
+			<Icon path={mdiAlertRhombus} size="15" />
+			{errorMessage}
+		</div>
+	{/if}
 	<div class="font-normal text-indigo-500 py-2">Forgot password?</div>
 	<FormField class="flex gap-1 mt-4">
-		<Checkbox bind:checked />
+		<Checkbox bind:rememberMe />
 		<span slot="label">Remember me.</span>
 	</FormField>
 	<div class="mt-4">
-		<Button type="primary" click={() => formSubmit()}>
-			{isLoading ? 'loading...' : 'Sign In'}
+		<Button
+			type="primary"
+			click={() => formSubmit()}
+			disabled={isSubmitting || fields.username === '' || fields.password === ''}
+		>
+			{isSubmitting ? 'loading...' : 'Sign In'}
 		</Button>
 	</div>
 </main>

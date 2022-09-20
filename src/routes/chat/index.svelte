@@ -9,10 +9,11 @@
 	let chatMessages = [];
 	let Message;
 	let authPenggunaId;
-
+	let currentRoomId;
 	let unsubscribeChatRoomId;
 
 	let text = '';
+	const action = (_) => (text = 'Enter');
 
 	onMount(() => {
 		authPenggunaId = localStorage.getItem('penggunaId');
@@ -42,8 +43,9 @@
 	}
 
 	async function fetchMessages(roomId) {
-		console.log('called rid', roomId);
+		console.log('fetch room id', roomId);
 		if (roomId === '') return;
+		currentRoomId = roomId;
 		isLoading = true;
 		let { data: messages } = await supabase.from('Message').select('*').eq('roomId', roomId);
 		console.log('old messages', messages);
@@ -52,18 +54,29 @@
 		isLoading = false;
 	}
 
-	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/send-chat`, {
+	async function sendMessage() {
+		const messageData = {
+			penggunaId: authPenggunaId,
+			roomId: currentRoomId,
+			text: text
+		};
+
+		const response = await fetch(`${variables.basePath}/messages`, {
 			method: 'POST',
 			credentials: 'same-origin',
-			body: JSON.stringify({ text }),
+			body: JSON.stringify(messageData),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-		// what do you do with a non-redirect?
 
-		console.log('return', handleSubmit);
+		text = '';
+	}
+
+	function handleEnterKey(e) {
+		if (e.key === 'Enter' || e.keyCode === 13) {
+			sendMessage();
+		}
 	}
 </script>
 
@@ -194,23 +207,38 @@
 			<Card class="bg-indigo-100 sm:h-screen">
 				<div class="px-5 overflow-y-auto h-[86vh]">
 					<ul class="pl-0 space-y-2">
+						<!-- Test Image
+						<img
+							src="http://localhost:3001/img/landscape.jpg"
+							alt="Landscape"
+							crossorigin
+							style="max-width: 300px"
+						/> -->
 						{#if isLoading}
 							<p>Loading....</p>
 						{:else if chatMessages.length}
 							<div class="flex flex-col py-3">
 								{#each chatMessages as message}
 									{#if message.penggunaId === authPenggunaId}
-										<div
-											class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
-										>
-											{message.text}
-										</div>
-									{:else}
-										<div
-											class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
-										>
-											{message.text}
-										</div>
+										{#if message.imageUrl}
+											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+										{:else}
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
+											>
+												{message.text}
+											</div>
+										{/if}
+									{:else if message.penggunaId !== authPenggunaId}
+										{#if message.imageUrl}
+											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+										{:else}
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
+											>
+												{message.text}
+											</div>
+										{/if}
 									{/if}
 								{:else}
 									<div>No messages...</div>
@@ -248,10 +276,10 @@
 									name="message"
 									required
 									bind:value={text}
+									on:keyup={handleEnterKey}
 								/>
 								<button
 									class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-									on:click={() => handleSubmit}
 								>
 									<svg
 										class="w-6 h-6"
@@ -273,6 +301,7 @@
 						<div class="ml-4">
 							<button
 								class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+								on:click={() => sendMessage()}
 							>
 								<span>Send</span>
 								<span class="ml-2">

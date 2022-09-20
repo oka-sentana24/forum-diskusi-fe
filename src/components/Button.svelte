@@ -1,15 +1,21 @@
 <script lang="ts">
 	export let type: string;
 	export let click;
+	export let disabled: boolean;
 </script>
 
-<button class={type} on:click={click}>
+<button class={type} on:click={click} {disabled}>
 	<div class=" flex cols-span-2 items-center justify-center">
 		<slot />
 	</div>
 </button>
 
 <style lang="scss">
+	:disabled {
+		opacity: 0.5;
+		cursor: not-allowed !important;
+		pointer-events: none !important;
+	}
 	.primary {
 		letter-spacing: 1px;
 		font-size: 14px;
