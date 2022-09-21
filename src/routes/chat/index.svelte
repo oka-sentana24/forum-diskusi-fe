@@ -4,6 +4,14 @@
 	import { supabase } from '../../supabase';
 	import { onMount } from 'svelte';
 	import { variables } from '$lib/variables';
+	import { mdiImage } from '@mdi/js';
+	import { Icon } from 'svelte-materialify';
+	import Dialog, { Title, Content, Actions } from '@smui/dialog';
+	import Button from '$components/Button.svelte';
+	import Portal from 'svelte-portal';
+
+	let open = false;
+
 	let test = '';
 	let isLoading = false;
 	let chatMessages = [];
@@ -11,6 +19,9 @@
 	let authPenggunaId;
 	let currentRoomId;
 	let unsubscribeChatRoomId;
+	let fileInput;
+	let image;
+	let imageFiles;
 
 	let text = '';
 	const action = (_) => (text = 'Enter');
@@ -77,6 +88,40 @@
 		if (e.key === 'Enter' || e.keyCode === 13) {
 			sendMessage();
 		}
+	}
+
+	const onFileSelected = (e) => {
+		let file = e.target.files[0];
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+		reader.onload = (e) => {
+			image = e.target.result;
+		};
+		open = true;
+	};
+
+	async function uploadImage(e) {
+		const formData = new FormData();
+		formData.append('image', imageFiles[0]);
+		formData.append('penggunaId', authPenggunaId);
+		formData.append('roomId', currentRoomId);
+		formData.append('text', '-');
+
+		console.log(formData);
+
+		const response = await fetch(`${variables.basePath}/messages`, {
+			method: 'POST',
+			// headers: [['Content-Type', 'multipart/form-data']],
+			body: formData
+		});
+
+		const data = await response.json();
+		console.log('data', data);
+	}
+
+	function clearModal() {
+		fileInput.value = '';
+		open = false;
 	}
 </script>
 
@@ -207,13 +252,6 @@
 			<Card class="bg-indigo-100 sm:h-screen">
 				<div class="px-5 overflow-y-auto h-[86vh]">
 					<ul class="pl-0 space-y-2">
-						<!-- Test Image
-						<img
-							src="http://localhost:3001/img/landscape.jpg"
-							alt="Landscape"
-							crossorigin
-							style="max-width: 300px"
-						/> -->
 						{#if isLoading}
 							<p>Loading....</p>
 						{:else if chatMessages.length}
@@ -250,25 +288,34 @@
 				<div class="relative bottom-0 bg-white w-full">
 					<div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
 						<div>
-							<button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
-								<svg
-									class="w-5 h-5"
-									fill="none"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									xmlns="http://www.w3.org/2000/svg"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-									/>
-								</svg>
+							<button on:click={() => fileInput.click()}>
+								<Icon path={mdiImage} />
 							</button>
+							<input
+								style="display:none"
+								type="file"
+								on:change={(e) => onFileSelected(e)}
+								bind:this={fileInput}
+								bind:files={imageFiles}
+							/>
 						</div>
 						<div class="flex-grow ml-4">
 							<div class="relative w-full">
+								{#if image}
+									<!--
+									 -->
+									<Portal target="body">
+										<!-- The Modal -->
+										<div class="modal" class:open>
+											<!-- Modal content -->
+											<div class="modal-content">
+												<span class="close" on:click={clearModal}>&times;</span>
+												<img src={image} alt="" class="w-300 h-auto" />
+												<Button type="primary" click={uploadImage}>Send</Button>
+											</div>
+										</div>
+									</Portal>
+								{/if}
 								<input
 									type="text"
 									placeholder="Message"
