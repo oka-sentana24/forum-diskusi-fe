@@ -21,10 +21,9 @@
 	export let items;
 </script>
 
-<div class="bg-white border-b border-gray-300 w-full h-20 dark:bg-gray-800 dark:border-gray-600">
+<div class="bg-transparent border-b border-gray-300 w-full h-20 dark:border-teal-700">
 	<div class="flex flex-cols-2 items-center justify-between p-5">
 		<div class="flex flex-cols-2 items-center justify-center gap-5">
-			<!-- Mobile Burger -->
 			<div class="md:hidden">
 				<BurgerMenu />
 			</div>
@@ -41,7 +40,6 @@
 			</div>
 		</div>
 		<div>
-			<!-- profile -->
 			<button
 				id="nav-profile-photo"
 				class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"

@@ -2,7 +2,7 @@
 	export let text: string;
 </script>
 
-<span class="font-normal leading-5">
+<span class="text-base leading-5 py-2 text-slate-500">
 	{text}
-	<span class="text-indigo-500"><slot /></span>
+	<span class="text-teal-400"><slot /></span>
 </span>

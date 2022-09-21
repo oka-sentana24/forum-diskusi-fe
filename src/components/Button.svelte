@@ -1,7 +1,8 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	export let type: string;
 	export let click;
 	export let disabled: boolean;
+	export let Label: string;
 </script>
 
 <button class={type} on:click={click} {disabled}>
@@ -12,9 +13,8 @@
 
 <style lang="scss">
 	:disabled {
-		opacity: 0.5;
-		cursor: not-allowed !important;
-		pointer-events: none !important;
+		background: rgba(37, 56, 88, 0.33) !important;
+		border-radius: 3px;
 	}
 	.primary {
 		letter-spacing: 1px;
@@ -29,10 +29,6 @@
 		min-height: 50px;
 		width: 100%;
 	}
-	.primary:hover {
-		background-color: #4f46e5;
-	}
-
 	.create {
 		letter-spacing: 1px;
 		font-size: 14px;
@@ -117,5 +113,54 @@
 	}
 	.filter:hover {
 		background-color: #475569;
+	}
+</style> -->
+<script lang="ts">
+	export let variant: string;
+	export let click;
+	export let disabled: boolean = false;
+</script>
+
+<button
+	class="button"
+	class:primary={variant === 'primary'}
+	class:icon={variant === 'icon'}
+	class:danger={variant === 'secondary'}
+	on:click={click}
+	{disabled}
+>
+	<slot />
+</button>
+
+<style type="text/scss">
+	:disabled {
+		background: rgba(37, 56, 88, 0.33) !important;
+		border-radius: 3px;
+	}
+	.button {
+		/* padding: 20px;
+		width: 100%;
+		border-radius: 3px; */
+		letter-spacing: 1px;
+		font-size: 14px;
+		cursor: pointer;
+		border-radius: 3px;
+		padding: 0 12px;
+		height: 50px !important;
+		min-height: 50px !important;
+		margin: 0 5px 20px 0 !important;
+		width: 100%;
+	}
+	.primary {
+		background: #04b4cd;
+		color: #fff;
+	}
+	.icon {
+		background: rgba(37, 56, 88, 0.33);
+		color: #fff;
+		margin: 0px 4px !important;
+	}
+	.icon:hover {
+		background-color: #04b4cd;
 	}
 </style>
