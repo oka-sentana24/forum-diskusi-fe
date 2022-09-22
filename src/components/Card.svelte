@@ -1,8 +1,13 @@
 <script lang="ts">
-	export let type: string;
+	export let login: boolean | null;
+	export let sidebar: boolean | null;
 </script>
 
-<div class={type}>
+<div
+	class={`${login && 'w-[465px] p-8 bg-white tracking-normal-[0.9px]'} ${
+		sidebar && 'bg-white text-gray-700 shadow h-full'
+	}`}
+>
 	<slot />
 </div>
 

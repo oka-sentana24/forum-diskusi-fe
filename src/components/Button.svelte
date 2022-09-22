@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	export let type: string;
 	export let click;
 	export let disabled: boolean;
@@ -117,5 +117,39 @@
 	}
 	.filter:hover {
 		background-color: #475569;
+	}
+</style> -->
+<script lang="ts">
+	export let primary: boolean | null;
+	export let secondary: boolean | null;
+	export let fullWidth: boolean | null;
+	export let disabled: boolean | null;
+	export let submite;
+	// export let click;
+	// export let disabled: boolean = false;
+	import '../style/app.scss';
+</script>
+
+<button
+	class={`button
+	${primary && 'bg-teal-500 text-white'} 
+	${secondary && 'bg-indigo-600 text-white'} 
+	${disabled && ` bg-gray-400 cursor-not-allowed text-black-800 shadow-lg opacity-99`}  
+	${fullWidth && `w-full`}`}
+	on:click={submite}
+>
+	<slot />
+</button>
+
+<style type="text/scss">
+	.button {
+		letter-spacing: 1px;
+		font-size: 14px;
+		cursor: pointer;
+		border-radius: 3px;
+		padding: 0 12px;
+		height: 50px !important;
+		min-height: 50px !important;
+		margin: 0 5px 20px 0 !important;
 	}
 </style>

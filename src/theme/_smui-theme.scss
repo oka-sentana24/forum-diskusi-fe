@@ -27,69 +27,22 @@ a:visited {
 }
 
 /*global style text-input*/
-label.mdc-text-field.mdc-text-field--filled.mdc-ripple-upgraded {
+label {
   width: 100%;
-  border-radius: 0;
-  border-bottom: 0;
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before {
-    border-bottom-color: none;
+	.mdc-line-ripple {
+		visibility: hidden;
+		border-radius: 0px;
     .mdc-line-ripple::before {
-      border-bottom-width: 0px !important;
+      border-bottom-width:0px !important;
       z-index: 1;
     }
   }
 }
-.mdc-text-field--filled {
-	  width: 100%;
-    border-radius: 0px !important;
-    border-radius: 4px !important;
-	.mdc-line-ripple {
-		visibility: hidden;
-		border-radius: 0px;
-	}
-	.mdc-floating-label--float-above {
-		transform: translateY(-87%) scale(0.75) !important;
-		color: #6366f1 !important;
-	}
-    .mdc-line-ripple::before, .mdc-line-ripple::after {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-bottom-style: none !important;
-    content: unset !important;
-  }
-  span.mdc-floating-label {
-    font-size: 14px;
-  }
-}
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: whitesmoke;
-  height: 50px !important;
-  border-radius: 4px !important;
+  border-radius: 0px !important;
 }
-.mdc-text-field .mdc-text-field__input {
-	caret-color: #9ca3af !important;
-}
-.mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input {
-  color: gray !important;
-  position: relative;
-  bottom: 5px;
-  font-size: 14px !important;
-}
-label.mdc-text-field.mdc-text-field--filled.mdc-ripple-upgraded:hover {
-  border: 1px solid #6366f1;
-}
-.mdc-checkbox {
-  margin: calc((var(--mdc-checkbox-touch-target-size, 20px) - 40px) / 2) !important;
-}
-
-// button.material-icons.mdc-icon-button.mdc-icon-button--display-flex.mdc-ripple-upgraded--unbounded.mdc-ripple-upgraded {
-//   position: relative;
-//   bottom: 17px;
-//   font-size: 14px;
-// }
-label.mdc-text-field.mdc-text-field--filled.mdc-text-field--invalid.mdc-ripple-upgraded {
+.mdc-text-field--invalid.mdc-ripple-upgraded {
   border: 1px solid #ff3e00 !important;
 }
 p.invalid{
@@ -100,7 +53,12 @@ p.invalid{
 .invalid {
   border-color: #ff3e00 !important;
 }
-
+.mdc-floating-label--float-above {
+  color: #04b4cd !important;
+}
+.mdc-text-field--focused {
+  border: 1px solid #04b4cd !important;
+}
 
 /* mat tabel styles */
 .mdc-data-table__cell, .mdc-data-table__header-cell {
