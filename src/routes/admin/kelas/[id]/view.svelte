@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Card, Button, Icon, Snackbar } from 'svelte-materialify';
 	import { page } from '$app/stores';
 	import { mdiAccountEdit, mdiCheckCircle } from '@mdi/js';

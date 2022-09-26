@@ -60,15 +60,15 @@
 	}
 </script>
 
-<Header items={data} />
+<Header items={data}>List Jurusan</Header>
 <main class="p-5">
 	<!-- top Header -->
-	<section class="block py-5">
+	<section class="block mb-[35px]">
 		<div class="flex justify-between">
 			<div>
-				<div class="flex flex-span-2 items-center justify-start gap-5">
-					<Button type="filter" click={() => (isOpenFilter = !isOpenFilter)}>
-						<div class="flex flex-span-1 gap-1 items-center">
+				<div class="flex flex-span-2 items-center justify-start gap-2">
+					<Button filter submite={() => (isOpenFilter = !isOpenFilter)}>
+						<div class="flex flex-span-1 gap-3 items-center justify-between text-white">
 							Filter
 							<Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} size="20px" />
 						</div>
@@ -83,7 +83,7 @@
 						>
 					{/if}
 				</div>
-				<div class="w-full">
+				<div class="w-full relative bottom-5">
 					{#if isOpenFilter}
 						<Textfield
 							variant="filled"
@@ -97,8 +97,8 @@
 			</div>
 			<div>
 				<a href="/admin/jurusan/create">
-					<Button type="create" click>
-						<div class="flex flex-span-1 gap-1 items-center">
+					<Button primary>
+						<div class="items-center flex justify-center gap-2">
 							Create <Icon path={mdiPlus} size="15px" />
 						</div>
 					</Button>
@@ -108,7 +108,7 @@
 	</section>
 	<!-- content -->
 	<section>
-		<DataTable class="relative h-[60vh]">
+		<DataTable class="relative h-[60vh] bottom-[30px]">
 			<Head>
 				<Row>
 					{#each columns as column}
@@ -131,7 +131,7 @@
 								{index + 1}
 							</Cell>
 							<Cell>
-								<a href="/admin/jurusan/{item.id}/view" class="text-indigo-500 text-base">
+								<a href="/admin/jurusan/{item.id}/view" class="text-teal-500">
 									{item.nama}
 								</a>
 							</Cell>

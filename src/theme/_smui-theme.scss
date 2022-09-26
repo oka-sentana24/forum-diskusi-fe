@@ -66,7 +66,7 @@ p.invalid{
   border-bottom-width: 0px;
 }
 .mdc-data-table__header-cell {
-  background-color: #b4c6fc !important;
+  background-color: #cbd5e1 !important;
 }
 .mdc-data-table {
   background-color: #fff !important;
@@ -75,7 +75,7 @@ p.invalid{
   border-style: none !important;
 }
 .mdc-data-table__header-cell {
-  color: #707275 !important;
+  color: white !important;
   font-size: 14px !important;
 }
 .mdc-data-table .mdc-data-table__header-cell:first-child {
@@ -100,6 +100,32 @@ label.mdc-text-field.mdc-text-field--filled.mdc-text-field--label-floating.mdc-r
   border: 1px solid #6366f1;
 }
 
+/* selected  */
+#SMUI-select-0-smui-label{
+  margin-top: 18px !important;
+}
+#SMUI-select-1-smui-label {
+  margin-top: 18px !important;
+}
+.mdc-select--filled:not(.mdc-select--disabled) .mdc-select__anchor {
+  background-color: whitesmoke;
+  border-radius: 0px !important;
+}
+.mdc-select--filled:not(.mdc-select--disabled) .mdc-line-ripple::before {
+  border-bottom-color: 0px !important;
+}
+.mdc-line-ripple::before {
+  border-bottom-width: 0px !important;
+  z-index: 1;
+}
+.mdc-select--filled:not(.mdc-select--disabled) .mdc-line-ripple::after {
+  border-bottom-color: unset !important;
+  border-bottom-color: unset !important;
+}
+.mdc-select--filled:not(.mdc-select--disabled) .mdc-line-ripple::before {
+  border-bottom-color: unset !important;
+}
+
 /* pagination */
 .light-pagination-nav .pagination-nav {
   display: flex;
@@ -108,6 +134,10 @@ label.mdc-text-field.mdc-text-field--filled.mdc-text-field--label-floating.mdc-r
   padding: 5px 20px !important;
   border-top: 1px solid rgba(213, 214, 215) !important;
   border-radius: 0px !important;
+}
+.pagination-nav{
+  position: relative;
+  bottom: 28px !important;
 }
 
 

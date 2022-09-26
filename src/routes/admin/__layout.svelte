@@ -1,6 +1,7 @@
 <script lang="ts">
+	import SideBar from '$components/Sidebar.svelte';
 	import { Menu } from './../../constant';
-	import Sidebar from '$components/Sidebar.svelte';
+	import MiniSide from '$components/MiniSide.svelte';
 	import '../../app.css';
 	import { isDark, isSideMenuOpen, closeSideMenu } from '$stores/menus';
 	import { clickOutside } from '$lib/ioevents/click';
@@ -16,7 +17,7 @@
 		isDark.update((v) => false);
 	}
 
-	let sideMenu = Menu;
+	let items = Menu;
 </script>
 
 <svelte:head>
@@ -35,28 +36,16 @@
 
 <main id="body">
 	<div
-		class="flex h-screen bg-slate-100 overflow-hidden dark:bg-gray-900"
+		class="flex h-screen bg-slate-100 overflow-hidden dark:bg-black"
 		class:overflow-hidden={$isSideMenuOpen}
 	>
-		<aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative">
-			<Sidebar>
-				<ul class="mt-3 ml-0 pl-0">
-					{#each sideMenu as item}
-						<div
-							class="px-5 py-3 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-						>
-							<a href={item.url}>
-								<div class="flex flex-cols-2 items-center gap-5 text-gray-500 hover:text-teal-600">
-									<Icon path={item.svg} size="20" />
-									<span>{item.name}</span>
-								</div>
-							</a>
-						</div>
-					{/each}
-				</ul>
-			</Sidebar>
-		</aside>
-		{#if $isSideMenuOpen}
+		<!-- <aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative"> -->
+		<div class="flex ">
+			<MiniSide item={items} />
+			<SideBar item={items} />
+		</div>
+		<!-- </aside> -->
+		<!-- {#if $isSideMenuOpen}
 			<aside
 				class="fixed inset-y-0 z-20 flex-shrink-0"
 				use:clickOutside={['nav-mobile-hamburger']}
@@ -90,7 +79,7 @@
 					</div>
 				</div>
 			</aside>
-		{/if}
+		{/if} -->
 		<div class="w-full">
 			<slot />
 		</div>

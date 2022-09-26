@@ -1,7 +1,6 @@
 <script lang="ts">
 	// @ts-nocheck
-	import { Icon } from 'svelte-materialify';
-	import { mdiContentSave } from '@mdi/js';
+	import { mdiContentSave, mdiAlertRhombus, mdiCheckCircle, mdiAlert } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -9,6 +8,7 @@
 	import Card from '@smui/card';
 	import Textfield from '@smui/textfield';
 	import Button from '$components/Button.svelte';
+	import { Dialog, Snackbar, Icon } from 'svelte-materialify';
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
 		{ text: 'Update', href: '#' }
@@ -17,7 +17,13 @@
 		id: '',
 		nama: ''
 	};
-	let snackbar = false;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let active;
+	let responseMessage = '';
+	function onClose() {
+		active = false;
+	}
 	onMount(() => {
 		getFetchSiswa(`${variables.basePath}/jurusan/list/${$page.params.id}`).then((res) => {
 			data = res;
@@ -30,6 +36,8 @@
 		});
 	}
 	async function handleSubmit() {
+		console.log('return');
+
 		const response = await fetch(`${variables.basePath}/jurusan/update/${$page.params.id}`, {
 			method: 'PUT',
 			credentials: 'same-origin',
@@ -39,9 +47,17 @@
 			}
 		});
 
+		let message = await response.json();
 		if (response.status === 200 || response.status === 201) {
-			snackbar = true;
-			window.location.href = '/admin/jurusan';
+			responseMessage = message.message;
+			onClose();
+			snackbarSuccess = true;
+			setTimeout(() => {
+				window.location.href = '/admin/jurusan';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = false;
 		}
 		// what do you do with a non-redirect?
 	}
@@ -67,12 +83,50 @@
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button type="save" click={() => handleSubmit()}>
+				<!-- <Button primary submite={() => handleSubmit()}>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
 						save
 					</div>
+				</Button> -->
+				<Button primary submite={() => (active = true)}>
+					<div class="flex flex-span-1 gap-3 items-center">
+						<Icon path={mdiContentSave} />
+						Simpan
+					</div>
 				</Button>
+				<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+					<div class="py-2">
+						<Icon path={mdiAlert} size={25} />
+					</div>
+					<div class="font-bold text-base">Simpan perubahan?</div>
+					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+						<Button primary submite={() => handleSubmit()}>Simpan</Button>
+						<Button secondary submite={() => onClose()}>Kembali</Button>
+					</div>
+				</Dialog>
+				<Snackbar
+					class="bg-white text-green-500 gap-5 text-base flex-column"
+					bind:active={snackbarSuccess}
+					top
+					center
+					timeout={3000}
+				>
+					<span class=" flex py-2 gap-5 items-center justify-around"
+						><Icon path={mdiCheckCircle} size={25} />
+						Data berhasil di perbarui</span
+					>
+				</Snackbar>
+				<Snackbar
+					class="flex-column bg-white text-red-500 gap-5 text-base "
+					bind:active={snackbarError}
+					top
+					center
+					timeout={3000}
+				>
+					<Icon path={mdiAlert} size={25} />
+					Data tidak dapat di perbarui
+				</Snackbar>
 			</div>
 		</div>
 	</div>
