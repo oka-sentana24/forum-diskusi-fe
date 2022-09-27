@@ -30,6 +30,8 @@
 	let isGlobalChat = true;
 
 	async function fetchMessages() {
+		console.log('_layout fetchMessages()');
+
 		// let { data: messages } = await supabase
 		// 	.from('Message')
 		// 	.select('*')

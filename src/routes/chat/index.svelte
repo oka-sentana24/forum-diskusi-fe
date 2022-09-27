@@ -117,6 +117,7 @@
 
 		const data = await response.json();
 		console.log('data', data);
+		open = false;
 	}
 
 	function clearModal() {
@@ -259,7 +260,13 @@
 								{#each chatMessages as message}
 									{#if message.penggunaId === authPenggunaId}
 										{#if message.imageUrl}
-											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+											<img
+												class="self-end mb-2"
+												src={message.imageUrl}
+												alt=""
+												crossorigin
+												style="max-width: 300px"
+											/>
 										{:else}
 											<div
 												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
@@ -269,7 +276,13 @@
 										{/if}
 									{:else if message.penggunaId !== authPenggunaId}
 										{#if message.imageUrl}
-											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+											<img
+												class="self-start mb-2"
+												src={message.imageUrl}
+												alt=""
+												crossorigin
+												style="max-width: 300px"
+											/>
 										{:else}
 											<div
 												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
