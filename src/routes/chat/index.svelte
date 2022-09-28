@@ -69,6 +69,7 @@
 		const messageData = {
 			penggunaId: authPenggunaId,
 			roomId: currentRoomId,
+			nama: localStorage.getItem('namaSiswa'),
 			text: text
 		};
 
@@ -260,18 +261,23 @@
 								{#each chatMessages as message}
 									{#if message.penggunaId === authPenggunaId}
 										{#if message.imageUrl}
-											<img
-												class="self-end mb-2"
-												src={message.imageUrl}
-												alt=""
-												crossorigin
-												style="max-width: 300px"
-											/>
+											<div>
+												<span>{message.nama}</span>
+												<img
+													class="self-end mb-2"
+													src={message.imageUrl}
+													alt=""
+													crossorigin
+													style="max-width: 300px"
+												/>
+											</div>
 										{:else}
 											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
 											>
+												<div class="text-xs mb-2 font-italic">You</div>
 												{message.text}
+												<div class="text-xs text-gray-500 self-end mt-2">{message.createdAt}</div>
 											</div>
 										{/if}
 									{:else if message.penggunaId !== authPenggunaId}
@@ -287,7 +293,9 @@
 											<div
 												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
 											>
+												<div class="text-xs mb-2 font-italic">{message.nama}</div>
 												{message.text}
+												<div class="text-xs text-gray-500 self-end mt-2">{message.createdAt}</div>
 											</div>
 										{/if}
 									{/if}

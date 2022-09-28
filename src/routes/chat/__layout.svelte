@@ -52,6 +52,8 @@
 
 		const siswa = listSiswa[0];
 
+		localStorage.setItem('namaSiswa', siswa.nama);
+
 		console.log('siswa', siswa);
 
 		const { data: listMataPelajaran } = await supabase
