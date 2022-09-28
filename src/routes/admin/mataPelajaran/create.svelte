@@ -1,37 +1,55 @@
 <script lang="ts">
 	// @ts-nocheck
 	import { Icon } from 'svelte-materialify';
-	import { mdiContentSave, mdiAlertRhombus, mdiCheckCircle, mdiAlert } from '@mdi/js';
+	import { mdiContentSave, mdiAlertRhombus, mdiAlert, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { variables } from '$lib/variables';
 	import Textfield from '@smui/textfield';
-	import Card from '$components/Card.svelte';
-	import { Dialog, Snackbar } from 'svelte-materialify';
+	import Card from '@smui/card/src/Card.svelte';
+	import { Snackbar } from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
 	import HelperText from '@smui/textfield/helper-text';
+	import Select, { Option } from '@smui/select';
+	import { onMount } from 'svelte';
+	import { Dialog, Snackbar } from 'svelte-materialify';
 
-	export let items = [
-		{ text: 'Jurusan', href: '/admin/jurusan' },
+	export let item = [
+		{ text: 'Mata Pelajaran', href: '/admin/kelas' },
 		{ text: 'Create', href: '#' }
 	];
 
 	let data = {
-		nama: ''
+		nama: '',
+		kelasId: ''
 	};
+	let fetchKelas = [];
 	let validationText = /^(?=.{3,50}$)[^\W_]+(?: [^\W_]+)*$/;
-	let snackbarSuccess: boolean = false;
-	let snackbarError: boolean = false;
 	let isLoading = false;
 	let dirty = false;
 	let errorNama = false;
-	let active;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
 	let responseMessage = '';
+	let active;
 
 	function onClose() {
 		active = false;
 	}
+
+	onMount(() => {
+		getFetchKelasMataPelajaran(`${variables.basePath}/kelas/list`).then((res) => {
+			fetchKelas = res;
+			console.log('fetchJurusan:', fetchKelas);
+		});
+	});
+	async function getFetchKelasMataPelajaran(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
+
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/jurusan`, {
+		const response = await fetch(`${variables.basePath}/mata-pelajaran`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -39,7 +57,6 @@
 				'Content-Type': 'application/json'
 			}
 		});
-
 		let message = await response.json();
 		if (response.status === 200 || response.status === 201) {
 			isLoading = true;
@@ -47,7 +64,7 @@
 			onClose();
 			snackbarSuccess = true;
 			setTimeout(() => {
-				window.location.href = '/admin/jurusan';
+				window.location.href = '/admin/mataPelajaran';
 			}, 1000);
 		} else {
 			responseMessage = message.message;
@@ -56,11 +73,11 @@
 	}
 </script>
 
-<Header {items}>Create Jurusan</Header>
+<Header items={item}>Create Mata Pelajaran</Header>
 <main class="overflow-auto h-screen">
 	<div class="m-5 relative">
 		<div class="absolute w-full">
-			<Card fieldCard>
+			<Card>
 				<div class="p-5">
 					<!-- <Title text="Create Jurusan" /> -->
 					<div class="w-full">
@@ -70,7 +87,7 @@
 								variant="filled"
 								bind:dirty
 								bind:value={data.nama}
-								label="Jurusan"
+								label="Nama"
 								bind:invalid={errorNama}
 								updateInvalid
 								required
@@ -96,6 +113,17 @@
 								</svelte:fragment>
 							</Textfield>
 						</div>
+						<div class="relative py-3">
+							<Select variant="filled" label="Kelas" bind:value={data.kelasId} class="w-full">
+								<Option value="" />
+								{#each fetchKelas as items}
+									<Option value={items.id}
+										><span class="flex gap-5">{items.nama} ({items.grade})</span></Option
+									>
+								{/each}
+								<Option />
+							</Select>
+						</div>
 					</div>
 				</div>
 			</Card>
@@ -103,7 +131,7 @@
 				<Button
 					primary
 					submite={() => (active = true)}
-					disabled={data.nama === '' || !data.nama.match(validationText)}
+					disabled={data.nama === '' || data.grade === '' || !data.nama.match(validationText)}
 				>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />

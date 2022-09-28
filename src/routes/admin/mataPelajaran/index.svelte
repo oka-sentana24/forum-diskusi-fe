@@ -11,13 +11,14 @@
 	import { onMount } from 'svelte';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
 	/* Interfaces */
-	type Jurusan = {
+	type MataPelajaran = {
 		id: number;
 		nama: string;
+		kelasId: string;
 	};
 	/* Variable */
-	let items: Jurusan[] = [];
-	let data = [{ text: 'Jurusan', href: '#' }];
+	let items: MataPelajaran[] = [];
+	let data = [{ text: 'MataPelajaran', href: '#' }];
 	let columns = ['No', 'Nama'];
 	let isOpenFilter = false;
 	let isloading = false;
@@ -33,7 +34,7 @@
 	onMount(async () => {
 		try {
 			isloading = true;
-			const res = await fetch(`${variables.basePath}/jurusan/list`);
+			const res = await fetch(`${variables.basePath}/mata-pelajaran/list`);
 			const data = await res.json();
 			items = data;
 			console.log('getData', items);
@@ -43,14 +44,14 @@
 			console.log('no data');
 		}
 
-		var url = new URL(`${variables.basePath}/jurusan/list?nama`),
+		var url = new URL(`${variables.basePath}/mata-pelajaran/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
 	});
 	async function searchSiswa(nama) {
 		// bind ke on:submit
-		let response = await fetch(`${variables.basePath}/jurusan/list?nama=${nama}`);
+		let response = await fetch(`${variables.basePath}/mata-pelajaran/list?nama=${nama}`);
 		const data = await response.json();
 		items = data;
 	}
@@ -96,7 +97,7 @@
 				</div>
 			</div>
 			<div>
-				<a href="/admin/jurusan/create">
+				<a href="/admin/mataPelajaran/create">
 					<Button primary>
 						<div class="items-center flex justify-center gap-2">
 							Create <Icon path={mdiPlus} size="15px" />

@@ -14,17 +14,17 @@ export const Menu = [
 		svg: mdiChartBar
 	},
 	{
-		name: 'Student',
+		name: 'Siswa',
 		url: '/admin/siswa',
 		svg: mdiAccountSchool
 	},
 	{
-		name: 'Teacher',
+		name: 'Guru',
 		url: '/admin/guru',
 		svg: mdiHumanMaleBoardPoll
 	},
 	{
-		name: 'Class',
+		name: 'Kelas',
 		url: '/admin/kelas',
 		svg: mdiGoogleClassroom
 	},
@@ -34,7 +34,12 @@ export const Menu = [
 		svg: mdiGraph
 	},
 	{
-		name: 'User',
+		name: 'Mata Pelajaran',
+		url: '/admin/mataPelajaran',
+		svg: mdiGraph
+	},
+	{
+		name: 'Pengguna',
 		url: '/admin/users',
 		svg: mdiAccount
 	}

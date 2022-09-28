@@ -1,7 +1,7 @@
 <script>
-	import { spring } from 'svelte/motion';
+	// @ts-nocheck
 	import BurgerMenu from './Hamburger.svelte';
-	import { Avatar, Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
+	import { Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
 	import {
 		isDark,
 		isNotificationsMenuOpen,
@@ -16,15 +16,14 @@
 	import { clickOutside } from '$lib/ioevents/click';
 	import { keydownEscape } from '$lib/ioevents/keydown';
 	import { fly } from 'svelte/transition';
-	import { mdiHome, mdiCog, mdiChevronUp, mdiLogout } from '@mdi/js';
+	import { mdiHome, mdiCog, mdiChevronUp, mdiLogout, mdiAccountCircleOutline } from '@mdi/js';
 	let active = false;
 	export let items;
 </script>
 
-<div class="bg-white border-b border-gray-300 w-full h-20 dark:bg-gray-800 dark:border-gray-600">
-	<div class="flex flex-cols-2 items-center justify-between p-5">
+<div class="bg-transparent border-b border-gray-300 w-full h-28 dark:bg-black dark:border-gray-600">
+	<div class="h-[40px] flex items-center justify-between p-5">
 		<div class="flex flex-cols-2 items-center justify-center gap-5">
-			<!-- Mobile Burger -->
 			<div class="md:hidden">
 				<BurgerMenu />
 			</div>
@@ -41,7 +40,6 @@
 			</div>
 		</div>
 		<div>
-			<!-- profile -->
 			<button
 				id="nav-profile-photo"
 				class="align-middle rounded-full focus:shadow-outline-purple focus:outline-none"
@@ -53,7 +51,7 @@
 			>
 				<List class="p-0">
 					<div class="flex gap-3 items-center">
-						<Avatar size="35px"><img src="//picsum.photos/100?random=1" alt="Avatar" /></Avatar>
+						<Icon path={mdiAccountCircleOutline} />
 						<span>John Doe</span>
 					</div>
 				</List>
@@ -66,9 +64,9 @@
 					on:keydown-escape={closeProfileMenu}
 					aria-label="submenu"
 				>
-					<div class="absolute right-5 top-[83px] z-10" transition:fly={{ y: -10, duration: 500 }}>
+					<div class="absolute right-5 top-[40px] z-10" transition:fly={{ y: -10, duration: 500 }}>
 						<Card style="background:white">
-							<List class="text-gray-600" style="width:350px">
+							<List class="text-gray-600" style="width:200px">
 								<ListItem>
 									<span slot="prepend">
 										<Icon path={mdiHome} />
@@ -135,4 +133,6 @@
 			{/if}
 		</div>
 	</div>
+
+	<div class="text-4xl px-5 text-gray-600 dark:text-white font-bold py-2"><slot /></div>
 </div>

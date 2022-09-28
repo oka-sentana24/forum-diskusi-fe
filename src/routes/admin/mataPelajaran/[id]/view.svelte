@@ -23,7 +23,7 @@
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`${variables.basePath}/jurusan/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/mataPelajaran/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -35,7 +35,7 @@
 	}
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/jurusan/delete/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/mataPelajaran/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -58,7 +58,7 @@
 	}
 </script>
 
-<Header {items}>View Jurusan</Header>
+<Header {items}>View Mata Pelajaran</Header>
 <main>
 	<div class="m-5 relative">
 		<div class="flex justify-end py-5 gap-2 items-center">

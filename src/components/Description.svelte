@@ -4,5 +4,5 @@
 
 <span class="font-normal leading-5">
 	{text}
-	<span class="text-indigo-500"><slot /></span>
+	<span class="text-teal-500"><slot /></span>
 </span>

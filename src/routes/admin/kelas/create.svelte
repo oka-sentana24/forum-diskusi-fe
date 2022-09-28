@@ -1,23 +1,58 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
-	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import { Icon } from 'svelte-materialify';
+	import { mdiContentSave, mdiAlertRhombus, mdiAlert, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
-	import variables from '$src/variables';
+	import { variables } from '$lib/variables';
+	import Textfield from '@smui/textfield';
+	import Card from '@smui/card/src/Card.svelte';
+	import { Snackbar } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	import HelperText from '@smui/textfield/helper-text';
+	import Select, { Option } from '@smui/select';
+	import { onMount } from 'svelte';
+	import { Dialog, Snackbar } from 'svelte-materialify';
 
-	export let items = [
+	export let item = [
 		{ text: 'Kelas', href: '/admin/kelas' },
 		{ text: 'Create', href: '#' }
 	];
 
+	const grade = [{ text: 'X' }, { text: 'XI' }, { text: 'XII' }];
+
 	let data = {
 		nama: '',
-		grade: ''
+		grade: '',
+		jurusanId: ''
 	};
-	let snackbar = false;
+	let fetchJurusan = [];
+	let validationText = /^(?=.{3,50}$)[^\W_]+(?: [^\W_]+)*$/;
+	let isLoading = false;
+	let dirty = false;
+	let errorNama = false;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let responseMessage = '';
+	let active;
+
+	function onClose() {
+		active = false;
+	}
+
+	onMount(() => {
+		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
+			fetchJurusan = res;
+			console.log('fetchJurusan:', fetchJurusan);
+		});
+	});
+	async function getFetchJurusan(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.baseUrl}/kelas`, {
+		const response = await fetch(`${variables.basePath}/kelas`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -25,52 +60,125 @@
 				'Content-Type': 'application/json'
 			}
 		});
-
+		let message = await response.json();
 		if (response.status === 200 || response.status === 201) {
-			snackbar = true;
-			window.location.href = '/admin/kelas';
+			isLoading = true;
+			responseMessage = message.message;
+			onClose();
+			snackbarSuccess = true;
+			setTimeout(() => {
+				window.location.href = '/admin/kelas';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = false;
 		}
 	}
 </script>
 
-<Header {items} />
-<main class=" overflow-auto h-screen">
+<Header items={item}>Create Kelas</Header>
+<main class="overflow-auto h-screen">
 	<div class="m-5 relative">
-		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="bg-white shadow-none dark:bg-gray-800">
+			<Card>
 				<div class="p-5">
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
-							<div class="relative py-4">
-								<TextField dense filled bind:value={data.nama}>Nama</TextField>
-							</div>
-							<div class="relative py-4">
-								<TextField dense filled bind:value={data.grade}>Grade</TextField>
-							</div>
+					<!-- <Title text="Create Jurusan" /> -->
+					<div class="w-full">
+						<div class="relative py-3">
+							<Textfield
+								type="text"
+								variant="filled"
+								bind:dirty
+								bind:value={data.nama}
+								label="Nama"
+								bind:invalid={errorNama}
+								updateInvalid
+								required
+							>
+								<svelte:fragment slot="helper">
+									{#if data.nama === ''}
+										<HelperText validationMsg slot="helper">
+											<span class="absolute flex flex-span-2 items-center gap-2">
+												<Icon path={mdiAlertRhombus} size="15" />
+												This field is required.
+											</span>
+										</HelperText>
+									{:else if !data.nama.match(validationText)}
+										<HelperText validationMsg slot="helper">
+											<span class="absolute flex flex-span-2 items-center gap-2">
+												<Icon path={mdiAlertRhombus} size="15" />
+												cannot space in front text
+											</span>
+										</HelperText>
+									{:else}
+										<HelperText slot="helper" />
+									{/if}
+								</svelte:fragment>
+							</Textfield>
+						</div>
+						<div class="relative py-3">
+							<Select variant="filled" label="Grade" bind:value={data.grade} class="w-full">
+								<Option value="" />
+								{#each grade as items}
+									<Option value={items.text}>{items.text}</Option>
+								{/each}
+								<Option />
+							</Select>
+						</div>
+						<div class="relative py-3">
+							<Select variant="filled" label="Jurusan" bind:value={data.jurusanId} class="w-full">
+								<Option value="" />
+								{#each fetchJurusan as items}
+									<Option value={items.id}>{items.nama}</Option>
+								{/each}
+								<Option />
+							</Select>
 						</div>
 					</div>
-				</div></Card
-			>
+				</div>
+			</Card>
 			<div class="flex justify-end py-5">
 				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
+					primary
+					submite={() => (active = true)}
+					disabled={data.nama === '' || data.grade === '' || !data.nama.match(validationText)}
 				>
-					<div class="flex items-center gap-2 text-white">
+					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						<span class="normal-case">Save</span>
+						Simpan
 					</div>
 				</Button>
+				<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+					<div class="py-2">
+						<Icon path={mdiAlert} size={25} />
+					</div>
+					<div class="font-bold text-base">Simpan perubahan?</div>
+					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+						<Button primary submite={() => handleSubmit()}>Simpan</Button>
+						<Button secondary submite={() => onClose()}>Kembali</Button>
+					</div>
+				</Dialog>
 				<Snackbar
-					class="flex-column bg-teal-700"
-					bind:active={snackbar}
-					bottom
+					class="bg-white text-green-500 gap-5 text-base flex-column"
+					bind:active={snackbarSuccess}
+					top
 					center
 					timeout={3000}
 				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
+					<span class=" flex py-2 gap-5 items-center justify-around"
+						><Icon path={mdiCheckCircle} size={25} />
+						{responseMessage}</span
+					>
+				</Snackbar>
+				<Snackbar
+					class="flex-column bg-white text-red-500 gap-5 text-base "
+					bind:active={snackbarError}
+					top
+					center
+					timeout={3000}
+				>
+					<Icon path={mdiAlert} size={25} />
+					{responseMessage}
 				</Snackbar>
 			</div>
 		</div>
