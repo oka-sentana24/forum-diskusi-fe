@@ -34,6 +34,11 @@ export const Menu = [
 		svg: mdiGraph
 	},
 	{
+		name: 'Mata Pelajaran',
+		url: '/admin/mataPelajaran',
+		svg: mdiGraph
+	},
+	{
 		name: 'Pengguna',
 		url: '/admin/users',
 		svg: mdiAccount
