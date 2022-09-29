@@ -167,7 +167,7 @@
 				>
 					<span class=" flex py-2 gap-5 items-center justify-around"
 						><Icon path={mdiCheckCircle} size={25} />
-						{responseMessage}</span
+						Data Berhasil disimpan</span
 					>
 				</Snackbar>
 				<Snackbar
@@ -178,7 +178,7 @@
 					timeout={3000}
 				>
 					<Icon path={mdiAlert} size={25} />
-					{responseMessage}
+					Gagal menyimpan data
 				</Snackbar>
 			</div>
 		</div>

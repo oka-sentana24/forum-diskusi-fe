@@ -19,11 +19,11 @@
 	let responseMessage = '';
 
 	export let items = [
-		{ text: 'Jurusan', href: '/admin/jurusan' },
+		{ text: 'Mata Pelajaran', href: '/admin/mataPelajaran' },
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`${variables.basePath}/mataPelajaran/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/mata-pelajaran/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -35,7 +35,7 @@
 	}
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/mataPelajaran/delete/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/mata-pelajaran/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -62,7 +62,7 @@
 <main>
 	<div class="m-5 relative">
 		<div class="flex justify-end py-5 gap-2 items-center">
-			<a href="/admin/jurusan/{id}/update">
+			<a href="/admin/mataPelajaran/{id}/update">
 				<Button primary>
 					<Icon path={mdiAccountEdit} size="24px" />
 					Edit

@@ -1,15 +1,30 @@
 <script lang="ts">
-	import { Card, Button, Icon, Snackbar } from 'svelte-materialify';
-	import { page } from '$app/stores';
-	import { mdiAccountEdit, mdiCheckCircle } from '@mdi/js';
-	import Header from '$components/Header.svelte';
+	// @ts-nocheck
+	/* module */
 	import { variables } from '$lib/variables';
-	let id, nama, grade;
+	import { page } from '$app/stores';
+	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
+	import Header from '$components/Header.svelte';
+	import Card from '@smui/card';
+	import { Icon } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	import { Dialog, Snackbar } from 'svelte-materialify';
+	import { onMount } from 'svelte';
+	import { each } from 'svelte/internal';
+
+	let id = '';
+	let nama = '';
+	let grade = '';
+	let jurusan = '';
+	let active;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let responseMessage = '';
+
 	export let items = [
 		{ text: 'Kelas', href: '/admin/kelas' },
 		{ text: 'View', href: '#' }
 	];
-	let snackbar = false;
 	// @ts-ignore
 	fetch(`${variables.basePath}/kelas/list/${$page.params.id}`)
 		.then((resp) => resp.json())
@@ -17,9 +32,27 @@
 			id = res.id;
 			nama = res.nama;
 			grade = res.grade;
+			jurusan = res.jurusanId.nama;
 		});
+
+	function onClose() {
+		active = false;
+	}
+
+	onMount(() => {
+		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
+			fetchJurusan = res;
+			console.log('fetchJurusan:', fetchJurusan);
+		});
+	});
+	async function getFetchJurusan(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
+
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/kelas/list/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/kelas/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -27,40 +60,66 @@
 			}
 		});
 
+		let message = await response.json();
 		if (response.status === 200) {
-			snackbar = true;
-			window.location.href = '/admin/kelas';
+			onClose();
+			snackbarSuccess = true;
+			setTimeout(() => {
+				window.location.href = '/admin/jurusan';
+			}, 1000);
+			console.log(response.status);
+		} else {
+			responseMessage = message.message;
+			snackbarError = false;
 		}
 	}
 </script>
 
-<Header {items} />
+<Header {items}>View Kelas</Header>
 <main>
 	<div class="m-5 relative">
-		<!-- create and filter -->
 		<div class="flex justify-end py-5 gap-2 items-center">
 			<a href="/admin/kelas/{id}/update">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				>
-					<div class="normal-case text-sm text-white flex items-center gap-1">
-						<Icon path={mdiAccountEdit} size="20px" />
-						<span> Update </span>
-					</div>
+				<Button primary>
+					<Icon path={mdiAccountEdit} size="24px" />
+					Edit
 				</Button>
 			</a>
-			<Button
-				class="bg-red-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				on:click={() => handleSubmit()}
-			>
-				<div class="normal-case text-sm text-white flex items-center gap-1">
-					<Icon path={mdiAccountEdit} size="20px" />
-					<span> Delete </span>
-				</div>
+			<Button danger submite={() => (active = true)}>
+				<Icon path={mdiDelete} size="24px" />
+				Hapus
 			</Button>
-			<Snackbar class="flex-column bg-teal-700" bind:active={snackbar} bottom center timeout={3000}>
-				<Icon path={mdiCheckCircle} />
-				<span class="mt-1 font-semibold"> Delete Success </span>
+			<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+				<div class="py-2">
+					<Icon path={mdiAlert} size={25} />
+				</div>
+				<div class="font-bold text-base">Apakah anda yakin ingin menghapus data ini?</div>
+				<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+					<Button danger submite={() => handleSubmit()}>Hapus</Button>
+					<Button secondary submite={() => onClose()}>Kembali</Button>
+				</div>
+			</Dialog>
+			<Snackbar
+				class="bg-white text-green-500 gap-5 text-base flex-column"
+				bind:active={snackbarSuccess}
+				top
+				center
+				timeout={3000}
+			>
+				<span class=" flex py-2 gap-5 items-center justify-around"
+					><Icon path={mdiCheckCircle} size={25} />
+					Data berhasil di hapus</span
+				>
+			</Snackbar>
+			<Snackbar
+				class="flex-column bg-white text-red-500 gap-5 text-base "
+				bind:active={snackbarError}
+				top
+				center
+				timeout={3000}
+			>
+				<Icon path={mdiAlert} size={25} />
+				{responseMessage}
 			</Snackbar>
 		</div>
 		<!-- data table -->
@@ -80,6 +139,12 @@
 						<div class="pb-2">
 							{grade}
 						</div>
+						<!-- <label for="" class="text-xs text-gray-400 dark:text-gray-300">Jurusan</label>
+						<div class="pb-2">
+							{#each fetchJurusan as items}
+								{items.jurusanId.nama}
+							{/each}
+						</div> -->
 					</div>
 				</div>
 			</Card>

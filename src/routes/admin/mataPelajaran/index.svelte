@@ -132,7 +132,7 @@
 								{index + 1}
 							</Cell>
 							<Cell>
-								<a href="/admin/jurusan/{item.id}/view" class="text-teal-500">
+								<a href="/admin/mataPelajaran/{item.id}/view" class="text-teal-500">
 									{item.nama}
 								</a>
 							</Cell>

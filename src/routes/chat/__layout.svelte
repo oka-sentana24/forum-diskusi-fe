@@ -140,7 +140,7 @@
 				</div>
 			</Sidebar>
 		</aside>
-		{#if $isSideMenuOpen}
+		<!-- {#if $isSideMenuOpen}
 			<aside
 				class="fixed inset-y-0 z-20 flex-shrink-0"
 				use:clickOutside={['nav-mobile-hamburger']}
@@ -200,7 +200,7 @@
 					</div>
 				</div>
 			</aside>
-		{/if}
+		{/if} -->
 		<div class="w-full">
 			<Header items={data} />
 			<slot />
