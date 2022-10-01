@@ -4,6 +4,7 @@
 	export let danger: boolean | null;
 	export let close: boolean | null;
 	export let disabled: boolean | null;
+	export let submite;
 </script>
 
 <button
@@ -14,6 +15,7 @@
 	${danger && 'bg-red-600 hover:bg-red-700'}
 	${close && 'bg-transparent hover:bg-slate-500'}
 	${disabled && 'bg-slate-500 hover:bg-slate-500 text-slate-600'}`}
+	on:click={submite}
 >
 	<slot />
 </button>

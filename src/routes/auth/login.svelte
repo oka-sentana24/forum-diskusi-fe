@@ -61,80 +61,85 @@
 </script>
 
 <main>
-	<Textfield
-		type="text"
-		variant="filled"
-		bind:dirty
-		input$maxlength="10"
-		bind:value={fields.username}
-		label="Nip/Nim"
-		input$pattern={'^[0-9]+$'}
-		bind:invalid={errorUsername}
-		updateInvalid
-		required
-	>
-		<svelte:fragment slot="helper">
-			{#if fields.username === ''}
-				<HelperText validationMsg slot="helper">
-					<span class="flex flex-span-2 items-center gap-2">
-						<Icon path={mdiAlertRhombus} size="15" />
-						This field is required.
-					</span>
-				</HelperText>
-			{:else}
-				<HelperText slot="helper" class="py-2" />
-			{/if}
-		</svelte:fragment>
-	</Textfield>
-	<Textfield
-		type={showPassword ? 'text' : 'password'}
-		variant="filled"
-		bind:dirty
-		input$maxlength="10"
-		bind:value={fields.password}
-		label="Password"
-		input$pattern={'^[0-9]+$'}
-		bind:invalid={errorPassword}
-		updateInvalid
-		required
-	>
-		<IconButton
-			class="relative bottom-[1.2rem]"
-			slot="trailingIcon"
-			on:click={() => (showPassword = !showPassword)}
+	<div class="mb-3">
+		<Textfield
+			type="text"
+			variant="filled"
+			bind:dirty
+			input$maxlength="10"
+			bind:value={fields.username}
+			label="Nip/Nim"
+			input$pattern={'^[0-9]+$'}
+			bind:invalid={errorUsername}
+			updateInvalid
+			required
 		>
-			<div class="flex items-center">
-				<Icon path={showPassword ? mdiEye : mdiEyeOff} />
-			</div>
-		</IconButton>
-		<svelte:fragment slot="helper">
-			{#if fields.password === ''}
-				<HelperText slot="helper">
-					<span class="flex flex-span-2 items-center gap-2">
-						<Icon path={mdiAlertRhombus} size="15" />
-						This field is required.
-					</span>
-				</HelperText>
-			{:else}
-				<HelperText slot="helper" class="py-2" />
-			{/if}
-		</svelte:fragment>
-	</Textfield>
+			<svelte:fragment slot="helper">
+				{#if fields.username === ''}
+					<HelperText validationMsg slot="helper">
+						<span class="absolute flex flex-span-2 items-center gap-2">
+							<Icon path={mdiAlertRhombus} size="15" />
+							This field is required.
+						</span>
+					</HelperText>
+				{:else}
+					<HelperText slot="helper" />
+				{/if}
+			</svelte:fragment>
+		</Textfield>
+	</div>
+	<div class="mb-3">
+		<Textfield
+			type={showPassword ? 'text' : 'password'}
+			variant="filled"
+			bind:dirty
+			input$maxlength="10"
+			bind:value={fields.password}
+			label="Password"
+			input$pattern={'^[0-9]+$'}
+			bind:invalid={errorPassword}
+			updateInvalid
+			required
+		>
+			<IconButton
+				class="relative bottom-[12px]"
+				slot="trailingIcon"
+				on:click={() => (showPassword = !showPassword)}
+			>
+				<div class="flex items-center">
+					<Icon path={showPassword ? mdiEye : mdiEyeOff} />
+				</div>
+			</IconButton>
+			<svelte:fragment slot="helper">
+				{#if fields.password === ''}
+					<HelperText validationMsg slot="helper">
+						<span class="absolute flex flex-span-2 items-center gap-2">
+							<Icon path={mdiAlertRhombus} size="15" />
+							This field is required.
+						</span>
+					</HelperText>
+				{:else}
+					<HelperText slot="helper" />
+				{/if}
+			</svelte:fragment>
+		</Textfield>
+	</div>
 	{#if errorMessage}
 		<div class="flex flex-span-2 items-center gap-2 text-red-500 text-sm">
 			<Icon path={mdiAlertRhombus} size="15" />
 			{errorMessage}
 		</div>
 	{/if}
-	<div class="font-normal text-indigo-500 py-2">Forgot password?</div>
-	<FormField class="flex gap-1 mt-4">
+	<div class="font-normal text-teal-500 py-2">Forgot password?</div>
+	<!-- <FormField class="flex gap-1">
 		<Checkbox bind:rememberMe />
 		<span slot="label">Remember me.</span>
-	</FormField>
+	</FormField> -->
 	<div class="mt-4">
 		<Button
 			primary
-			click={() => formSubmit()}
+			fullWidth
+			submite={() => formSubmit()}
 			disabled={isSubmitting || fields.username === '' || fields.password === ''}
 		>
 			{isSubmitting ? 'loading...' : 'Sign In'}
