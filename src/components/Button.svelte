@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	export let type: string;
 	export let click;
 	export let disabled: boolean;
@@ -118,4 +118,21 @@
 	.filter:hover {
 		background-color: #475569;
 	}
-</style>
+</style> -->
+<script lang="ts">
+	export let primary: boolean | null;
+	export let secondary: boolean | null;
+	export let danger: boolean | null;
+	export let disabled: boolean | null;
+</script>
+
+<button
+	class={`w-full h-14 px-4 py-2 rounded-sm font-medium transition duration-300 ${
+		primary && 'bg-teal-600 hover:bg-teal-800'
+	}
+	${secondary && 'bg-blue-600 hover:bg-blue-700'}
+	${danger && 'bg-red-600 hover:bg-red-700'}
+	${disabled && 'bg-slate-500 hover:bg-slate-700 text-slate-800'}`}
+>
+	<slot />
+</button>
