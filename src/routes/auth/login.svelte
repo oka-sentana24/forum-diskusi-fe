@@ -133,7 +133,7 @@
 	</FormField>
 	<div class="mt-4">
 		<Button
-			type="primary"
+			primary
 			click={() => formSubmit()}
 			disabled={isSubmitting || fields.username === '' || fields.password === ''}
 		>
