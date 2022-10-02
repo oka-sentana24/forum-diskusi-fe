@@ -2,33 +2,20 @@
 	export let primary: boolean | null;
 	export let secondary: boolean | null;
 	export let danger: boolean | null;
-	export let fullWidth: boolean | null;
+	export let close: boolean | null;
 	export let disabled: boolean | null;
-	export let filter: boolean | null;
 	export let submite;
 </script>
 
 <button
-	class={`button
-	${primary && 'bg-teal-500 text-white'} 
-	${secondary && ' bg-transparent hover:bg-slate-200 text-black'} 
-	${danger && 'bg-red-500 text-white'}
-	${disabled && ` bg-gray-400 cursor-not-allowed text-black-800 shadow-lg opacity-99`}  
-	${fullWidth && `w-full`}
-	${filter && ' bg-slate-400'}`}
+	class={`w-full h-14 px-4 py-2 rounded-sm font-medium transition duration-300 ${
+		primary && 'bg-teal-600 hover:bg-teal-800 text-white'
+	}
+	${secondary && 'bg-blue-600 hover:bg-blue-700'}
+	${danger && 'bg-red-600 hover:bg-red-700'}
+	${close && 'bg-transparent hover:bg-slate-500'}
+	${disabled && 'bg-slate-500 hover:bg-slate-500 text-slate-600'}`}
 	on:click={submite}
 >
 	<slot />
 </button>
-
-<style type="text/scss">
-	.button {
-		letter-spacing: 1px;
-		font-size: 14px;
-		cursor: pointer;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 113px;
-		height: 50px;
-	}
-</style>

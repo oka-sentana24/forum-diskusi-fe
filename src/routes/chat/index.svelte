@@ -9,6 +9,9 @@
 	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button from '$components/Button.svelte';
 	import Portal from 'svelte-portal';
+	import dayjs from 'dayjs';
+	import relativeTime from 'dayjs/plugin/relativeTime';
+	dayjs.extend(relativeTime);
 
 	let open = false;
 
@@ -49,6 +52,7 @@
 			.on('*', (payload) => {
 				console.log('payload recieved', payload);
 				chatMessages = [...chatMessages, payload.new];
+				window.scrollTo(0, document.body.scrollHeight);
 			})
 			.subscribe();
 	}
@@ -69,6 +73,7 @@
 		const messageData = {
 			penggunaId: authPenggunaId,
 			roomId: currentRoomId,
+			nama: localStorage.getItem('namaSiswa'),
 			text: text
 		};
 
@@ -105,6 +110,7 @@
 		formData.append('image', imageFiles[0]);
 		formData.append('penggunaId', authPenggunaId);
 		formData.append('roomId', currentRoomId);
+		formData.append('nama', localStorage.getItem('namaSiswa'));
 		formData.append('text', '-');
 
 		console.log(formData);
@@ -117,6 +123,7 @@
 
 		const data = await response.json();
 		console.log('data', data);
+		open = false;
 	}
 
 	function clearModal() {
@@ -259,22 +266,65 @@
 								{#each chatMessages as message}
 									{#if message.penggunaId === authPenggunaId}
 										{#if message.imageUrl}
-											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
+											>
+												<div class="text-xs mb-2 font-italic">You</div>
+												<img
+													class="self-end mb-2"
+													src={message.imageUrl}
+													alt=""
+													crossorigin
+													style="max-width: 300px"
+												/>
+												<div class="text-xs text-gray-500 self-end mt-2">
+													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+												</div>
+											</div>
 										{:else}
 											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2"
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
 											>
+												<div class="text-xs mb-2 font-italic">You</div>
 												{message.text}
+												<div class="text-xs text-gray-500 self-end mt-2">
+													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+												</div>
 											</div>
 										{/if}
 									{:else if message.penggunaId !== authPenggunaId}
 										{#if message.imageUrl}
-											<img src={message.imageUrl} alt="" crossorigin style="max-width: 300px" />
+											<!-- <img
+												class="self-start mb-2"
+												src={message.imageUrl}
+												alt=""
+												crossorigin
+												style="max-width: 300px"
+											/> -->
+											<div
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
+											>
+												<div class="text-xs mb-2 font-italic">{message.nama}</div>
+												<img
+													class="self-end mb-2"
+													src={message.imageUrl}
+													alt=""
+													crossorigin
+													style="max-width: 300px"
+												/>
+												<div class="text-xs text-gray-500 self-end mt-2">
+													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+												</div>
+											</div>
 										{:else}
 											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
+												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
 											>
+												<div class="text-xs mb-2 font-italic">{message.nama}</div>
 												{message.text}
+												<div class="text-xs text-gray-500 self-end mt-2">
+													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+												</div>
 											</div>
 										{/if}
 									{/if}

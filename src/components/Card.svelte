@@ -1,29 +1,13 @@
 <script lang="ts">
 	export let login: boolean | null;
-	export let miniCard: boolean | null;
 	export let sidebar: boolean | null;
-	export let fieldCard: boolean | null;
+	export let topHeader: boolean | null;
 </script>
 
 <div
-	class={`${login && 'w-[465px] p-8 bg-white tracking-normal-[0.9px]'} ${
-		miniCard &&
-		'w-[70px] flex flex-col items-center bg-white text-gray-700 border-r border-gray-300 shadow h-full dark:bg-gray-900 gap-2 dark:border-gray-600'
-	}
-	${
-		sidebar &&
-		'flex flex-col bg-white w-64 text-gray-700 border-r border-gray-300 h-full dark:bg-gray-900 gap-2 dark:border-gray-600'
-	}
-	${fieldCard && ' bg-white dark:bg-gray-900'}`}
+	class={`${login && 'w-[460px] h-[414px] bg-white p-8'} ${
+		sidebar && 'h-full w-[262px] bg-white border-r border-slate-300'
+	} ${topHeader && 'h-5 w-full bg-white  border-b border-slate-200'}`}
 >
 	<slot />
 </div>
-
-<style>
-	.login {
-		width: 465px;
-		padding: 30px;
-		letter-spacing: 0.9px;
-		background-color: white;
-	}
-</style>

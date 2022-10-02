@@ -2,6 +2,6 @@
 	export let text: string;
 </script>
 
-<h1 class="text-3xl font-bold leading-9 text-slate-800 py-2">
+<h1 class="text-3xl text-slate-800 font-bold mb-6">
 	{text}
 </h1>

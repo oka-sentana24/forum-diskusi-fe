@@ -30,6 +30,8 @@
 	let isGlobalChat = true;
 
 	async function fetchMessages() {
+		console.log('_layout fetchMessages()');
+
 		// let { data: messages } = await supabase
 		// 	.from('Message')
 		// 	.select('*')
@@ -49,6 +51,8 @@
 			.eq('penggunaId', listPengguna[0].id);
 
 		const siswa = listSiswa[0];
+
+		localStorage.setItem('namaSiswa', siswa.nama);
 
 		console.log('siswa', siswa);
 

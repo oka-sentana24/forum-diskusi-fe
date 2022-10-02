@@ -10,7 +10,6 @@
 	import Button from '$components/Button.svelte';
 	import { Dialog, Snackbar } from 'svelte-materialify';
 	import {} from '@mdi/js';
-
 	let id = '';
 	let nama = '';
 	let active;
