@@ -1,30 +1,64 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
 	import BurgerMenu from './Hamburger.svelte';
-	import { Breadcrumbs, Card, List, ListGroup, ListItem, Icon } from 'svelte-materialify';
-	import {
-		isDark,
-		isNotificationsMenuOpen,
-		isProfileMenuOpen,
-		toggleTheme,
-		toggleSideMenu,
-		toggleNotificationsMenu,
-		toggleProfileMenu,
-		closeNotificationsMenu,
-		closeProfileMenu
-	} from '$stores/menus';
-	import { clickOutside } from '$lib/ioevents/click';
-	import { keydownEscape } from '$lib/ioevents/keydown';
-	import { fly } from 'svelte/transition';
-	import { mdiHome, mdiCog, mdiChevronUp, mdiLogout, mdiAccountCircleOutline } from '@mdi/js';
-	let active = false;
+	import Card from '$components/Card.svelte';
+	import { Breadcrumbs, Icon } from 'svelte-materialify';
+	import { mdiAccountCircleOutline, mdiChevronDown, mdiChevronUp } from '@mdi/js';
+	let isProfileOpen: boolean;
 	export let items;
 </script>
 
-<div class="bg-transparent border-b border-gray-300 w-full h-28 dark:bg-black dark:border-gray-600">
-	<div class="h-[40px] flex items-center justify-between p-5">
-		<div class="flex flex-cols-2 items-center justify-center gap-5">
+<Card topHeader>
+	<div class="flex col-span-2 items-center justify-between h-20 px-5">
+		<div class=" flex gap-5 col-span-2 items-center justify-start">
 			<div class="md:hidden">
+				<!-- Burger Menu -->
+				<BurgerMenu />
+			</div>
+			<div>
+				<!-- Breadcrumb -->
+				<Breadcrumbs {items} let:item class="py-2 px-0">
+					{#if item.href}
+						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
+							<span class="text-gray-400">
+								{item.text}
+							</span>
+						</a>
+					{/if}
+				</Breadcrumbs>
+			</div>
+		</div>
+		<div class="col-span-2">
+			<!-- Profile Avatar -->
+			<div
+				class="col-span-2 items-center justify-start"
+				on:click={() => (isProfileOpen = !isProfileOpen)}
+			>
+				<Icon path={mdiAccountCircleOutline} size={32} />
+				<span class=" col-span-2">
+					Acme Inc
+					<Icon path={isProfileOpen ? mdiChevronUp : mdiChevronDown} size={20} />
+				</span>
+			</div>
+		</div>
+	</div>
+	{#if isProfileOpen}
+		<div class="flex justify-end px-5 pt-2 relative z-20">
+			<Card profile>
+				<div class="grid border-b border-slate-200">
+					<span class="text-bold text-slate-800 text-base">Acme Inc.</span>
+					<span class="text-sm pb-2 italic">User</span>
+				</div>
+				<div class="grid py-2">
+					<span class="text-bold text-teal-800 text-base leading-5 py-2">Pengaturan</span>
+					<span class="text-bold text-teal-800 text-base">Keluar</span>
+				</div>
+			</Card>
+		</div>
+	{/if}
+	<!-- <div class="h-[40px] flex items-center justify-between p-5">
+		<div class="flex flex-cols-2 items-center justify-center gap-5">
+			<div >
 				<BurgerMenu />
 			</div>
 			<div>
@@ -132,7 +166,7 @@
 				</div>
 			{/if}
 		</div>
-	</div>
+	</div> -->
 
 	<div class="text-4xl px-5 text-gray-600 dark:text-white font-bold py-2"><slot /></div>
-</div>
+</Card>
