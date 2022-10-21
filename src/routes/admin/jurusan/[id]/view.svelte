@@ -63,7 +63,7 @@
 	<div class="m-5 relative">
 		<div class="flex justify-end py-5 gap-2 items-center">
 			<a href="/admin/jurusan/{id}/update">
-				<Button primary>
+				<Button secondary>
 					<Icon path={mdiAccountEdit} size="24px" />
 					Edit
 				</Button>

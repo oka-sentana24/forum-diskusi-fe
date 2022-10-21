@@ -130,11 +130,11 @@
 			{errorMessage}
 		</div>
 	{/if}
-	<div class="font-normal text-teal-500 py-2">Forgot password?</div>
-	<!-- <FormField class="flex gap-1">
+	<!-- <div class="font-normal text-teal-500 py-2">Forgot password?</div> -->
+	<FormField class="flex gap-1">
 		<Checkbox bind:rememberMe />
 		<span slot="label">Remember me.</span>
-	</FormField> -->
+	</FormField>
 	<div class="mt-4">
 		<Button
 			primary

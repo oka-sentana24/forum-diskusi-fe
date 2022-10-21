@@ -5,7 +5,7 @@
 	import Header from '$components/Header.svelte';
 	import { variables } from '$lib/variables';
 	import Textfield from '@smui/textfield';
-	import Card from '$components/Card.svelte';
+	import Card from '@smui/card/src/Card.svelte';
 	import { Dialog, Snackbar } from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
 	import HelperText from '@smui/textfield/helper-text';
@@ -56,11 +56,11 @@
 	}
 </script>
 
-<Header {items}>Create Jurusan</Header>
+<Header {items} />
 <main class="overflow-auto h-screen">
 	<div class="m-5 relative">
 		<div class="absolute w-full">
-			<Card fieldCard>
+			<Card>
 				<div class="p-5">
 					<!-- <Title text="Create Jurusan" /> -->
 					<div class="w-full">
@@ -101,7 +101,7 @@
 			</Card>
 			<div class="flex justify-end py-5">
 				<Button
-					primary
+					secondary
 					submite={() => (active = true)}
 					disabled={data.nama === '' || !data.nama.match(validationText)}
 				>
@@ -116,8 +116,8 @@
 					</div>
 					<div class="font-bold text-base">Simpan perubahan?</div>
 					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
-						<Button primary submite={() => handleSubmit()}>Simpan</Button>
-						<Button secondary submite={() => onClose()}>Kembali</Button>
+						<Button secondary submite={() => handleSubmit()}>Simpan</Button>
+						<Button close submite={() => onClose()}>Kembali</Button>
 					</div>
 				</Dialog>
 				<Snackbar

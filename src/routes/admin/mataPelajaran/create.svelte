@@ -73,7 +73,7 @@
 	}
 </script>
 
-<Header items={item}>Create Mata Pelajaran</Header>
+<Header items={item} />
 <main class="overflow-auto h-screen">
 	<div class="m-5 relative">
 		<div class="absolute w-full">
@@ -127,9 +127,10 @@
 					</div>
 				</div>
 			</Card>
-			<div class="flex justify-end py-5">
+			<div class="flex col-span-2 justify-end py-5">
+				<span />
 				<Button
-					primary
+					secondary
 					submite={() => (active = true)}
 					disabled={data.nama === '' || data.grade === '' || !data.nama.match(validationText)}
 				>
@@ -144,8 +145,8 @@
 					</div>
 					<div class="font-bold text-base">Simpan perubahan?</div>
 					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
-						<Button primary submite={() => handleSubmit()}>Simpan</Button>
-						<Button secondary submite={() => onClose()}>Kembali</Button>
+						<Button secondary submite={() => handleSubmit()}>Simpan</Button>
+						<Button close submite={() => onClose()}>Kembali</Button>
 					</div>
 				</Dialog>
 				<Snackbar

@@ -4,6 +4,7 @@
 	import Card from '$components/Card.svelte';
 	import { Breadcrumbs, Icon } from 'svelte-materialify';
 	import { mdiAccountCircleOutline, mdiChevronDown, mdiChevronUp } from '@mdi/js';
+	import { get } from 'svelte/store';
 	let isProfileOpen: boolean;
 	export let items;
 </script>
@@ -17,7 +18,7 @@
 			</div>
 			<div>
 				<!-- Breadcrumb -->
-				<Breadcrumbs {items} let:item class="py-2 px-0">
+				<Breadcrumbs {items} let:item large class="py-2 px-0">
 					{#if item.href}
 						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
 							<span class="text-gray-400">
@@ -31,7 +32,7 @@
 		<div class="col-span-2">
 			<!-- Profile Avatar -->
 			<div
-				class="col-span-2 items-center justify-start"
+				class="col-span-2 items-center justify-start cursor-pointer"
 				on:click={() => (isProfileOpen = !isProfileOpen)}
 			>
 				<Icon path={mdiAccountCircleOutline} size={32} />
@@ -43,7 +44,7 @@
 		</div>
 	</div>
 	{#if isProfileOpen}
-		<div class="flex justify-end px-5 pt-2 relative z-20">
+		<div class="flex justify-end px-5 pt-2 relative z-20 cursor-pointer">
 			<Card profile>
 				<div class="grid border-b border-slate-200">
 					<span class="text-bold text-slate-800 text-base">Acme Inc.</span>
@@ -51,7 +52,9 @@
 				</div>
 				<div class="grid py-2">
 					<span class="text-bold text-teal-800 text-base leading-5 py-2">Pengaturan</span>
-					<span class="text-bold text-teal-800 text-base">Keluar</span>
+					<span class="text-bold text-teal-800 text-base">
+						<a href="/"> Keluar </a>
+					</span>
 				</div>
 			</Card>
 		</div>

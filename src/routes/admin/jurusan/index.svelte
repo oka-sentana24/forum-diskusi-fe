@@ -20,7 +20,7 @@
 	let data = [{ text: 'Jurusan', href: '#' }];
 	let columns = ['No', 'Nama'];
 	let isOpenFilter = false;
-	let isloading = false;
+	let isLoading = false;
 	let nama = '';
 	let currentPage = 1;
 	let pageSize = 10;
@@ -32,13 +32,13 @@
 	/* Get Data and filtering */
 	onMount(async () => {
 		try {
-			isloading = true;
+			isLoading = true;
 			const res = await fetch(`${variables.basePath}/jurusan/list`);
 			const data = await res.json();
 			items = data;
 			console.log('getData', items);
 		} catch (e) {
-			isloading = false;
+			isLoading = false;
 			// correctly (?) nothing can be caught here...
 			console.log('no data');
 		}
@@ -60,55 +60,39 @@
 	}
 </script>
 
-<Header items={data}>List Jurusan</Header>
+<Header items={data} />
 <main class="p-5">
 	<!-- top Header -->
-	<section class="block mb-[35px]">
-		<div class="flex justify-between">
-			<div>
-				<div class="flex flex-span-2 items-center justify-start gap-2">
-					<Button filter submite={() => (isOpenFilter = !isOpenFilter)}>
-						<div class="flex flex-span-1 gap-3 items-center justify-between text-white">
-							Filter
-							<Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} size="20px" />
-						</div>
-					</Button>
-					{#if isOpenFilter}
-						<span
-							class="text-gray-400 hover:text-indigo-500 normal-case"
-							on:click={() => searchSiswa(nama)}>Apply</span
-						>
-						<span class="text-gray-400 hover:text-indigo-500 normal-case" on:click={reset}
-							>Reset</span
-						>
-					{/if}
-				</div>
-				<div class="w-full relative bottom-5">
-					{#if isOpenFilter}
-						<Textfield
-							variant="filled"
-							on:change={handleNamaChange}
-							label="Name"
-							bind:value={nama}
-							class="bg-white shadow-sm"
-						/>
-					{/if}
-				</div>
-			</div>
-			<div>
-				<a href="/admin/jurusan/create">
-					<Button primary>
-						<div class="items-center flex justify-center gap-2">
-							Create <Icon path={mdiPlus} size="15px" />
-						</div>
-					</Button>
-				</a>
-			</div>
+	<div class="flex col-span-2  items-center justify-between">
+		<div class="min-w-[96px]  flex col-span-2 gap-5 items-center justify-center">
+			<Button filter submite={() => (isOpenFilter = !isOpenFilter)}
+				>Filter <Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} /></Button
+			>
+			{#if isOpenFilter}
+				<button on:click={() => searchSiswa(nama)}>Apply</button>
+				<button>Reset</button>
+			{/if}
 		</div>
-	</section>
+		<div class="min-w-[96px]">
+			<a href="/admin/jurusan/create">
+				<Button secondary>Create +</Button>
+			</a>
+		</div>
+	</div>
+	<div class="py-5 w-64">
+		{#if isOpenFilter}
+			<Textfield
+				variant="filled"
+				on:change={handleNamaChange}
+				label="Name"
+				bind:value={nama}
+				class="bg-white shadow-sm"
+			/>
+		{/if}
+	</div>
 	<!-- content -->
 	<section>
-		<DataTable class="relative h-[60vh] bottom-[30px]">
+		<DataTable class="h-[60vh]">
 			<Head>
 				<Row>
 					{#each columns as column}
@@ -117,7 +101,7 @@
 				</Row>
 			</Head>
 			<Body>
-				{#if isloading === items.length <= 0}
+				{#if isLoading === items.length <= 0}
 					<div class="absolute flex items-center justify-center w-full h-[60vh]">
 						<span class="grid items-center text-base gap-y-2">
 							<Icon path={mdiFolderSettingsOutline} />

@@ -18,7 +18,7 @@
 	let data = [{ text: 'Kelas', href: '#' }];
 	let columns = ['No', 'Nama', 'Grade'];
 	let isOpenFilter = false;
-	let isloading = false;
+	let isLoading = false;
 	let nama = '';
 	let currentPage = 1;
 	let pageSize = 10;
@@ -36,13 +36,13 @@
 		// Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		// fetch(url).then((response) => response.json());
 		try {
-			isloading = true;
+			isLoading = true;
 			const res = await fetch(`${variables.basePath}/kelas/list`);
 			const data = await res.json();
 			items = data;
 			console.log('getData', items);
 		} catch (e) {
-			isloading = false;
+			isLoading = false;
 			// correctly (?) nothing can be caught here...
 			console.log('no data');
 		}
@@ -65,10 +65,10 @@
 	}
 </script>
 
-<Header items={data}>List Kelas</Header>
+<Header items={data} />
 <main class="p-5">
 	<!-- top Header -->
-	<section class="block mb-[35px]">
+	<!-- <section class="block mb-[35px]">
 		<div class="flex justify-between">
 			<div>
 				<div class="flex flex-span-2 items-center justify-start gap-2">
@@ -110,10 +110,38 @@
 				</a>
 			</div>
 		</div>
-	</section>
+	</section> -->
+	<div class="flex col-span-2  items-center justify-between">
+		<div class="min-w-[96px]  flex col-span-2 gap-5 items-center justify-center">
+			<Button filter submite={() => (isOpenFilter = !isOpenFilter)}
+				>Filter <Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} /></Button
+			>
+			{#if isOpenFilter}
+				<button on:click={() => searchSiswa(nama)}>Apply</button>
+				<button>Reset</button>
+			{/if}
+		</div>
+		<div class="min-w-[96px]">
+			<a href="/admin/kelas/create">
+				<Button secondary>Create +</Button>
+			</a>
+		</div>
+	</div>
+	<div class="py-5 w-64">
+		{#if isOpenFilter}
+			<Textfield
+				variant="filled"
+				on:change={handleNamaChange}
+				label="Name"
+				bind:value={nama}
+				class="bg-white shadow-sm"
+			/>
+		{/if}
+	</div>
+
 	<!-- content -->
 	<section>
-		<DataTable class="relative h-[60vh] bottom-[30px]">
+		<DataTable class="h-[60vh]">
 			<Head>
 				<Row>
 					{#each columns as column}
@@ -122,7 +150,7 @@
 				</Row>
 			</Head>
 			<Body>
-				{#if isloading === items.length <= 0}
+				{#if isLoading === items.length <= 0}
 					<div class="absolute flex items-center justify-center w-full h-[60vh]">
 						<span class="grid items-center text-base gap-y-2">
 							<Icon path={mdiFolderSettingsOutline} />

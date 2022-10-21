@@ -83,13 +83,7 @@
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<!-- <Button primary submite={() => handleSubmit()}>
-					<div class="flex flex-span-1 gap-3 items-center">
-						<Icon path={mdiContentSave} />
-						save
-					</div>
-				</Button> -->
-				<Button primary submite={() => (active = true)}>
+				<Button secondary submite={() => (active = true)}>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
 						Simpan
@@ -101,8 +95,8 @@
 					</div>
 					<div class="font-bold text-base">Simpan perubahan?</div>
 					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
-						<Button primary submite={() => handleSubmit()}>Simpan</Button>
-						<Button secondary submite={() => onClose()}>Kembali</Button>
+						<Button secondary submite={() => handleSubmit()}>Simpan</Button>
+						<Button close submite={() => onClose()}>Kembali</Button>
 					</div>
 				</Dialog>
 				<Snackbar

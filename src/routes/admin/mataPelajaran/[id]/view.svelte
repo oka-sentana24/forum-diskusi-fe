@@ -18,11 +18,11 @@
 	let responseMessage = '';
 
 	export let items = [
-		{ text: 'Jurusan', href: '/admin/jurusan' },
+		{ text: 'Mata Pelajaran', href: '/admin/mataPelajaran' },
 		{ text: 'View', href: '#' }
 	];
 	// @ts-ignore
-	fetch(`${variables.basePath}/mataPelajaran/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/mata-pelajaran/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
@@ -34,7 +34,7 @@
 	}
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/mataPelajaran/delete/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/mata-pelajaran/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -47,7 +47,7 @@
 			onClose();
 			snackbarSuccess = true;
 			setTimeout(() => {
-				window.location.href = '/admin/jurusan';
+				window.location.href = '/admin/mataPelajaran';
 			}, 1000);
 			console.log(response.status);
 		} else {
@@ -57,12 +57,12 @@
 	}
 </script>
 
-<Header {items}>View Mata Pelajaran</Header>
+<Header {items} />
 <main>
 	<div class="m-5 relative">
 		<div class="flex justify-end py-5 gap-2 items-center">
-			<a href="/admin/jurusan/{id}/update">
-				<Button primary>
+			<a href="/admin/mataPelajaran/{id}/update">
+				<Button secondary>
 					<Icon path={mdiAccountEdit} size="24px" />
 					Edit
 				</Button>
@@ -78,7 +78,7 @@
 				<div class="font-bold text-base">Apakah anda yakin ingin menghapus data ini?</div>
 				<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
 					<Button danger submite={() => handleSubmit()}>Hapus</Button>
-					<Button secondary submite={() => onClose()}>Kembali</Button>
+					<Button close submite={() => onClose()}>Kembali</Button>
 				</div>
 			</Dialog>
 			<Snackbar
