@@ -1,16 +1,11 @@
 <script lang="ts">
-	export let type: string;
+	export let login: boolean;
 </script>
 
-<div class={type}>
+<div
+	class={`bg-main-light-primary dark: to-main-dark-primary ${
+		login && 'w-[465px] p-[30px] leading-[.9px]'
+	}`}
+>
 	<slot />
 </div>
-
-<style>
-	.login {
-		width: 465px;
-		padding: 30px;
-		letter-spacing: 0.9px;
-		background-color: white;
-	}
-</style>
