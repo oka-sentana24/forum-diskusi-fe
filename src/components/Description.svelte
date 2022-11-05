@@ -2,7 +2,7 @@
 	export let text: string;
 </script>
 
-<span class="font-normal leading-5">
+<span class="leading-5">
 	{text}
-	<span class="text-teal-500"><slot /></span>
+	<span class="text-link-light-purple"><slot /></span>
 </span>

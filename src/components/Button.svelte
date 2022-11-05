@@ -9,8 +9,8 @@
 </script>
 
 <button
-	class={`button
-	${primary && 'bg-teal-500 text-white'} 
+	class={`min-w-[56px] max-w-full h-[58px]
+	${primary && 'bg-primary-light-50 text-base-white'} 
 	${secondary && ' bg-transparent hover:bg-slate-200 text-black'} 
 	${danger && 'bg-red-500 text-white'}
 	${disabled && ` bg-gray-400 cursor-not-allowed text-black-800 shadow-lg opacity-99`}  
@@ -22,13 +22,13 @@
 </button>
 
 <style type="text/scss">
-	.button {
-		letter-spacing: 1px;
-		font-size: 14px;
-		cursor: pointer;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 113px;
-		height: 50px;
-	}
+	// .button {
+	// 	letter-spacing: 1px;
+	// 	font-size: 14px;
+	// 	cursor: pointer;
+	// 	border-radius: 3px;
+	// 	padding: 0 12px;
+	// 	width: 113px;
+	// 	height: 50px;
+	// }
 </style>

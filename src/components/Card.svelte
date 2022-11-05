@@ -6,7 +6,9 @@
 </script>
 
 <div
-	class={`${login && 'w-[465px] p-8 bg-white tracking-normal-[0.9px]'} ${
+	class={`${
+		login && 'w-[465px] bg-main-light-primary p-8 tracking-normal-[0.9px] dark:bg-main-dark-primary'
+	} ${
 		miniCard &&
 		'w-[70px] flex flex-col items-center bg-white text-gray-700 border-r border-gray-300 shadow h-full dark:bg-gray-900 gap-2 dark:border-gray-600'
 	}

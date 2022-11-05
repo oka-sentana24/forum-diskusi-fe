@@ -25,7 +25,7 @@ module.exports = {
 			transparent: 'transparent',
 			base:{
 				black:"#000000",
-				white:"FFFFFF"
+				white:"#FFFFFF"
 			},
 			text:{
 				light:{

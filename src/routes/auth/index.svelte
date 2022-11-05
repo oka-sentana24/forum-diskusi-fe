@@ -12,7 +12,7 @@
 </script>
 
 <section id="body" class={randCls}>
-	<header class="flex justify-center items-center w-full h-screen bg-slate-300">
+	<header class="flex justify-center items-center w-full h-screen bg-main-light-secondary">
 		<Card login>
 			<div class="mb-2">
 				<Title text="Sign in" />

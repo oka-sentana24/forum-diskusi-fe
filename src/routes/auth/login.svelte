@@ -96,7 +96,6 @@
 			input$maxlength="10"
 			bind:value={fields.password}
 			label="Password"
-			input$pattern={'^[0-9]+$'}
 			bind:invalid={errorPassword}
 			updateInvalid
 			required
@@ -118,19 +117,19 @@
 							This field is required.
 						</span>
 					</HelperText>
-				{:else}
-					<HelperText slot="helper" />
 				{/if}
 			</svelte:fragment>
 		</Textfield>
 	</div>
 	{#if errorMessage}
-		<div class="flex flex-span-2 items-center gap-2 text-red-500 text-sm">
+		<div class="flex flex-span-2 items-center gap-2 text-other-error text-sm">
 			<Icon path={mdiAlertRhombus} size="15" />
 			{errorMessage}
 		</div>
 	{/if}
-	<div class="font-normal text-teal-500 py-2">Forgot password?</div>
+	<div class="font-normal text-link-light-purple dark:text-link-dark-blue py-2">
+		Forgot password?
+	</div>
 	<!-- <FormField class="flex gap-1">
 		<Checkbox bind:rememberMe />
 		<span slot="label">Remember me.</span>
