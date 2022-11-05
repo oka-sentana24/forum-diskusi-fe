@@ -1,27 +1,20 @@
 <script lang="ts">
 	// @ts-nocheck
-	/* Module */
+	import '../../style/tailwind.scss';
 	import jwt_decode from 'jwt-decode';
 	import { variables } from '$lib/variables';
-	import FormField from '@smui/form-field';
-	import Checkbox from '@smui/checkbox';
-	import IconButton from '@smui/icon-button';
-	import { mdiEyeOff, mdiEye } from '@mdi/js';
-	import Textfield from '@smui/textfield';
 	import Button from '$components/Button.svelte';
-	import HelperText from '@smui/textfield/helper-text';
 	import { mdiAlertRhombus } from '@mdi/js';
-	import { Icon } from 'svelte-materialify';
+	import { TextField, Icon, Checkbox } from 'svelte-materialify';
+	import { mdiEyeOff, mdiEye } from '@mdi/js';
 
 	/* variable */
 	let rememberMe = false;
-	let showPassword = false;
-	let isSubmitting = false;
-	let errorUsername = false;
-	let errorPassword = false;
-	let fields = { username: '', password: '' };
-	let dirty = false;
+	let show = false;
 	let errorMessage = '';
+	let isSubmitting = false;
+	let username = '';
+	let password = '';
 
 	async function formSubmit() {
 		isSubmitting = true;
@@ -30,7 +23,7 @@
 		const response = await fetch(`${variables.basePath}/signin`, {
 			method: 'POST',
 			credentials: 'same-origin',
-			body: JSON.stringify({ ...fields }),
+			body: JSON.stringify({ username, password }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -61,83 +54,52 @@
 </script>
 
 <main>
-	<Textfield
-		type="text"
-		variant="filled"
-		bind:dirty
-		input$maxlength="10"
-		bind:value={fields.username}
-		label="Nip/Nim"
-		input$pattern={'^[0-9]+$'}
-		bind:invalid={errorUsername}
-		updateInvalid
-		required
-	>
-		<svelte:fragment slot="helper">
-			{#if fields.username === ''}
-				<HelperText validationMsg slot="helper">
-					<span class="flex flex-span-2 items-center gap-2">
-						<Icon path={mdiAlertRhombus} size="15" />
-						This field is required.
-					</span>
-				</HelperText>
-			{:else}
-				<HelperText slot="helper" class="py-2" />
-			{/if}
-		</svelte:fragment>
-	</Textfield>
-	<Textfield
-		type={showPassword ? 'text' : 'password'}
-		variant="filled"
-		bind:dirty
-		input$maxlength="10"
-		bind:value={fields.password}
-		label="Password"
-		input$pattern={'^[0-9]+$'}
-		bind:invalid={errorPassword}
-		updateInvalid
-		required
-	>
-		<IconButton
-			class="relative bottom-[1.2rem]"
-			slot="trailingIcon"
-			on:click={() => (showPassword = !showPassword)}
+	<div class="main-input">
+		<TextField
+			filled
+			bind:value={username}
+			rules={[(v) => !!v || ' This field is required. ']}
+			type="text">Username</TextField
 		>
-			<div class="flex items-center">
-				<Icon path={showPassword ? mdiEye : mdiEyeOff} />
+	</div>
+	<div class="main-input">
+		<TextField
+			filled
+			type={show ? 'text' : 'password'}
+			bind:value={password}
+			rules={[(v) => !!v || ' This field is required. ']}
+		>
+			Password
+			<div
+				slot="append"
+				on:click={() => {
+					show = !show;
+				}}
+			>
+				<Icon path={show ? mdiEyeOff : mdiEye} />
 			</div>
-		</IconButton>
-		<svelte:fragment slot="helper">
-			{#if fields.password === ''}
-				<HelperText slot="helper">
-					<span class="flex flex-span-2 items-center gap-2">
-						<Icon path={mdiAlertRhombus} size="15" />
-						This field is required.
-					</span>
-				</HelperText>
-			{:else}
-				<HelperText slot="helper" class="py-2" />
-			{/if}
-		</svelte:fragment>
-	</Textfield>
-	{#if errorMessage}
-		<div class="flex flex-span-2 items-center gap-2 text-red-500 text-sm">
-			<Icon path={mdiAlertRhombus} size="15" />
-			{errorMessage}
-		</div>
-	{/if}
-	<div class="font-normal text-indigo-500 py-2">Forgot password?</div>
-	<FormField class="flex gap-1 mt-4">
+		</TextField>
+	</div>
+	<div>
+		{#if errorMessage}
+			<div class="flex flex-span-2 items-center gap-2 text-red-500 text-sm text-other-error">
+				<Icon path={mdiAlertRhombus} size="15" />
+				{errorMessage}
+			</div>
+		{/if}
+	</div>
+
+	<div class="flex col-span-2 my-4 items-center justify-start">
 		<Checkbox bind:rememberMe />
-		<span slot="label">Remember me.</span>
-	</FormField>
+		<span class="text-color-light-body">Remember me.</span>
+	</div>
 	<div class="mt-4">
 		<Button
-			type="primary"
+			primary
 			click={() => formSubmit()}
-			disabled={isSubmitting || fields.username === '' || fields.password === ''}
+			disabled={isSubmitting || username === '' || password === ''}
 		>
-			{isSubmitting ? 'loading...' : 'Sign In'}
+			{isSubmitting ? 'Loading...' : 'Sign In'}
 		</Button>
 	</div>
 </main>

@@ -12,17 +12,14 @@
 </script>
 
 <section id="body" class={randCls}>
-	<header class="flex justify-center items-center w-full h-screen bg-slate-300">
-		<Card type="login">
-			<div class="mb-2">
-				<Title text="Sign in" />
-				<!-- <span class="">
-					Dont have an account? <span class="text-teal-400">Contact administrator</span>
-				</span> -->
-				<Description text="Dont have an account?">
-					<span>Contact administrator</span>
-				</Description>
-			</div>
+	<header
+		class="flex justify-center items-center w-full h-screen bg-main-light-secondary dark:bg-main-dark-secondary"
+	>
+		<Card login>
+			<Title text="Sign in" />
+			<Description text="Dont have an account?">
+				<span>Contact administrator</span>
+			</Description>
 			<Login />
 		</Card>
 	</header>

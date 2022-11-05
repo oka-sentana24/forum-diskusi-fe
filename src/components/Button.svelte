@@ -1,121 +1,17 @@
 <script lang="ts">
-	export let type: string;
-	export let click;
+	export let primary: boolean;
 	export let disabled: boolean;
+	export let click;
 </script>
 
-<button class={type} on:click={click} {disabled}>
+<button
+	class={`h-[53px] w-full ${
+		primary && 'cursor-pointer bg-primary-light-50 text-color-dark-title'
+	} ${disabled && 'opacity-50 cursor-not-allowed'}`}
+	on:click={click}
+	{disabled}
+>
 	<div class=" flex cols-span-2 items-center justify-center">
 		<slot />
 	</div>
 </button>
-
-<style lang="scss">
-	:disabled {
-		opacity: 0.5;
-		cursor: not-allowed !important;
-		pointer-events: none !important;
-	}
-	.primary {
-		letter-spacing: 1px;
-		font-size: 14px;
-		background-color: #6366f1;
-		color: #fff;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		height: 50px;
-		min-height: 50px;
-		width: 100%;
-	}
-	.primary:hover {
-		background-color: #4f46e5;
-	}
-
-	.create {
-		letter-spacing: 1px;
-		font-size: 14px;
-		color: white;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 104px;
-		height: 42px;
-		background: #6875f5;
-		mix-blend-mode: normal;
-		border-radius: 3px;
-	}
-	.create:hover {
-		background-color: #4f46e5;
-	}
-	.edit {
-		letter-spacing: 1px;
-		font-size: 14px;
-		color: white;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 104px;
-		height: 42px;
-		background: #94a3b8;
-		mix-blend-mode: normal;
-		border-radius: 3px;
-	}
-	.edit:hover {
-		background-color: #4f46e5;
-	}
-	.save {
-		letter-spacing: 1px;
-		font-size: 14px;
-		color: white;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 104px;
-		height: 42px;
-		background: #94a3b8;
-		mix-blend-mode: normal;
-		border-radius: 3px;
-	}
-	.save:hover {
-		background-color: #4f46e5;
-	}
-	.danger {
-		letter-spacing: 1px;
-		font-size: 14px;
-		color: white;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 104px;
-		height: 42px;
-		background: #f98080;
-		mix-blend-mode: normal;
-		border-radius: 3px;
-	}
-	.danger:hover {
-		background-color: #f05252;
-	}
-	.filter {
-		letter-spacing: 1px;
-		font-size: 14px;
-		color: white;
-		cursor: pointer;
-		border: 1px solid transparent;
-		border-radius: 3px;
-		padding: 0 12px;
-		width: 104px;
-		height: 42px;
-		background: #94a3b8;
-		mix-blend-mode: normal;
-		border-radius: 3px;
-	}
-	.filter:hover {
-		background-color: #475569;
-	}
-</style>
