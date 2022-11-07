@@ -1,6 +1,7 @@
 <script lang="ts">
+	// @ts-nocheck
+	import '../../../style/tailwind.scss';
 	import Header from '$components/Header.svelte';
-	import { Breadcrumbs } from 'svelte-materialify';
 	import { onMount } from 'svelte';
 	import {
 		DataTable,
@@ -8,37 +9,37 @@
 		DataTableRow,
 		DataTableCell,
 		DataTableBody,
-		TextField,
-		Button,
-		Icon
+		Icon,
+		TextField
 	} from 'svelte-materialify';
-	import { variables } from '$lib/variables';
-	import { mdiChevronUp, mdiPlus, mdiChevronDown } from '@mdi/js';
+	import Button from '$components/Button.svelte';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
-
-	let columns = [
-		'Nisn',
-		'Nama',
-		'Jurusan',
-		'Kelas',
-		'Alamat',
-		'Jenis Kelamin',
-		'Tanggal Lahir',
-		'Agama',
-		'No tlp',
-		'Email'
-	];
-	export let data = [{ text: 'Siswa', href: '#' }];
+	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown } from '@mdi/js';
+	import { variables } from '$lib/variables';
 
 	let isopenFilter = false;
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let active = false;
-	let nama = '';
+	let data = [{ text: 'Siswa', href: '#' }];
+	let columns = [
+		'Nisn',
+		'Nama',
+		'Alamat',
+		'Jenis Kelamin',
+		'Tempat lahir',
+		'Tanggal Lahir',
+		'Agama',
+		'No Telp',
+		'E-mail',
+		'Kewarganegaraan',
+		'Kecamatan'
+	];
 	let items = [];
+	let nama = '';
 
 	onMount(async () => {
+		/* Get Siswa */
 		const res = await fetch(`${variables.basePath}/siswa/list`);
 		const data = await res.json();
 		items = data;
@@ -63,94 +64,80 @@
 <Header items={data} />
 <main>
 	<div class="m-5 relative">
-		<!-- create and filter -->
-		<div class="flex flex-cols-2 justify-between items-center pt-5">
-			<div>
-				<div class="flex flex-cols-2 items-center gap-5">
-					<Button
-						on:click={() => (isopenFilter = !isopenFilter)}
-						class="bg-slate-400 p-5 rounded-md shadow-lg text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 dark:bg-gray-800"
-					>
-						<div class="normal-case text-sm gap-2 flex items-center ">
-							<span> Filter </span>
-							{#if isopenFilter}
-								<Icon path={mdiChevronUp} size="20px" />
-							{:else}
-								<Icon path={mdiChevronDown} size="20px" />
-							{/if}
-						</div>
-					</Button>
+		<div class="flex col-span-2 items-center justify-between gap-5">
+			<Button filter click={() => (isopenFilter = !isopenFilter)}>
+				<div class="normal-case text-sm gap-2 flex items-center ">
+					<span> Filter </span>
 					{#if isopenFilter}
-						<button on:click={() => searchSiswa(nama)}>
-							<span> Apply </span>
-						</button>
-					{/if}
-					{#if nama}
-						<button type="reset">reset</button>
+						<Icon path={mdiChevronUp} size="20px" />
+					{:else}
+						<Icon path={mdiChevronDown} size="20px" />
 					{/if}
 				</div>
-			</div>
-			<div
-				class="flex justify-end transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-			>
-				<a href="/admin/siswa/create">
-					<Button class="bg-teal-500 p-5 rounded-md shadow-lg">
-						<div class="normal-case text-sm text-white flex items-center gap-1">
-							<span> Create </span>
-							<Icon path={mdiPlus} size="20px" />
-						</div>
-					</Button>
-				</a>
-			</div>
+			</Button>
+			<a href="/admin/siswa/create">
+				<Button create>New Siswa +</Button>
+			</a>
 		</div>
-		<div class="py-3 relative">
+		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
 			{#if isopenFilter}
-				<div class="flex items-center justify-center gap-5 md:w-[15%] sm:w-[20%]">
-					<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
+				<div class="filter-input">
+					<TextField filled on:change={handleNamaChange}>Nama</TextField>
 				</div>
+			{/if}
+			{#if isopenFilter}
+				<Button icon click={() => searchSiswa(nama)}
+					><Icon path={mdiSearchWeb} size="25px" /></Button
+				>
 			{/if}
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<DataTable
-				class="block bg-white overflow-auto rounded-none w-full h-[60vh]  scrollbar-thumb-teal-900 scrollbar-track-gray-100 scrollbar-thin dark:bg-gray-800"
-			>
-				<DataTableHead class="p-2 bg-teal-500 text-white sticky top-0 rounded-none w-full">
-					<DataTableRow>
-						{#each columns as column}
-							<DataTableCell>{column}</DataTableCell>
-						{/each}
-					</DataTableRow>
-				</DataTableHead>
-				<DataTableBody>
-					{#each paginatedItems as item}
-						<DataTableRow class="text-gray-400 dark:text-gray-300">
-							<DataTableCell>{item.username}</DataTableCell>
-							<DataTableCell>
-								<a href="/admin/siswa/{item.id}/view" class="text-teal-500">
-									{item.nama}
-								</a>
-							</DataTableCell>
-							<DataTableCell>{item.jurusan.kelas_jurusan}</DataTableCell>
-							<DataTableCell>{item.kelas.grade}</DataTableCell>
-							<DataTableCell>{item.alamat}</DataTableCell>
-							<DataTableCell>{item.jenis_kelamin}</DataTableCell>
-							<DataTableCell>{item.tanggal_lahir}</DataTableCell>
-							<DataTableCell>{item.agama}</DataTableCell>
-							<DataTableCell>{item.no_tlp}</DataTableCell>
-							<DataTableCell>{item.email}</DataTableCell>
+			<div>
+				<DataTable>
+					<DataTableHead>
+						<DataTableRow>
+							{#each columns as column}
+								<DataTableCell>{column}</DataTableCell>
+							{/each}
 						</DataTableRow>
-					{/each}
-				</DataTableBody>
-			</DataTable>
-			<LightPaginationNav
-				totalItems={items.length}
-				{pageSize}
-				{currentPage}
-				limit={1}
-				showStepOptions={true}
-				on:setPage={(e) => (currentPage = e.detail.page)}
-			/>
+					</DataTableHead>
+					<DataTableBody>
+						{#each paginatedItems as items}
+							<DataTableRow class="text-color-light-body">
+								<DataTableCell>
+									{items.nis}
+								</DataTableCell>
+								<DataTableCell>
+									<a
+										href="/admin/siswa/{items.id}/view"
+										class=" text-link-light-purple dark:text-link-dark-blue"
+									>
+										{items.nama}
+									</a>
+								</DataTableCell>
+								<DataTableCell>{items.alamat}</DataTableCell>
+								<DataTableCell>{items.jenis_kelamin}</DataTableCell>
+								<DataTableCell>{items.tempat_lahir}</DataTableCell>
+								<DataTableCell>{items.tanggal_lahir}</DataTableCell>
+								<DataTableCell>{items.agama}</DataTableCell>
+								<DataTableCell>{items.no_tlp}</DataTableCell>
+								<DataTableCell>{items.email}</DataTableCell>
+								<DataTableCell>{items.kewarganegaraan}</DataTableCell>
+								<DataTableCell>{items.kecamatan}</DataTableCell>
+							</DataTableRow>
+						{/each}
+					</DataTableBody>
+				</DataTable>
+				<LightPaginationNav
+					totalItems={items.length}
+					{pageSize}
+					{currentPage}
+					limit={1}
+					showStepOptions={true}
+					on:setPage={(e) => (currentPage = e.detail.page)}
+				/>
+			</div>
 		</div>
 	</div>
 </main>

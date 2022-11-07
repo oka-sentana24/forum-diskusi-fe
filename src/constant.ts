@@ -17,23 +17,23 @@ export const Menu = [
 		name: 'Siswa',
 		url: '/admin/siswa',
 		svg: mdiAccountSchool
-	},
-	{
-		name: 'Guru',
-		url: '/admin/guru',
-		svg: mdiHumanMaleBoardPoll
-	},
-	{
-		name: 'Kelas',
-		url: '/admin/kelas',
-		svg: mdiGoogleClassroom
-	},
-	{
-		name: 'Jurusan',
-		url: '/admin/jurusan',
-		svg: mdiGraph
 	}
 	// {
+	// 	name: 'Guru',
+	// 	url: '/admin/guru',
+	// 	svg: mdiHumanMaleBoardPoll
+	// },
+	// {
+	// 	name: 'Kelas',
+	// 	url: '/admin/kelas',
+	// 	svg: mdiGoogleClassroom
+	// },
+	// {
+	// 	name: 'Jurusan',
+	// 	url: '/admin/jurusan',
+	// 	svg: mdiGraph
+	// }
+	// // {
 	// 	name: 'User',
 	// 	url: '/admin/users',
 	// 	svg: mdiAccount
