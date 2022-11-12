@@ -57,26 +57,7 @@
 			return res.json();
 		});
 	}
-	// async function handleSubmit() {
-	// 	const token = localStorage.getItem('token');
-	// 	const response = await fetch(`${variables.basePath}/siswa`, {
-	// 		method: 'POST',
-	// 		credentials: 'same-origin',
-	// 		body: JSON.stringify({ ...data }),
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			authorization: `Bearer ${token}`
-	// 		}
-	// 	});
 
-	// 	if (response.status === 500 || response.status === 201) {
-	// 		snackbar = true;
-	// 		// window.location.href = '/admin/siswa';
-	// 	}
-	// 	// what do you do with a non-redirect?
-
-	// 	console.log('return', handleSubmit);
-	// }
 	function onClose() {
 		active = false;
 	}
@@ -113,7 +94,7 @@
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen">
+<main class=" overflow-auto h-screen bg-main-light-secondary dark:bg-main-dark-secondary">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
@@ -270,7 +251,7 @@
 											return pattern.test(v) || 'Pekerjaan Ibu is invalid.';
 										}
 									]}
-									type="text">Pekerjaan Ayah</TextField
+									type="text">Pekerjaan Ibu</TextField
 								>
 							</div>
 						</div>
@@ -393,8 +374,8 @@
 					</div>
 					<div class="font-bold text-base">Simpan perubahan?</div>
 					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
-						<Button create click={() => handleSubmit()}>Simpan</Button>
-						<Button create click={() => onClose()}>Kembali</Button>
+						<Button create click={() => handleSubmit() && onClose()}>Simpan</Button>
+						<Button close click={() => onClose()}>Kembali</Button>
 					</div>
 				</Dialog>
 				<Snackbar
@@ -402,22 +383,22 @@
 					bind:active={snackbarSuccess}
 					top
 					center
-					timeout={3000}
+					timeout={1000}
 				>
 					<span class=" flex py-2 gap-5 items-center justify-around"
 						><Icon path={mdiCheckCircle} size={25} />
-						{responseMessage}</span
-					>
+						<span>Data siswa berhasil disimpan</span>
+					</span>
 				</Snackbar>
 				<Snackbar
-					class="flex-column bg-white text-red-500 gap-5 text-base "
+					class="flex-column bg-other-error text-white gap-5 text-base "
 					bind:active={snackbarError}
 					top
 					center
-					timeout={3000}
+					timeout={1000}
 				>
 					<Icon path={mdiAlert} size={25} />
-					{responseMessage}
+					<span>Data siswa gagal disimpan</span>
 				</Snackbar>
 			</div>
 		</div>

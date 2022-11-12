@@ -27,14 +27,15 @@
 		'Nisn',
 		'Nama',
 		'Alamat',
+		'Kelas',
 		'Jenis Kelamin',
-		'Tempat lahir',
 		'Tanggal Lahir',
 		'Agama',
 		'No Telp',
 		'E-mail'
 	];
 	let items = [];
+	let getKelas = [];
 	let nama = '';
 
 	onMount(async () => {
@@ -43,9 +44,15 @@
 			setTimeout(() => {
 				isloading = true;
 			}, 3000);
+
+			/* get Siswa */
 			const res = await fetch(`${variables.basePath}/siswa/list`);
 			const data = await res.json();
 			items = data;
+
+			const response = await fetch(`${variables.basePath}/kelas/list`);
+			const dataKelas = await response.json();
+			getKelas = dataKelas;
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -100,7 +107,7 @@
 				>
 			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[32rem] bg-base-white">
+		<div class="absolute w-full overflow-auto h-[37rem] bg-base-white">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
@@ -111,7 +118,7 @@
 				</DataTableHead>
 				<DataTableBody>
 					{#if isloading === items < 0}
-						<div class="absolute h-[28rem] flex items-center justify-center w-full">
+						<div class="absolute h-[30rem] flex items-center justify-center w-full">
 							<span class="grid items-center text-base">
 								<div class="lds-facebook">
 									<div />
@@ -135,8 +142,17 @@
 									</a>
 								</DataTableCell>
 								<DataTableCell>{items.alamat}</DataTableCell>
+								<DataTableCell>
+									<a
+										href="/admin/kelas/{items.id}/view"
+										class=" text-link-light-purple dark:text-link-dark-blue"
+									>
+										{#each getKelas as kelas}
+											{kelas.grade} ({kelas.nama})
+										{/each}
+									</a>
+								</DataTableCell>
 								<DataTableCell>{items.jenis_kelamin}</DataTableCell>
-								<DataTableCell>{items.tempat_lahir}</DataTableCell>
 								<DataTableCell>{items.tanggal_lahir}</DataTableCell>
 								<DataTableCell>{items.agama}</DataTableCell>
 								<DataTableCell>{items.no_tlp}</DataTableCell>
@@ -144,9 +160,7 @@
 							</DataTableRow>
 						{/each}
 					{:else}
-						<div
-							class="absolute h-[28rem] w-full flex items-center justify-center text-color-light-body"
-						>
+						<div class="absolute h-[30rem] w-full flex items-center justify-center">
 							<DataTableRow>
 								<div class="grid gap-5">
 									<Icon path={mdiFolderOutline} size="25px" />

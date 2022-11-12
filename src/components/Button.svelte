@@ -4,6 +4,7 @@
 	export let disabled: boolean;
 	export let filter: boolean;
 	export let icon: boolean;
+	export let close: boolean;
 
 	export let click;
 </script>
@@ -19,6 +20,9 @@
 	} ${
 		icon &&
 		'h-[42px] w-[50px] bg-primary-light-30 dark: bg-bg-primary-dark-30 text-base-white rounded-md'
+	} ${
+		close &&
+		'bg-transparent h-[42px] w-[104px] text-color-light-body hover:bg-main-light-secondary '
 	}`}
 	on:click={click}
 	{disabled}
