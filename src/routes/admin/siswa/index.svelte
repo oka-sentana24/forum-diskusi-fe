@@ -14,10 +14,11 @@
 	} from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
-	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown } from '@mdi/js';
+	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
 
 	let isopenFilter = false;
+	let isloading = false;
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
@@ -31,18 +32,26 @@
 		'Tanggal Lahir',
 		'Agama',
 		'No Telp',
-		'E-mail',
-		'Kewarganegaraan',
-		'Kecamatan'
+		'E-mail'
 	];
 	let items = [];
 	let nama = '';
 
 	onMount(async () => {
 		/* Get Siswa */
-		const res = await fetch(`${variables.basePath}/siswa/list`);
-		const data = await res.json();
-		items = data;
+		try {
+			setTimeout(() => {
+				isloading = true;
+			}, 3000);
+			const res = await fetch(`${variables.basePath}/siswa/list`);
+			const data = await res.json();
+			items = data;
+			isloading = false;
+		} catch (e) {
+			isloading = false;
+			// correctly (?) nothing can be caught here...
+			console.log('no data');
+		}
 		var url = new URL(`${variables.basePath}/siswa/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
@@ -91,22 +100,31 @@
 				>
 			{/if}
 		</div>
-		<!-- data table -->
-		<div class="absolute w-full overflow-auto">
-			<div>
-				<DataTable>
-					<DataTableHead>
-						<DataTableRow>
-							{#each columns as column}
-								<DataTableCell>{column}</DataTableCell>
-							{/each}
-						</DataTableRow>
-					</DataTableHead>
-					<DataTableBody>
+		<div class="absolute w-full overflow-auto h-[32rem] bg-base-white">
+			<DataTable>
+				<DataTableHead>
+					<DataTableRow>
+						{#each columns as column}
+							<DataTableCell>{column}</DataTableCell>
+						{/each}
+					</DataTableRow>
+				</DataTableHead>
+				<DataTableBody>
+					{#if isloading === items < 0}
+						<div class="absolute h-[28rem] flex items-center justify-center w-full">
+							<span class="grid items-center text-base">
+								<div class="lds-facebook">
+									<div />
+									<div />
+									<div />
+								</div>
+							</span>
+						</div>
+					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items}
 							<DataTableRow class="text-color-light-body">
 								<DataTableCell>
-									{items.nis}
+									{items.nisn}
 								</DataTableCell>
 								<DataTableCell>
 									<a
@@ -123,21 +141,30 @@
 								<DataTableCell>{items.agama}</DataTableCell>
 								<DataTableCell>{items.no_tlp}</DataTableCell>
 								<DataTableCell>{items.email}</DataTableCell>
-								<DataTableCell>{items.kewarganegaraan}</DataTableCell>
-								<DataTableCell>{items.kecamatan}</DataTableCell>
 							</DataTableRow>
 						{/each}
-					</DataTableBody>
-				</DataTable>
-				<LightPaginationNav
-					totalItems={items.length}
-					{pageSize}
-					{currentPage}
-					limit={1}
-					showStepOptions={true}
-					on:setPage={(e) => (currentPage = e.detail.page)}
-				/>
-			</div>
+					{:else}
+						<div
+							class="absolute h-[28rem] w-full flex items-center justify-center text-color-light-body"
+						>
+							<DataTableRow>
+								<div class="grid gap-5">
+									<Icon path={mdiFolderOutline} size="25px" />
+									<span>Tidak ada siswa yang ditemukan</span>
+								</div>
+							</DataTableRow>
+						</div>
+					{/if}
+				</DataTableBody>
+			</DataTable>
 		</div>
+		<LightPaginationNav
+			totalItems={items.length}
+			{pageSize}
+			{currentPage}
+			limit={1}
+			showStepOptions={true}
+			on:setPage={(e) => (currentPage = e.detail.page)}
+		/>
 	</div>
 </main>

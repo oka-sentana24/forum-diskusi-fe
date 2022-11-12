@@ -1,10 +1,14 @@
-<script>
-	import { variables } from '$lib/variables';
+<script lang="ts">
 	// @ts-nocheck
-	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import '$sass/tailwind.scss';
+	import { variables } from '$lib/variables';
+	import { TextField, Select, Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import type { SnackbarComponentDev } from '@smui/snackbar';
+	import Card from '$components/Card.svelte';
+	import { mdiContentSave, mdiCheckCircle, mdiAlert } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
+	import Button from '$components/Button.svelte';
 
 	let items = [
 		{ text: 'Siswa', href: '/admin/siswa' },
@@ -28,32 +32,23 @@
 		nama_ayah: '',
 		pekerjaan_ibu: '',
 		pekerjaan_ayah: '',
-		kelasId: '',
-		jurusanId: ''
+		kelasId: ''
 	};
-	let snackbar = false;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let active;
+	let responseMessage = '';
 	let fetchKelas = [];
 	let dataKelas = [];
-	let fetchJurusan = [];
-	let dataJurusan = [];
+	let isLoading = false;
 	const Jenis_kelamin = ['Laki-Laki', 'Perempuan'];
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
 		getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
 			fetchKelas = res;
-			console.log('debug:', res);
 			dataKelas = fetchKelas.map((val) => {
-				return { name: val.nama, grade: val.grade, value: val.id };
-			});
-			console.log('debug:testing', dataKelas);
-		});
-
-		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
-			fetchJurusan = res;
-			console.log('debug:', res);
-			dataJurusan = fetchJurusan.map((val) => {
-				return { name: val.kelas_jurusan, value: val.id };
+				return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
 			});
 		});
 	});
@@ -62,31 +57,58 @@
 			return res.json();
 		});
 	}
+	// async function handleSubmit() {
+	// 	const token = localStorage.getItem('token');
+	// 	const response = await fetch(`${variables.basePath}/siswa`, {
+	// 		method: 'POST',
+	// 		credentials: 'same-origin',
+	// 		body: JSON.stringify({ ...data }),
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			authorization: `Bearer ${token}`
+	// 		}
+	// 	});
 
-	async function getFetchJurusan(url) {
-		return await fetch(url).then((res) => {
-			return res.json();
-		});
+	// 	if (response.status === 500 || response.status === 201) {
+	// 		snackbar = true;
+	// 		// window.location.href = '/admin/siswa';
+	// 	}
+	// 	// what do you do with a non-redirect?
+
+	// 	console.log('return', handleSubmit);
+	// }
+	function onClose() {
+		active = false;
 	}
 	async function handleSubmit() {
-		const token = localStorage.getItem('token');
+		const headers = {
+			'Content-Length': body.length,
+			'Content-Type': 'application/json'
+		};
 		const response = await fetch(`${variables.basePath}/siswa`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
-			headers: {
-				'Content-Type': 'application/json',
-				authorization: `Bearer ${token}`
-			}
+			headers
 		});
 
-		if (response.status === 500 || response.status === 201) {
-			snackbar = true;
-			// window.location.href = '/admin/siswa';
-		}
-		// what do you do with a non-redirect?
+		let message = await response.json();
+		if (response.status === 200 || response.status === 201) {
+			response.json();
+			isLoading = true;
+			responseMessage = message.message;
+			onClose();
+			snackbarSuccess = true;
+			console.log('testing', snackbarSuccess);
 
-		console.log('return', handleSubmit);
+			setTimeout(() => {
+				window.location.href = '/admin/siswa';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = true;
+		}
+		console.log('submite', handleSubmit());
 	}
 </script>
 
@@ -95,164 +117,307 @@
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="h-full block bg-white rounded-none">
+			<Card>
 				<div class="p-5">
-					<div class="p-2 bg-teal-500 text-white  dark:bg-teal-700">
-						<span>Data Diri</span>
-					</div>
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="relative py-3">
+							<div class="main-input">
 								<TextField
-									dense
 									filled
 									bind:value={data.username}
 									rules={[
-										(v) => !!v || 'Required',
+										(v) => !!v || ' This field is required.',
 										(v) => v.length <= 10 || 'Max 10 characters',
 										(v) => {
-											const pattern = /^[0-9]*$/;
-											return pattern.test(v) || 'Invalid username.';
+											const pattern = /^\d+$/;
+											return pattern.test(v) || 'This field is number.';
 										}
-									]}>Nisn</TextField
+									]}
+									type="text">Nisn</TextField
 								>
 							</div>
-							<div class="relative py-3">
-								<TextField dense filled bind:value={data.nama} rules={[(v) => !!v || 'Required']}
-									>Nama</TextField
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.nama}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Name is invalid.';
+										}
+									]}
+									type="text">Nama</TextField
 								>
 							</div>
-							<div class="relative py-3">
+							<div class="main-input">
 								<Select
 									filled
-									dense
 									items={Jenis_kelamin}
 									class="main-input dropdown"
 									bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 								>
 							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input text-sm" bind:value={data.tempat_lahir}
-									>Tempat_lahir</TextField
-								>
-							</div>
-							<div class="relative py-3">
+							<div class="main-input">
 								<TextField
-									dense
 									filled
-									class="pr-2 main-input text-sm"
+									bind:value={data.tempat_lahir}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Tempat lahir is invalid.';
+										}
+									]}
+									type="text">Tempat Lahir</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									placeholder="Placeholder"
+									class="mr-[13px]"
 									type="date"
-									placeholder="date"
-									bind:value={data.tanggal_lahir}>Tanggal_lahir</TextField
+									bind:value={data.tanggal_lahir}>Tanggal Lahir</TextField
 								>
 							</div>
-							<div class="relative py-3">
-								<Select
-									dense
+							<div class="main-input">
+								<Select filled items={Agama} class="main-input dropdown" bind:value={data.agama}
+									>Agama</Select
+								>
+							</div>
+						</div>
+						<div class="w-full">
+							<div class="main-input">
+								<TextField
 									filled
-									items={Agama}
-									class="main-input dropdown text-sm"
-									bind:value={data.agama}>Agama</Select
+									bind:value={data.no_tlp}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+											return pattern.test(v) || 'Mobile number is invalid.';
+										}
+									]}
+									type="text">Mobile Number</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.email}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 25 || 'Max 25 characters',
+										(v) => {
+											const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+											return pattern.test(v) || 'E-mail is invalid.';
+										}
+									]}
+									type="text">E-mail</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.nama_ayah}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Nama ayah is invalid.';
+										}
+									]}
+									type="text">Nama Ayah</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.pekerjaan_ayah}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Pekerjaan Ayah</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.nama_ibu}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Nama Ibu</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.pekerjaan_ibu}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan Ibu is invalid.';
+										}
+									]}
+									type="text">Pekerjaan Ayah</TextField
 								>
 							</div>
 						</div>
-						<div class="w-full">
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.no_tlp}
-									>No Tlp</TextField
-								>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.email}>Email</TextField>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.nama_ayah}
-									>Nama Ayah</TextField
-								>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.pekerjaan_ayah}
-									>Pekerjaan Ayah</TextField
-								>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.nama_ibu}
-									>Nama Ibu</TextField
-								>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.pekerjaan_ibu}
-									>Pekerjaan Ibu</TextField
-								>
-							</div>
-						</div>
-					</div>
-					<div class="p-2 bg-teal-500 text-white  dark:bg-teal-700">
-						<span>Data Alamat</span>
 					</div>
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="relative py-3">
-								<TextField dense filled bind:value={data.alamat} rules={[(v) => !!v || 'Required']}
-									>Alamat</TextField
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.alamat}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Alamat is invalid.';
+										}
+									]}
+									type="text">Alamat</TextField
 								>
 							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.kewarganegaraan}
-									>Kewarganegaraan</TextField
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kewarganegaraan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Kewarganegaraan</TextField
 								>
 							</div>
 						</div>
 						<div class="w-full">
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.kecamatan}
-									>Kecamatan</TextField
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kecamatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kecamatan is invalid.';
+										}
+									]}
+									type="text">Kecamatan</TextField
 								>
 							</div>
-							<div class="relative py-3">
-								<TextField dense filled class="main-input" bind:value={data.kabupaten}
-									>Kabupaten</TextField
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kabupaten}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kabupaten is invalid.';
+										}
+									]}
+									type="text">Kabupaten</TextField
 								>
 							</div>
 						</div>
-					</div>
-					<div class="p-2 bg-teal-500 text-white  dark:bg-teal-700">
-						<span>Data Jurusan</span>
 					</div>
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="relative py-3">
-								<Select dense filled items={dataKelas} bind:value={data.kelasId}>Kelas</Select>
+							<div class="main-input">
+								<Select
+									filled
+									items={dataKelas}
+									class="main-input dropdown"
+									bind:value={data.kelasId}>Kelas</Select
+								>
 							</div>
 						</div>
 						<div class="w-full">
-							<div class="relative py-3">
-								<Select dense filled items={dataJurusan} bind:value={data.jurusanId}>Jurusan</Select
+							<!-- <div class="main-input">
+								<Select
+									filled
+									items={dataGrade}
+									class="main-input dropdown"
+									bind:value={data.kelasId}>Grade</Select
 								>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
 				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
+					create
+					disabled={data.username === '' ||
+						data.agama === '' ||
+						data.alamat === '' ||
+						data.email === '' ||
+						data.jenis_kelamin === '' ||
+						data.kabupaten === '' ||
+						data.kecamatan === '' ||
+						data.kelasId === '' ||
+						(data.kewarganegaraan === '') | (data.nama === '') ||
+						data.nama_ayah === '' ||
+						data.nama_ibu === '' ||
+						data.no_tlp === '' ||
+						data.pekerjaan_ayah === '' ||
+						data.pekerjaan_ibu === '' ||
+						data.tanggal_lahir === '' ||
+						data.tempat_lahir === ''}
+					click={() => (active = true)}
 				>
-					<div class="flex items-center gap-2 text-white">
+					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						<span class="normal-case">Save</span>
+						Simpan
 					</div>
 				</Button>
+				<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+					<div class="py-2">
+						<Icon path={mdiAlert} size={25} />
+					</div>
+					<div class="font-bold text-base">Simpan perubahan?</div>
+					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+						<Button create click={() => handleSubmit()}>Simpan</Button>
+						<Button create click={() => onClose()}>Kembali</Button>
+					</div>
+				</Dialog>
 				<Snackbar
-					class="flex-column bg-teal-700"
-					bind:active={snackbar}
-					bottom
+					class="bg-other-success text-base-white gap-5 text-base flex-column"
+					bind:active={snackbarSuccess}
+					top
 					center
 					timeout={3000}
 				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
+					<span class=" flex py-2 gap-5 items-center justify-around"
+						><Icon path={mdiCheckCircle} size={25} />
+						{responseMessage}</span
+					>
+				</Snackbar>
+				<Snackbar
+					class="flex-column bg-white text-red-500 gap-5 text-base "
+					bind:active={snackbarError}
+					top
+					center
+					timeout={3000}
+				>
+					<Icon path={mdiAlert} size={25} />
+					{responseMessage}
 				</Snackbar>
 			</div>
 		</div>

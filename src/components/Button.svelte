@@ -15,7 +15,7 @@
 		create &&
 		'h-[42px] w-[104px] bg-primary-light-30 dark:bg-primary-dark-30 rounded-md text-base-white'
 	} ${
-		filter && 'h-[42px] w-[104px] bg-[whitesmoke] dark:bg-main-dark-primary text-sm rounded-md'
+		filter && 'h-[42px] w-[104px] bg-primary-light-10 dark:bg-main-dark-primary text-sm rounded-md'
 	} ${
 		icon &&
 		'h-[42px] w-[50px] bg-primary-light-30 dark: bg-bg-primary-dark-30 text-base-white rounded-md'

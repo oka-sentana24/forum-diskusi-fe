@@ -35,7 +35,7 @@
 
 <main id="body">
 	<div
-		class="flex h-screen bg-main-light-secondary overflow-hidden dark:bg-main-dark-secondary"
+		class="flex bg-main-light-secondary overflow-hidden dark:bg-main-dark-secondary"
 		class:overflow-hidden={$isSideMenuOpen}
 	>
 		<aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative">
@@ -52,7 +52,7 @@
 				<SideBar item={items} back={closeSideMenu} click={closeSideMenu} />
 			</aside>
 		{/if}
-		<div class="w-full">
+		<div class="w-full h-screen">
 			<slot />
 		</div>
 	</div>

@@ -6,8 +6,13 @@
 	font-family: 'Sofia Pro', sans-serif !important;
 	font-size: 14px !important;
 	line-height: 18px !important;
+	.primary-text {
+		color: gray !important;
+		caret-color: gray !important;
+	}
 }
 
 @import url('./input.scss');
 @import url('./table.scss');
 @import url('./pagination.scss');
+@import url('./dialog.scss');

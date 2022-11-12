@@ -8,8 +8,9 @@
 <div
 	class={`bg-main-light-primary dark: to-main-dark-primary ${
 		login && 'w-[465px] p-[30px] leading-[.9px]'
-	} ${header && 'w-full h-[80px] border-b border-color-light-body dark:border-primary-dark-85'} ${
-		sidebar && 'h-screen w-[200px border-r border-color-light-body dark:border-primary-dark-85]'
+	} ${header && 'w-full h-16 border-b border-color-light-body dark:border-primary-dark-85'} ${
+		sidebar &&
+		'md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 border-r'
 	} ${profile && 'bg-white w-[200px] p-5 shadow-md'}`}
 >
 	<slot />

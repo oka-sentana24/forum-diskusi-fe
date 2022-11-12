@@ -1,5 +1,7 @@
 /* pagination */
 .light-pagination-nav .pagination-nav {
+    position: relative !important;
+    top: 51vh !important;
     display: flex;
     justify-content: right !important;
     box-shadow: unset !important;
