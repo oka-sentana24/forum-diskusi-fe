@@ -12,6 +12,10 @@
 
 	import Header from '$components/Header.svelte';
 	import { room } from '$src/lib/mokeData/room';
+	import { supabase } from '../../supabase';
+	import { onMount } from 'svelte';
+
+	import { chatRoomId } from '$src/stores/chatStore';
 
 	if (browser && localStorage.theme === 'dark') {
 		isDark.update((v) => true);
@@ -20,10 +24,61 @@
 	}
 
 	let users = user;
-	let rooms = room;
+	let roomData = [];
 	let data = [{ text: 'Chat', href: '#' }];
 	let isUserChat = true;
 	let isGlobalChat = true;
+
+	async function fetchMessages() {
+		console.log('_layout fetchMessages()');
+
+		// let { data: messages } = await supabase
+		// 	.from('Message')
+		// 	.select('*')
+		// 	.eq('roomId', '2f3b53a9-263c-4b3b-a806-26d0793c6bb8');
+		// console.log('old messages', messages);
+
+		const authUsername = localStorage.getItem('username');
+
+		const { data: listPengguna } = await supabase
+			.from('Pengguna')
+			.select('*')
+			.eq('username', authUsername);
+
+		const { data: listSiswa } = await supabase
+			.from('Siswa')
+			.select('*')
+			.eq('penggunaId', listPengguna[0].id);
+
+		const siswa = listSiswa[0];
+
+		localStorage.setItem('namaSiswa', siswa.nama);
+
+		console.log('siswa', siswa);
+
+		const { data: listMataPelajaran } = await supabase
+			.from('KelasMataPelajaran')
+			.select('*')
+			.eq('kelasId', siswa.kelasId);
+
+		console.log('listMataPelajaran', listMataPelajaran);
+
+		const { data: rooms } = await supabase
+			.from('Room')
+			.select('*')
+			.in(
+				'id',
+				listMataPelajaran.map((mataPelajaran) => mataPelajaran.roomId)
+			);
+
+		console.log('rooms', rooms);
+
+		roomData = rooms;
+	}
+
+	onMount(async () => {
+		fetchMessages();
+	});
 </script>
 
 <svelte:head>
@@ -51,43 +106,6 @@
 					<div class="px-2 py-4">
 						<div
 							class="flex items-center justify-between"
-							on:click={() => (isUserChat = !isUserChat)}
-						>
-							<div class="flex items-center justify-start gap-2">
-								{#if isUserChat}
-									<Icon path={mdiChevronDown} size="20px" />
-								{:else}
-									<Icon path={mdiChevronRight} size="20px" />
-								{/if}
-
-								<span>Chat</span>
-							</div>
-							<Icon path={mdiPlus} size="20px" />
-						</div>
-					</div>
-					{#if isUserChat}
-						<div
-							class="h-[300px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-						>
-							{#each users as data}
-								<div class="flex items-center justify-between px-5">
-									<ListItem>
-										<span slot="prepend" class="ml-n2">
-											<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-										</span>
-										{data.nama}
-									</ListItem>
-									<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-								</div>
-							{/each}
-						</div>
-					{/if}
-				</div>
-				<Divider />
-				<div>
-					<div class="px-2 py-4">
-						<div
-							class="flex items-center justify-between"
 							on:click={() => (isGlobalChat = !isGlobalChat)}
 						>
 							<div class="flex items-center justify-start gap-2">
@@ -106,13 +124,13 @@
 						<div
 							class="h-[500px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
 						>
-							{#each rooms as dataRoom}
+							{#each roomData as room}
 								<div class="flex items-center justify-between px-5">
-									<ListItem>
+									<ListItem on:click={() => chatRoomId.set(room.id)}>
 										<span slot="prepend" class="ml-n2">
 											<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
 										</span>
-										{dataRoom.nama}
+										{room.name}
 									</ListItem>
 									<Badge class="primary-color" dot offsetX={15} offsetY={4} />
 								</div>
@@ -136,43 +154,6 @@
 							<div class="px-2 py-4">
 								<div
 									class="flex items-center justify-between"
-									on:click={() => (isUserChat = !isUserChat)}
-								>
-									<div class="flex items-center justify-start gap-2">
-										{#if isUserChat}
-											<Icon path={mdiChevronDown} size="20px" />
-										{:else}
-											<Icon path={mdiChevronRight} size="20px" />
-										{/if}
-
-										<span>Chat</span>
-									</div>
-									<Icon path={mdiPlus} size="20px" />
-								</div>
-							</div>
-							{#if isUserChat}
-								<div
-									class="h-[300px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-								>
-									{#each users as data}
-										<div class="flex items-center justify-between px-5">
-											<ListItem>
-												<span slot="prepend" class="ml-n2">
-													<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-												</span>
-												{data.nama}
-											</ListItem>
-											<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-										</div>
-									{/each}
-								</div>
-							{/if}
-						</div>
-						<Divider />
-						<div>
-							<div class="px-2 py-4">
-								<div
-									class="flex items-center justify-between"
 									on:click={() => (isGlobalChat = !isGlobalChat)}
 								>
 									<div class="flex items-center justify-start gap-2">
@@ -191,13 +172,17 @@
 								<div
 									class="h-[500px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
 								>
-									{#each rooms as dataRoom}
+									{#each roomData as room}
 										<div class="flex items-center justify-between px-5">
-											<ListItem>
+											<ListItem
+												on:click={() => {
+													chatRoomId.set(room.id);
+												}}
+											>
 												<span slot="prepend" class="ml-n2">
 													<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
 												</span>
-												{dataRoom.nama}
+												{room.name}
 											</ListItem>
 											<Badge class="primary-color" dot offsetX={15} offsetY={4} />
 										</div>

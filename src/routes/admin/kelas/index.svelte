@@ -1,4 +1,5 @@
 <script>
+	import '../../../style/tailwind.scss';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import {

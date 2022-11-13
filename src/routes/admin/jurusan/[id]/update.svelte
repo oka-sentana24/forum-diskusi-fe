@@ -1,21 +1,21 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
-	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import { Icon } from 'svelte-materialify';
+	import { mdiContentSave } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { variables } from '$lib/variables';
-
+	import Card from '@smui/card';
+	import Textfield from '@smui/textfield';
+	import Button from '$components/Button.svelte';
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
 		{ text: 'Update', href: '#' }
 	];
-
 	let data = {
 		id: '',
-		nama: '',
-		kelas_jurusan: ''
+		nama: ''
 	};
 	let snackbar = false;
 	onMount(() => {
@@ -48,7 +48,7 @@
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen">
+<main class="overflow-auto h-screen">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
@@ -57,38 +57,22 @@
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full dark:text-gray-300">
 							<div class="relative py-3">
-								<TextField dense filled bind:value={data.id} disabled>id</TextField>
+								<Textfield variant="filled" label="Id" bind:value={data.id} disabled />
 							</div>
 							<div class="relative py-3">
-								<TextField dense filled bind:value={data.nama}>Nama</TextField>
-							</div>
-							<div class="relative py-3">
-								<TextField dense filled bind:value={data.kelas_jurusan}>Kelas Jurusan</TextField>
+								<Textfield variant="filled" label="Nama" bind:value={data.nama} />
 							</div>
 						</div>
 					</div>
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
-				>
-					<div class="flex items-center gap-2 text-white">
+				<Button type="save" click={() => handleSubmit()}>
+					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						<span class="normal-case">Save</span>
+						save
 					</div>
 				</Button>
-				<Snackbar
-					class="flex-column bg-teal-700"
-					bind:active={snackbar}
-					bottom
-					center
-					timeout={3000}
-				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
-				</Snackbar>
 			</div>
 		</div>
 	</div>
