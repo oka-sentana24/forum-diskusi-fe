@@ -162,7 +162,7 @@
 					{:else}
 						<div class="absolute h-[30rem] w-full flex items-center justify-center">
 							<DataTableRow>
-								<div class="grid gap-5">
+								<div class="grid gap-5 text-color-dark-body">
 									<Icon path={mdiFolderOutline} size="25px" />
 									<span>Tidak ada siswa yang ditemukan</span>
 								</div>

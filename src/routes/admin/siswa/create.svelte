@@ -3,7 +3,6 @@
 	import '$sass/tailwind.scss';
 	import { variables } from '$lib/variables';
 	import { TextField, Select, Icon, Dialog, Snackbar } from 'svelte-materialify';
-	import type { SnackbarComponentDev } from '@smui/snackbar';
 	import Card from '$components/Card.svelte';
 	import { mdiContentSave, mdiCheckCircle, mdiAlert } from '@mdi/js';
 	import Header from '$components/Header.svelte';
@@ -368,7 +367,11 @@
 						Simpan
 					</div>
 				</Button>
-				<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+				<Dialog
+					class="pa-4 text-center bg-white w-[300px] text-black"
+					bind:active
+					persistent={true}
+				>
 					<div class="py-2">
 						<Icon path={mdiAlert} size={25} />
 					</div>
