@@ -11,7 +11,7 @@
 </script>
 
 <Card header>
-	<div class="flex col-span-2 items-center justify-between h-20 px-5">
+	<div class="flex col-span-2 items-center justify-between h-16 px-5">
 		<div class=" flex gap-5 col-span-2 items-center justify-start">
 			<div class="md:hidden">
 				<!-- Burger Menu -->

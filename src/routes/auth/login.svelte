@@ -95,7 +95,7 @@
 	</div>
 	<div class="mt-4">
 		<Button
-			primary
+			login
 			click={() => formSubmit()}
 			disabled={isSubmitting || username === '' || password === ''}
 		>

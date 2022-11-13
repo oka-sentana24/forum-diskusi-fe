@@ -64,7 +64,7 @@ module.exports = {
 			other:{
 				warning:"#EEAF22",
 				error:"#F04461",
-				success:"#Success"
+				success:"#41DA7E"
 			},
 			main:{
 				light:{
