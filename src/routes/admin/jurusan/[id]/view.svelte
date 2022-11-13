@@ -1,11 +1,15 @@
-<script>
+<script lang="ts">
+	/* module */
 	import { variables } from '$lib/variables';
-	import { Card, Button, Icon, Snackbar } from 'svelte-materialify';
 	import { page } from '$app/stores';
-	import { mdiAccountEdit, mdiCheckCircle } from '@mdi/js';
+	import { mdiAccountEdit, mdiDelete } from '@mdi/js';
 	import Header from '$components/Header.svelte';
-	let snackbar = false;
-	let id, nama, kelasJurusan;
+	import Card from '@smui/card';
+	import { Icon } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	// import Button, { Label } from '@smui/button';
+
+	let id, nama;
 
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
@@ -17,11 +21,10 @@
 		.then((res) => {
 			id = res.id;
 			nama = res.nama;
-			kelasJurusan = res.kelas_jurusan;
 		});
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/kelas/list/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/jurusan/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -30,8 +33,7 @@
 		});
 
 		if (response.status === 200) {
-			snackbar = true;
-			window.location.href = '/admin/kelas';
+			window.location.href = '/admin/jurusan';
 		}
 	}
 </script>
@@ -39,48 +41,30 @@
 <Header {items} />
 <main>
 	<div class="m-5 relative">
-		<!-- create and filter -->
 		<div class="flex justify-end py-5 gap-2 items-center">
 			<a href="/admin/jurusan/{id}/update">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				>
-					<div class="normal-case text-sm text-white flex items-center gap-1">
-						<Icon path={mdiAccountEdit} size="20px" />
-						<span> Update </span>
-					</div>
+				<Button type="edit" click>
+					<Icon path={mdiAccountEdit} size="24px" />
+					Edit
 				</Button>
 			</a>
-			<Button
-				class="bg-red-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				on:click={() => handleSubmit()}
-			>
-				<div class="normal-case text-sm text-white flex items-center gap-1">
-					<Icon path={mdiAccountEdit} size="20px" />
-					<span> Delete </span>
-				</div>
+			<Button type="danger" click={() => handleSubmit()}>
+				<Icon path={mdiDelete} size="24px" />
+				Delete
 			</Button>
-			<Snackbar class="flex-column bg-teal-700" bind:active={snackbar} bottom center timeout={3000}>
-				<Icon path={mdiCheckCircle} />
-				<span class="mt-1 font-semibold"> Delete Success </span>
-			</Snackbar>
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<Card class="bg-white shadow-none">
+			<Card class="bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5 flex flex-cols-2 gap-20">
 					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">id</label>
 						<div class="pb-2">
 							{id}
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nama</label>
 						<div class="pb-2">
 							{nama}
-						</div>
-						<label for="" class="text-xs text-gray-400">Kelas Jurusan</label>
-						<div class="pb-2">
-							{kelasJurusan}
 						</div>
 					</div>
 				</div>

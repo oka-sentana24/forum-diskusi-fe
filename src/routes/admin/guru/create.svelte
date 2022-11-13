@@ -48,13 +48,13 @@
 			});
 		});
 
-		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
-			fetchJurusan = res;
-			console.log('debug:', res);
-			dataJurusan = fetchJurusan.map((val) => {
-				return { name: val.kelas_jurusan, value: val.id };
-			});
-		});
+		// getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
+		// 	fetchJurusan = res;
+		// 	console.log('debug:', res);
+		// 	dataJurusan = fetchJurusan.map((val) => {
+		// 		return { name: val.kelas_jurusan, value: val.id };
+		// 	});
+		// });
 	});
 	async function getFetchKelas(url) {
 		return await fetch(url).then((res) => {
@@ -62,11 +62,11 @@
 		});
 	}
 
-	async function getFetchJurusan(url) {
-		return await fetch(url).then((res) => {
-			return res.json();
-		});
-	}
+	// async function getFetchJurusan(url) {
+	// 	return await fetch(url).then((res) => {
+	// 		return res.json();
+	// 	});
+	// }
 	async function handleSubmit() {
 		const token = localStorage.getItem('token');
 		const response = await fetch(`${variables.basePath}/guru`, {
@@ -90,11 +90,11 @@
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen">
+<main class=" overflow-auto h-screen bg-main-light-secondary dark:bg-main-dark-secondary">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="h-full bg-white shadow-none">
+			<Card class="h-full bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5">
 					<div class="p-2 bg-teal-500 text-white">
 						<span>Data Diri</span>
@@ -213,7 +213,7 @@
 							</div>
 							<div class="relative py-3">
 								<TextField dense filled class="main-input" bind:value={data.bidang_study}
-									>bidang_study</TextField
+									>bidang study</TextField
 								>
 							</div>
 						</div>

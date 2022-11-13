@@ -80,60 +80,60 @@
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<Card class="h-full bg-white shadow-none">
+			<Card class="h-full bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5 flex flex-cols-2 gap-20">
 					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">id</label>
 						<div class="pb-2">
 							{id}
 						</div>
-						<label for="" class="text-xs text-gray-400">Nisn</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nisn</label>
 						<div class="pb-2">
 							{username}
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nama</label>
 						<div class="pb-2">
 							{nama}
 						</div>
-						<label for="" class="text-xs text-gray-400">Alamat</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Alamat</label>
 						<div class="pb-2">
 							{alamat}
 						</div>
-						<label for="" class="text-xs text-gray-400">Jenis Kelamin</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Jenis Kelamin</label>
 						<div class="pb-2">
 							{jenis_kelamin}
 						</div>
-						<label for="" class="text-xs text-gray-400">Tempat lahir</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tempat lahir</label>
 						<div class="pb-2">
 							{tempat_lahir}
 						</div>
-						<label for="" class="text-xs text-gray-400">Tanggal Lahir</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tanggal Lahir</label>
 						<div class="pb-2">
 							{tanggal_lahir}
 						</div>
-						<label for="" class="text-xs text-gray-400">Agama</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Agama</label>
 						<div class="pb-2">
 							{agama}
 						</div>
-						<label for="" class="text-xs text-gray-400">No Tlp</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">No Tlp</label>
 						<div class="pb-2">
 							{no_tlp}
 						</div>
-						<label for="" class="text-xs text-gray-400">Email</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Email</label>
 						<div class="pb-2">
 							{email}
 						</div>
 					</div>
 					<div>
-						<label for="" class="text-xs text-gray-400">Kewarganegaraan</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kewarganegaraan</label>
 						<div class="pb-2">
 							{kewarganegaraan}
 						</div>
-						<label for="" class="text-xs text-gray-400">Kecamatan</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kecamatan</label>
 						<div class="pb-2">
 							{kecamatan}
 						</div>
-						<label for="" class="text-xs text-gray-400">Kabupaten</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kabupaten</label>
 						<div class="pb-2">
 							{kabupaten}
 						</div>

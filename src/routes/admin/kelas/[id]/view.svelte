@@ -65,18 +65,18 @@
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<Card class="bg-white shadow-none">
+			<Card class="bg-white shadow-none dark:bg-gray-800">
 				<div class="p-5 flex flex-cols-2 gap-20">
 					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">id</label>
 						<div class="pb-2">
 							{id}
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nama</label>
 						<div class="pb-2">
 							{nama}
 						</div>
-						<label for="" class="text-xs text-gray-400">Grade</label>
+						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Grade</label>
 						<div class="pb-2">
 							{grade}
 						</div>

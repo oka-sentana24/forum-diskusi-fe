@@ -30,6 +30,7 @@
 			"$lib/*": ["src/lib/*"],
 			"$stores/*": ["src/stores/*"],
 			"$assets/*": ["src/assets/*"],
+			"$sass": ["src/style"],
 			"$sass/*": ["src/style/*"],
 		}
 	},

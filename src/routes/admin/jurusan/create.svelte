@@ -1,10 +1,16 @@
-<script>
+<script lang="ts">
 	// @ts-nocheck
-	import { Card, TextField, Select, Button, Icon, Snackbar } from 'svelte-materialify';
-	import { mdiContentSave, mdiCheckCircle, mdiCogSyncOutline } from '@mdi/js';
+	import { Icon } from 'svelte-materialify';
+	import { mdiContentSave, mdiAlertRhombus, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
-	import { onMount } from 'svelte';
 	import { variables } from '$lib/variables';
+	import Textfield from '@smui/textfield';
+	import Card from '@smui/card/src/Card.svelte';
+	import type { SnackbarComponentDev } from '@smui/snackbar';
+	// import Snackbar, { Label } from '@smui/snackbar';
+	import { Snackbar } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	import HelperText from '@smui/textfield/helper-text';
 
 	export let items = [
 		{ text: 'Jurusan', href: '/admin/jurusan' },
@@ -12,10 +18,15 @@
 	];
 
 	let data = {
-		nama: '',
-		kelas_jurusan: ''
+		nama: ''
 	};
-	let snackbar = false;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let isLoading = false;
+	let dirty = false;
+	let errorNama = false;
+	// let snackbar = false;
+	let responseMessage = '';
 	async function handleSubmit() {
 		const response = await fetch(`${variables.basePath}/jurusan`, {
 			method: 'POST',
@@ -26,56 +37,78 @@
 			}
 		});
 
+		let message = await response.json();
 		if (response.status === 200 || response.status === 201) {
-			snackbar = true;
-			window.location.href = '/admin/jurusan';
+			isLoading = true;
+			responseMessage = message.message;
+			snackbarSuccess = true;
+			setTimeout(() => {
+				window.location.href = '/admin/jurusan';
+			}, 5000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = false;
 		}
-		// what do you do with a non-redirect?
-
 		console.log('return', handleSubmit);
 	}
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen">
+<main class="overflow-auto h-screen">
 	<div class="m-5 relative">
-		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="bg-white shadow-none">
+			<Card>
 				<div class="p-5">
-					<!-- <div class="flex flex-cols-2 gap-3"> -->
+					<!-- <Title text="Create Jurusan" /> -->
 					<div class="w-full">
 						<div class="relative py-3">
-							<TextField dense filled bind:value={data.nama}>Nama</TextField>
+							<Textfield
+								type="text"
+								variant="filled"
+								bind:dirty
+								bind:value={data.nama}
+								label="Jurusan"
+								input$pattern={'^(?![s-])[w -]+$'}
+								bind:invalid={errorNama}
+								updateInvalid
+								required
+							>
+								<svelte:fragment slot="helper">
+									{#if data.nama === ''}
+										<HelperText validationMsg slot="helper">
+											<span class="flex flex-span-2 items-center gap-2">
+												<Icon path={mdiAlertRhombus} size="15" />
+												This field is required.
+											</span>
+										</HelperText>
+									{:else}
+										<HelperText slot="helper" class="py-2" />
+									{/if}
+								</svelte:fragment>
+							</Textfield>
 						</div>
 					</div>
-					<div class="w-full">
-						<div class="relative py-3">
-							<TextField dense filled bind:value={data.kelas_jurusan}>kelas jurusan</TextField>
-						</div>
-					</div>
-					<!-- </div> -->
-				</div></Card
-			>
+				</div>
+			</Card>
 			<div class="flex justify-end py-5">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-					on:click={() => handleSubmit()}
-				>
-					<div class="flex items-center gap-2 text-white">
+				<Button type="save" click={() => handleSubmit()} disabled={data.nama === ''}>
+					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						<span class="normal-case">Save</span>
+						save
 					</div>
 				</Button>
 				<Snackbar
-					class="flex-column bg-teal-700"
-					bind:active={snackbar}
-					bottom
+					class="bg-white text-green-700 gap-5"
+					bind:active={snackbarSuccess}
+					top
 					center
 					timeout={3000}
 				>
-					<Icon path={mdiCheckCircle} />
-					<span class="mt-1 font-semibold"> Success </span>
+					<Icon path={mdiCheckCircle} size="15" />
+					{responseMessage}
+				</Snackbar>
+				<Snackbar class="flex-column" bind:active={snackbarError} top center timeout={3000}>
+					{responseMessage}
 				</Snackbar>
 			</div>
 		</div>
