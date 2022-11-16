@@ -1,53 +1,60 @@
 <script lang="ts">
 	// @ts-nocheck
-	/* Module */
-	import { Icon } from 'svelte-materialify';
-	import { mdiChevronUp, mdiChevronDown, mdiPlus, mdiFolderSettingsOutline } from '@mdi/js';
-	import DataTable, { Head, Body, Row, Cell, Pagination } from '@smui/data-table';
-	import Button from '$components/Button.svelte';
-	import Textfield from '@smui/textfield';
+	import '../../../style/tailwind.scss';
 	import Header from '$components/Header.svelte';
-	import { variables } from '$lib/variables';
 	import { onMount } from 'svelte';
+	import {
+		DataTable,
+		DataTableHead,
+		DataTableRow,
+		DataTableCell,
+		DataTableBody,
+		Icon,
+		TextField
+	} from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
-	/* Interfaces */
-	type Jurusan = {
-		id: number;
-		nama: string;
-	};
-	/* Variable */
-	let items: Jurusan[] = [];
-	let data = [{ text: 'Jurusan', href: '#' }];
-	let columns = ['No', 'Nama'];
-	let isOpenFilter = false;
+	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
+	import { variables } from '$lib/variables';
+
+	let isopenFilter = false;
 	let isloading = false;
-	let nama = '';
 	let currentPage = 1;
 	let pageSize = 10;
-	const reset = () => {
-		nama = '';
-	};
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
+	let data = [{ text: 'Siswa', href: '#' }];
+	let columns = ['No', 'Nama'];
+	let items = [];
+	let getKelas = [];
+	let nama = '';
 
-	/* Get Data and filtering */
 	onMount(async () => {
+		/* Get Siswa */
 		try {
-			isloading = true;
+			setTimeout(() => {
+				isloading = true;
+			}, 3000);
+
+			/* get Siswa */
 			const res = await fetch(`${variables.basePath}/jurusan/list`);
 			const data = await res.json();
 			items = data;
-			console.log('getData', items);
+
+			const response = await fetch(`${variables.basePath}/jurusan/list`);
+			const dataKelas = await response.json();
+			getKelas = dataKelas;
+			isloading = false;
 		} catch (e) {
 			isloading = false;
 			// correctly (?) nothing can be caught here...
 			console.log('no data');
 		}
-
 		var url = new URL(`${variables.basePath}/jurusan/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
 	});
+
 	async function searchSiswa(nama) {
 		// bind ke on:submit
 		let response = await fetch(`${variables.basePath}/jurusan/list?nama=${nama}`);
@@ -61,90 +68,92 @@
 </script>
 
 <Header items={data} />
-<main class="p-5">
-	<!-- top Header -->
-	<section class="block py-5">
-		<div class="flex justify-between">
-			<div>
-				<div class="flex flex-span-2 items-center justify-start gap-5">
-					<Button type="filter" click={() => (isOpenFilter = !isOpenFilter)}>
-						<div class="flex flex-span-1 gap-1 items-center">
-							Filter
-							<Icon path={isOpenFilter ? mdiChevronUp : mdiChevronDown} size="20px" />
-						</div>
-					</Button>
-					{#if isOpenFilter}
-						<span
-							class="text-gray-400 hover:text-indigo-500 normal-case"
-							on:click={() => searchSiswa(nama)}>Apply</span
-						>
-						<span class="text-gray-400 hover:text-indigo-500 normal-case" on:click={reset}
-							>Reset</span
-						>
+<main>
+	<div class="m-5 relative">
+		<div class="flex col-span-2 items-center justify-between gap-5">
+			<Button filter click={() => (isopenFilter = !isopenFilter)}>
+				<div class="normal-case text-sm gap-2 flex items-center ">
+					<span> Filter </span>
+					{#if isopenFilter}
+						<Icon path={mdiChevronUp} size="20px" />
+					{:else}
+						<Icon path={mdiChevronDown} size="20px" />
 					{/if}
 				</div>
-				<div class="w-full">
-					{#if isOpenFilter}
-						<Textfield
-							variant="filled"
-							on:change={handleNamaChange}
-							label="Name"
-							bind:value={nama}
-							class="bg-white shadow-sm"
-						/>
-					{/if}
-				</div>
-			</div>
-			<div>
-				<a href="/admin/jurusan/create">
-					<Button type="create" click>
-						<div class="flex flex-span-1 gap-1 items-center">
-							Create <Icon path={mdiPlus} size="15px" />
-						</div>
-					</Button>
-				</a>
-			</div>
+			</Button>
+			<a href="/admin/jurusan/create">
+				<Button create>New Jurusan +</Button>
+			</a>
 		</div>
-	</section>
-	<!-- content -->
-	<section>
-		<DataTable class="relative h-[60vh]">
-			<Head>
-				<Row>
-					{#each columns as column}
-						<Cell class="text-base">{column}</Cell>
-					{/each}
-				</Row>
-			</Head>
-			<Body>
-				{#if isloading === items.length <= 0}
-					<div class="absolute flex items-center justify-center w-full h-[60vh]">
-						<span class="grid items-center text-base gap-y-2">
-							<Icon path={mdiFolderSettingsOutline} />
-							Tidak ada jurusan yang ditemukan
-						</span>
-					</div>
-				{:else if items.length >= 1}
-					{#each paginatedItems as item, index}
-						<Row class="text-gray-500 text-base">
-							<Cell>
-								{index + 1}
-							</Cell>
-							<Cell>
-								<a href="/admin/jurusan/{item.id}/view" class="text-indigo-500 text-base">
-									{item.nama}
-								</a>
-							</Cell>
-						</Row>
-					{/each}
-				{:else}
-					<div class="absolute flex items-center justify-center w-full h-[60vh]">
-						<span class="grid items-center text-base"> loading... </span>
-					</div>
-				{/if}
-			</Body>
-		</DataTable>
-
+		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
+			{#if isopenFilter}
+				<div class="filter-input">
+					<TextField filled on:change={handleNamaChange}>Nama</TextField>
+				</div>
+			{/if}
+			{#if isopenFilter}
+				<Button icon click={() => searchSiswa(nama)}
+					><Icon path={mdiSearchWeb} size="25px" /></Button
+				>
+			{/if}
+		</div>
+		<div class="absolute w-full overflow-auto h-[37rem] bg-base-white">
+			<DataTable>
+				<DataTableHead>
+					<DataTableRow>
+						{#each columns as column}
+							<DataTableCell>{column}</DataTableCell>
+						{/each}
+					</DataTableRow>
+				</DataTableHead>
+				<DataTableBody>
+					{#if isloading === items < 0}
+						<div class="absolute h-[30rem] flex items-center justify-center w-full">
+							<span class="grid items-center text-base">
+								<div class="lds-facebook">
+									<div />
+									<div />
+									<div />
+								</div>
+							</span>
+						</div>
+					{:else if !isloading === items.length <= 0}
+						{#each paginatedItems as items, index}
+							<DataTableRow class="text-color-light-body">
+								<DataTableCell>{index + 1}</DataTableCell>
+								<DataTableCell>
+									<a
+										href="/admin/siswa/{items.id}/view"
+										class=" text-link-light-purple dark:text-link-dark-blue"
+									>
+										{items.nama}
+									</a>
+								</DataTableCell>
+								<!-- <DataTableCell>
+									<a
+										href="/admin/kelas/{items.id}/view"
+										class=" text-link-light-purple dark:text-link-dark-blue"
+									>
+										{#each getKelas as kelas}
+											{kelas.grade} ({kelas.nama})
+										{/each}
+									</a>
+								</DataTableCell> -->
+							</DataTableRow>
+						{/each}
+					{:else}
+						<div class="absolute h-[30rem] w-full flex items-center justify-center">
+							<DataTableRow>
+								<div class="grid gap-5 text-color-dark-body">
+									<Icon path={mdiFolderOutline} size="25px" />
+									<span>Tidak ada jurusan yang ditemukan</span>
+								</div>
+							</DataTableRow>
+						</div>
+					{/if}
+				</DataTableBody>
+			</DataTable>
+		</div>
 		<LightPaginationNav
 			totalItems={items.length}
 			{pageSize}
@@ -153,5 +162,5 @@
 			showStepOptions={true}
 			on:setPage={(e) => (currentPage = e.detail.page)}
 		/>
-	</section>
+	</div>
 </main>

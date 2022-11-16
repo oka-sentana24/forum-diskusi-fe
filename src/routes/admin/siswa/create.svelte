@@ -62,7 +62,6 @@
 	}
 	async function handleSubmit() {
 		const headers = {
-			'Content-Length': body.length,
 			'Content-Type': 'application/json'
 		};
 		const response = await fetch(`${variables.basePath}/siswa`, {
@@ -73,7 +72,7 @@
 		});
 
 		let message = await response.json();
-		if (response.status === 200 || response.status === 201) {
+		if (response.status === 201) {
 			response.json();
 			isLoading = true;
 			responseMessage = message.message;
@@ -83,12 +82,11 @@
 
 			setTimeout(() => {
 				window.location.href = '/admin/siswa';
-			}, 1000);
+			}, 500);
 		} else {
 			responseMessage = message.message;
 			snackbarError = true;
 		}
-		console.log('submite', handleSubmit());
 	}
 </script>
 
