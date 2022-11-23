@@ -15,6 +15,7 @@
 	];
 
 	let data = {
+		id: '',
 		username: '',
 		nisn: '',
 		nama: '',
@@ -126,7 +127,7 @@
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen bg-main-light-secondary dark:bg-main-dark-secondary">
+<main class=" overflow-auto h-screen bg-root">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
@@ -134,6 +135,22 @@
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
+							<div class="main-input">
+								<TextField
+									readonly
+									filled
+									bind:value={data.id}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 10 || 'Max 10 characters',
+										(v) => {
+											const pattern = /^\d+$/;
+											return pattern.test(v) || 'This field is number.';
+										}
+									]}
+									type="text">id</TextField
+								>
+							</div>
 							<div class="main-input">
 								<TextField
 									readonly
@@ -198,6 +215,34 @@
 							<div class="main-input">
 								<Select filled items={Agama} class="main-input dropdown" bind:value={data.agama}
 									>Agama</Select
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kecamatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kecamatan is invalid.';
+										}
+									]}
+									type="text">Kecamatan</TextField
+								>
+							</div>
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kabupaten}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kabupaten is invalid.';
+										}
+									]}
+									type="text">Kabupaten</TextField
 								>
 							</div>
 						</div>
@@ -287,10 +332,6 @@
 									type="text">Pekerjaan Ibu</TextField
 								>
 							</div>
-						</div>
-					</div>
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
 							<div class="main-input">
 								<TextField
 									filled
@@ -319,40 +360,6 @@
 									type="text">Kewarganegaraan</TextField
 								>
 							</div>
-						</div>
-						<div class="w-full">
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kecamatan}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kecamatan is invalid.';
-										}
-									]}
-									type="text">Kecamatan</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kabupaten}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kabupaten is invalid.';
-										}
-									]}
-									type="text">Kabupaten</TextField
-								>
-							</div>
-						</div>
-					</div>
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
 							<div class="main-input">
 								<Select
 									filled
@@ -362,7 +369,6 @@
 								>
 							</div>
 						</div>
-						<div class="w-full" />
 					</div>
 				</div>
 			</Card>
@@ -398,12 +404,12 @@
 					</div>
 					<div class="font-bold text-base">Simpan perubahan?</div>
 					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
-						<Button create click={() => handleSubmit() && onClose()}>Simpan</Button>
+						<Button modal click={() => handleSubmit() && onClose()}>Simpan</Button>
 						<Button close click={() => onClose()}>Kembali</Button>
 					</div>
 				</Dialog>
 				<Snackbar
-					class="bg-other-success text-base-white gap-5 text-base flex-column"
+					class="bg-green-500 text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center

@@ -34,10 +34,7 @@
 </svelte:head>
 
 <main id="body">
-	<div
-		class="flex bg-main-light-secondary overflow-hidden dark:bg-main-dark-secondary"
-		class:overflow-hidden={$isSideMenuOpen}
-	>
+	<div class="flex bg-root overflow-hidden" class:overflow-hidden={$isSideMenuOpen}>
 		<aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative">
 			<SideBar item={items} back click />
 		</aside>

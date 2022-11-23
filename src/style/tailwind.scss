@@ -3,12 +3,14 @@
 @tailwind utilities;
 
 *body {
-	font-family: 'Sofia Pro', sans-serif !important;
+	font-family: 'Roboto' !important;
+	font-weight: 400;
 	font-size: 14px !important;
 	line-height: 18px !important;
+	letter-spacing: 1px;
 	.primary-text {
-		color: gray !important;
-		caret-color: gray !important;
+		color: #7a869a !important;
+		caret-color: #7a869a !important;
 	}
 }
 

@@ -1,7 +1,9 @@
 .main-input {
-    background-color: whitesmoke;
+    background-color: black;
     height: 56px;
     margin-bottom: 35px;
+    border: 1px solid #344563;
+    border-radius: 4px;
 }
 .s-text-field__wrapper:after {
     background-color: unset !important;
@@ -17,6 +19,7 @@
 .s-input.s-text-field.s-qvNCBL3LngMt.error-text.error {
     border: 1px solid red !important;
     height: 56px !important;
+    border-radius: 4px;
 }
 .s-input__details>[slot=messages] {
     display: flex;
@@ -28,17 +31,17 @@
     font-size: 12px;
 }
 .primary-text {
-    color: #92929D !important;
-    caret-color: #92929D !important;
+    color: #7a869a !important;
+    caret-color: #7a869a !important;
 }
 label{
     font-size: 14px;
 }
-
 .filter-input{
     width: fit-content;
     height: 54px;
-    background-color: whitesmoke;
+    background-color: black;
+    border: #344563 1px solid;
     .s-input.s-text-field.s-qvNCBL3LngMt.primary-text{
         color: #92929D !important;
         caret-color: #92929D !important;

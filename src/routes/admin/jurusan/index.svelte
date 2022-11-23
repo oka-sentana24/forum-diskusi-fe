@@ -22,7 +22,7 @@
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let data = [{ text: 'Siswa', href: '#' }];
+	let data = [{ text: 'Jurusan', href: '#' }];
 	let columns = ['No', 'Nama'];
 	let items = [];
 	let getKelas = [];
@@ -40,9 +40,9 @@
 			const data = await res.json();
 			items = data;
 
-			const response = await fetch(`${variables.basePath}/jurusan/list`);
-			const dataKelas = await response.json();
-			getKelas = dataKelas;
+			// const response = await fetch(`${variables.basePath}/kelas/list`);
+			// const dataKelas = await response.json();
+			// getKelas = dataKelas;
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -97,12 +97,12 @@
 				>
 			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[37rem] bg-base-white">
+		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
 						{#each columns as column}
-							<DataTableCell>{column}</DataTableCell>
+							<DataTableCell class="text-white">{column}</DataTableCell>
 						{/each}
 					</DataTableRow>
 				</DataTableHead>
@@ -119,26 +119,15 @@
 						</div>
 					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items, index}
-							<DataTableRow class="text-color-light-body">
-								<DataTableCell>{index + 1}</DataTableCell>
+							<DataTableRow class="text-white">
 								<DataTableCell>
-									<a
-										href="/admin/siswa/{items.id}/view"
-										class=" text-link-light-purple dark:text-link-dark-blue"
-									>
+									{index + 1}
+								</DataTableCell>
+								<DataTableCell>
+									<a href="/admin/jurusan/{items.id}/view" class="text-link">
 										{items.nama}
 									</a>
 								</DataTableCell>
-								<!-- <DataTableCell>
-									<a
-										href="/admin/kelas/{items.id}/view"
-										class=" text-link-light-purple dark:text-link-dark-blue"
-									>
-										{#each getKelas as kelas}
-											{kelas.grade} ({kelas.nama})
-										{/each}
-									</a>
-								</DataTableCell> -->
 							</DataTableRow>
 						{/each}
 					{:else}
@@ -146,7 +135,7 @@
 							<DataTableRow>
 								<div class="grid gap-5 text-color-dark-body">
 									<Icon path={mdiFolderOutline} size="25px" />
-									<span>Tidak ada jurusan yang ditemukan</span>
+									<span>Tidak ada Jurusan yang ditemukan</span>
 								</div>
 							</DataTableRow>
 						</div>

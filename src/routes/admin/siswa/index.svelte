@@ -107,12 +107,12 @@
 				>
 			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[37rem] bg-base-white">
+		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
 						{#each columns as column}
-							<DataTableCell>{column}</DataTableCell>
+							<DataTableCell class="text-white">{column}</DataTableCell>
 						{/each}
 					</DataTableRow>
 				</DataTableHead>
@@ -129,24 +129,18 @@
 						</div>
 					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items}
-							<DataTableRow class="text-color-light-body">
+							<DataTableRow class="text-white">
 								<DataTableCell>
 									{items.nisn}
 								</DataTableCell>
 								<DataTableCell>
-									<a
-										href="/admin/siswa/{items.id}/view"
-										class=" text-link-light-purple dark:text-link-dark-blue"
-									>
+									<a href="/admin/siswa/{items.id}/view" class="text-link">
 										{items.nama}
 									</a>
 								</DataTableCell>
 								<DataTableCell>{items.alamat}</DataTableCell>
 								<DataTableCell>
-									<a
-										href="/admin/kelas/{items.id}/view"
-										class=" text-link-light-purple dark:text-link-dark-blue"
-									>
+									<a href="/admin/kelas/{items.id}/view" class="text-link">
 										{#each getKelas as kelas}
 											{kelas.grade} ({kelas.nama})
 										{/each}

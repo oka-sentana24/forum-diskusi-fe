@@ -1,4 +1,5 @@
 <script>
+	// @ts-nocheck
 	import Loader from '$components/Loader.svelte';
 	import { ProgressCircular } from 'svelte-materialify';
 	import Brands from '$lib/images/brands.svg';
@@ -7,7 +8,7 @@
 
 <Loader this={() => import('./index.svelte')}>
 	<div slot="fallback">
-		<div class="flex justify-center items-center w-full h-screen bg-indigo-50">
+		<div class="flex justify-center items-center w-full h-screen bg-root">
 			<div class="flex flex-col justify-center items-center gap-10">
 				<span>
 					<img src={Brands} alt="brands" class="w-[100px] h-[100px]" />

@@ -5,26 +5,22 @@
 	export let filter: boolean;
 	export let icon: boolean;
 	export let close: boolean;
+	export let update: boolean;
 	export let remove: boolean;
+	export let modal: boolean;
 
 	export let click;
 </script>
 
 <button
-	class={`w-full ${login && 'h-[53px] cursor-pointer bg-primary-light-50 text-color-dark-title'} ${
-		disabled && 'opacity-50 cursor-not-allowed'
-	} ${
-		create &&
-		'h-[42px] w-[104px] bg-primary-light-30 dark:bg-primary-dark-30 rounded-md text-base-white'
-	} ${
-		filter && 'h-[42px] w-[104px] bg-primary-light-10 dark:bg-main-dark-primary text-sm rounded-md'
-	} ${
-		icon &&
-		'h-[42px] w-[50px] bg-primary-light-30 dark: bg-bg-primary-dark-30 text-base-white rounded-md'
-	} ${
-		remove && 'h-[42px] w-[104px] bg-other-error dark:bg-primary-dark-30 rounded-md text-base-white'
-	} ${
-		close && 'bg-transparent h-[42px] w-[104px] text-color-light-body hover:bg-main-light-secondary'
+	class={`rounded-sm h-[42px] w-[104px] text-white ${
+		login && 'h-[53px] w-full cursor-pointer bg-white text-slate-700'
+	} ${disabled && 'opacity-50 cursor-not-allowed'} ${create && 'bg-white text-gray-700'} ${
+		filter && ' bg-[#25385854] hover:bg-link text-white'
+	} ${icon && 'h-[42px] w-[50px] bg-[#25385854] hover:bg-link text-white'} ${
+		remove && ' bg-[#25385854] hover:bg-red-500 text-base-white'
+	} ${close && 'bg-transparent text-gray-700'} ${update && 'bg-purple-800 text-base-white'} ${
+		modal && 'bg-link'
 	}`}
 	on:click={click}
 	{disabled}

@@ -91,7 +91,7 @@
 </script>
 
 <Header {items} />
-<main class=" overflow-auto h-screen bg-main-light-secondary dark:bg-main-dark-secondary">
+<main class=" overflow-auto h-screen bg-root">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">

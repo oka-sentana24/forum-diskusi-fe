@@ -19,10 +19,10 @@
 			</div>
 			<div>
 				<!-- Breadcrumb -->
-				<Breadcrumbs {items} let:item large class="py-2 px-0">
+				<Breadcrumbs {items} let:item large class="py-2 px-0 text-white">
 					{#if item.href}
 						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
-							<span class="text-gray-400">
+							<span class="text-white">
 								{item.text}
 							</span>
 						</a>
@@ -52,7 +52,7 @@
 					<span class="text-sm pb-2 italic">User</span>
 				</div>
 				<div class="grid py-2">
-					<span class="text-bold text-teal-800 text-base leading-5 py-2">Pengaturan</span>
+					<span class="text-bold text-white leading-5 py-2">Pengaturan</span>
 					<span class="text-bold text-teal-800 text-base">
 						<a href="/"> Keluar </a>
 					</span>

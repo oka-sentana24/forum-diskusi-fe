@@ -2,6 +2,6 @@
 	export let text: string;
 </script>
 
-<h2 class="text-[24px] font-bold text-color-light-title dark:text-color-dark-title">
+<h3 class="text-[24px] font-bold text-white">
 	{text}
-</h2>
+</h3>

@@ -6,7 +6,7 @@ table {
  width: 100%;
 }
 thead.s-tbl-head {
-    background: #DBD7F4 !important;
+    background: #086d7b !important;
 }
 
 /* loading animate */
@@ -21,7 +21,7 @@ thead.s-tbl-head {
     position: absolute;
     left: 8px;
     width: 16px;
-    background: #92929D;
+    background: white;
     animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
   }
   .lds-facebook div:nth-child(1) {

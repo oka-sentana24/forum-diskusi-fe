@@ -8,7 +8,7 @@
 </script>
 
 <div
-	class="p-5 border-b border-color-light-body flex flex-cols-3 justify-self-start items-center gap-5 h-16 text-gray-900 font-normal dark:border-gray-600 dark:text-white"
+	class="p-5 border-b border-line flex flex-cols-3 justify-self-start items-center gap-5 h-16 text-gray-900 font-normal"
 >
 	<span on:click={back} class="text-slate-500 md:hidden">
 		<Icon path={mdiArrowLeft} size={20} />

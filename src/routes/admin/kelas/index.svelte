@@ -1,36 +1,54 @@
-<script>
+<script lang="ts">
+	// @ts-nocheck
 	import '../../../style/tailwind.scss';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import {
-		Button,
-		Icon,
 		DataTable,
 		DataTableHead,
 		DataTableRow,
 		DataTableCell,
 		DataTableBody,
+		Icon,
 		TextField
 	} from 'svelte-materialify';
-	import { mdiPlus, mdiChevronDown } from '@mdi/js';
+	import Button from '$components/Button.svelte';
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
-	import { mdiChevronUp } from '@mdi/js';
+	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
 
 	let isopenFilter = false;
+	let isloading = false;
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
 	let data = [{ text: 'Kelas', href: '#' }];
-	let columns = ['id', 'Nama', 'Grade'];
+	let columns = ['No', 'Nama', 'grade'];
 	let items = [];
-	let active = false;
+	let getKelas = [];
 	let nama = '';
 
 	onMount(async () => {
-		const res = await fetch(`${variables.basePath}/kelas/list`);
-		const data = await res.json();
-		items = data;
+		/* Get Siswa */
+		try {
+			setTimeout(() => {
+				isloading = true;
+			}, 3000);
+
+			/* get Siswa */
+			const res = await fetch(`${variables.basePath}/kelas/list`);
+			const data = await res.json();
+			items = data;
+
+			// const response = await fetch(`${variables.basePath}/kelas/list`);
+			// const dataKelas = await response.json();
+			// getKelas = dataKelas;
+			isloading = false;
+		} catch (e) {
+			isloading = false;
+			// correctly (?) nothing can be caught here...
+			console.log('no data');
+		}
 		var url = new URL(`${variables.basePath}/kelas/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
@@ -52,91 +70,89 @@
 <Header items={data} />
 <main>
 	<div class="m-5 relative">
-		<!-- create and filter -->
-		<div class="flex flex-cols-2 justify-between items-center pt-5">
-			<div>
-				<div class="flex flex-cols-2 items-center gap-5">
-					<Button
-						on:click={() => (isopenFilter = !isopenFilter)}
-						class="bg-slate-400 p-5 rounded-md shadow-lg text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 dark:bg-gray-800"
-					>
-						<div class="normal-case text-sm gap-2 flex items-center ">
-							<span> Filter </span>
-							{#if isopenFilter}
-								<Icon path={mdiChevronUp} size="20px" />
-							{:else}
-								<Icon path={mdiChevronDown} size="20px" />
-							{/if}
-						</div>
-					</Button>
+		<div class="flex col-span-2 items-center justify-between gap-5">
+			<Button filter click={() => (isopenFilter = !isopenFilter)}>
+				<div class="normal-case text-sm gap-2 flex items-center ">
+					<span> Filter </span>
 					{#if isopenFilter}
-						<button on:click={() => searchSiswa(nama)}>
-							<span> Apply </span>
-						</button>
-					{/if}
-					{#if nama}
-						<button type="reset">reset</button>
+						<Icon path={mdiChevronUp} size="20px" />
+					{:else}
+						<Icon path={mdiChevronDown} size="20px" />
 					{/if}
 				</div>
-			</div>
-			<div
-				class="flex justify-end transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300"
-			>
-				<a href="/admin/kelas/create">
-					<Button class="bg-teal-500 p-5 rounded-md shadow-lg">
-						<div class="normal-case text-sm text-white flex items-center gap-1">
-							<span> Create </span>
-							<Icon path={mdiPlus} size="20px" />
-						</div>
-					</Button>
-				</a>
-			</div>
+			</Button>
+			<a href="/admin/kelas/create">
+				<Button create>New Kelas +</Button>
+			</a>
 		</div>
-		<div class="py-3 relative">
+		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
 			{#if isopenFilter}
-				<div class="flex items-center justify-center gap-5 md:w-[15%] sm:w-[20%]">
-					<TextField dense filled on:change={handleNamaChange}>Nama</TextField>
+				<div class="filter-input">
+					<TextField filled on:change={handleNamaChange}>Nama</TextField>
 				</div>
 			{/if}
-		</div>
-		<!-- data table -->
-		<div class="absolute w-full overflow-auto">
-			<div>
-				<DataTable
-					class="block bg-white border-2 border-rose-600 dark:bg-gray-800 h-[60vh] overflow-auto rounded-none w-full"
+			{#if isopenFilter}
+				<Button icon click={() => searchSiswa(nama)}
+					><Icon path={mdiSearchWeb} size="25px" /></Button
 				>
-					<DataTableHead
-						class="p-2 bg-teal-400 dark:bg-teal-800 text-white sticky top-0 rounded-none"
-					>
-						<DataTableRow>
-							{#each columns as column}
-								<DataTableCell>{column}</DataTableCell>
-							{/each}
-						</DataTableRow>
-					</DataTableHead>
-					<DataTableBody>
-						{#each paginatedItems as items}
-							<DataTableRow class="text-gray-500">
-								<DataTableCell>{items.id}</DataTableCell>
+			{/if}
+		</div>
+		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
+			<DataTable>
+				<DataTableHead>
+					<DataTableRow>
+						{#each columns as column}
+							<DataTableCell class="text-white">{column}</DataTableCell>
+						{/each}
+					</DataTableRow>
+				</DataTableHead>
+				<DataTableBody>
+					{#if isloading === items < 0}
+						<div class="absolute h-[30rem] flex items-center justify-center w-full">
+							<span class="grid items-center text-base">
+								<div class="lds-facebook">
+									<div />
+									<div />
+									<div />
+								</div>
+							</span>
+						</div>
+					{:else if !isloading === items.length <= 0}
+						{#each paginatedItems as items, index}
+							<DataTableRow class="text-white">
 								<DataTableCell>
-									<a href="/admin/kelas/{items.id}/view" class="text-teal-500">
+									{index + 1}
+								</DataTableCell>
+								<DataTableCell>
+									<a href="/admin/kelas/{items.id}/view" class="text-link">
 										{items.nama}
 									</a>
 								</DataTableCell>
-								<DataTableCell>{items.grade}</DataTableCell>
+								<DataTableCell>
+									{items.grade}
+								</DataTableCell>
 							</DataTableRow>
 						{/each}
-					</DataTableBody>
-				</DataTable>
-				<LightPaginationNav
-					totalItems={items.length}
-					{pageSize}
-					{currentPage}
-					limit={1}
-					showStepOptions={true}
-					on:setPage={(e) => (currentPage = e.detail.page)}
-				/>
-			</div>
+					{:else}
+						<div class="absolute h-[30rem] w-full flex items-center justify-center">
+							<DataTableRow>
+								<div class="grid gap-5 text-color-dark-body">
+									<Icon path={mdiFolderOutline} size="25px" />
+									<span>Tidak ada Jurusan yang ditemukan</span>
+								</div>
+							</DataTableRow>
+						</div>
+					{/if}
+				</DataTableBody>
+			</DataTable>
 		</div>
+		<LightPaginationNav
+			totalItems={items.length}
+			{pageSize}
+			{currentPage}
+			limit={1}
+			showStepOptions={true}
+			on:setPage={(e) => (currentPage = e.detail.page)}
+		/>
 	</div>
 </main>

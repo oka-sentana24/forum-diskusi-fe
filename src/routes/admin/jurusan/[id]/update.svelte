@@ -1,23 +1,29 @@
 <script lang="ts">
 	// @ts-nocheck
-	import { Icon } from 'svelte-materialify';
-	import { mdiContentSave } from '@mdi/js';
+	import { variables } from '$lib/variables';
+	import '$sass/tailwind.scss';
+	import { TextField, Select, Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import Card from '$components/Card.svelte';
+	import { mdiContentSave, mdiCheckCircle, mdiAlert } from '@mdi/js';
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
-	import { variables } from '$lib/variables';
-	import Card from '@smui/card';
-	import Textfield from '@smui/textfield';
 	import Button from '$components/Button.svelte';
+	import { page } from '$app/stores';
 	export let items = [
-		{ text: 'Jurusan', href: '/admin/jurusan' },
+		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'Update', href: '#' }
 	];
+
 	let data = {
 		id: '',
 		nama: ''
 	};
-	let snackbar = false;
+	let active;
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let fetchKelas = [];
+	let dataKelas = [];
+
 	onMount(() => {
 		getFetchSiswa(`${variables.basePath}/jurusan/list/${$page.params.id}`).then((res) => {
 			data = res;
@@ -29,50 +35,140 @@
 			return res.json();
 		});
 	}
+
 	async function handleSubmit() {
+		const headers = {
+			'Content-Length': body.length,
+			'Content-Type': 'application/json'
+		};
 		const response = await fetch(`${variables.basePath}/jurusan/update/${$page.params.id}`, {
 			method: 'PUT',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
-			headers: {
-				'Content-Type': 'application/json'
-			}
+			headers
 		});
 
-		if (response.status === 200 || response.status === 201) {
-			snackbar = true;
-			window.location.href = '/admin/jurusan';
+		// let message = await response.json();
+		if (response.status === 200) {
+			// isLoading = true;
+			// responseMessage = message.message;
+			snackbarSuccess = true;
+			onClose();
+			setTimeout(() => {
+				window.location.href = '/admin/jurusan';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = true;
+			window.location.href = '/admin/jurusan/create';
 		}
-		// what do you do with a non-redirect?
+	}
+	function onClose() {
+		active = false;
 	}
 </script>
 
 <Header {items} />
-<main class="overflow-auto h-screen">
+<main class=" overflow-auto h-screen bg-root">
 	<div class="m-5 relative">
 		<!-- data table -->
 		<div class="absolute w-full">
-			<Card class="bg-white shadow-none dark:bg-gray-800">
+			<Card>
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full dark:text-gray-300">
-							<div class="relative py-3">
-								<Textfield variant="filled" label="Id" bind:value={data.id} disabled />
+						<div class="w-full">
+							<div class="main-input">
+								<TextField
+									readonly
+									filled
+									bind:value={data.id}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 10 || 'Max 10 characters',
+										(v) => {
+											const pattern = /^\d+$/;
+											return pattern.test(v) || 'This field is number.';
+										}
+									]}
+									type="text">Id</TextField
+								>
 							</div>
-							<div class="relative py-3">
-								<Textfield variant="filled" label="Nama" bind:value={data.nama} />
+							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.nama}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Name is invalid.';
+										}
+									]}
+									type="text">Nama</TextField
+								>
 							</div>
 						</div>
 					</div>
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button type="save" click={() => handleSubmit()}>
+				<Button
+					create
+					disabled={data.username === '' ||
+						data.agama === '' ||
+						data.alamat === '' ||
+						data.email === '' ||
+						data.jenis_kelamin === '' ||
+						data.kabupaten === '' ||
+						data.kecamatan === '' ||
+						data.kelasId === '' ||
+						(data.kewarganegaraan === '') | (data.nama === '') ||
+						data.nama_ayah === '' ||
+						data.nama_ibu === '' ||
+						data.no_tlp === '' ||
+						data.pekerjaan_ayah === '' ||
+						data.pekerjaan_ibu === '' ||
+						data.tanggal_lahir === '' ||
+						data.tempat_lahir === ''}
+					click={() => (active = true)}
+				>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
-						save
+						Simpan
 					</div>
 				</Button>
+				<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active>
+					<div class="py-2">
+						<Icon path={mdiAlert} size={25} />
+					</div>
+					<div class="font-bold text-base">Simpan perubahan?</div>
+					<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+						<Button modal click={() => handleSubmit() && onClose()}>Simpan</Button>
+						<Button close click={() => onClose()}>Kembali</Button>
+					</div>
+				</Dialog>
+				<Snackbar
+					class="bg-green-500 text-base-white gap-5 text-base flex-column"
+					bind:active={snackbarSuccess}
+					top
+					center
+					timeout={1000}
+				>
+					<span class=" flex py-2 gap-5 items-center justify-around"
+						><Icon path={mdiCheckCircle} size={25} />
+						<span>Data siswa berhasil disimpan</span>
+					</span>
+				</Snackbar>
+				<Snackbar
+					class="flex-column bg-other-error text-white gap-5 text-base "
+					bind:active={snackbarError}
+					top
+					center
+					timeout={1000}
+				>
+					<Icon path={mdiAlert} size={25} />
+					<span>Data siswa gagal disimpan</span>
+				</Snackbar>
 			</div>
 		</div>
 	</div>

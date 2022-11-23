@@ -58,8 +58,8 @@
 		<TextField
 			filled
 			bind:value={username}
-			rules={[(v) => !!v || ' This field is required. ']}
-			type="text">Username</TextField
+			rules={[(v) => !!v || ` This field is required.`]}
+			type="text">Nisn/Nip</TextField
 		>
 	</div>
 	<div class="main-input">
@@ -91,7 +91,7 @@
 
 	<div class="flex col-span-2 my-4 items-center justify-start">
 		<Checkbox bind:rememberMe />
-		<span class="text-color-light-body">Remember me.</span>
+		<span class="text-white">Ingat saya.</span>
 	</div>
 	<div class="mt-4">
 		<Button
@@ -99,7 +99,7 @@
 			click={() => formSubmit()}
 			disabled={isSubmitting || username === '' || password === ''}
 		>
-			{isSubmitting ? 'Loading...' : 'Sign In'}
+			{isSubmitting ? 'Memuat...' : 'Masuk'}
 		</Button>
 	</div>
 </main>
