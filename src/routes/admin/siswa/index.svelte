@@ -16,6 +16,7 @@
 	import { paginate, LightPaginationNav } from 'svelte-paginate';
 	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
+	import Link from '$src/components/Link.svelte';
 
 	let isopenFilter = false;
 	let isloading = false;
@@ -91,9 +92,9 @@
 					{/if}
 				</div>
 			</Button>
-			<a href="/admin/siswa/create">
+			<Link href="/admin/siswa/create">
 				<Button create>New Siswa +</Button>
-			</a>
+			</Link>
 		</div>
 		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
 			{#if isopenFilter}

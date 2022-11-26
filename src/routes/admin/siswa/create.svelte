@@ -8,6 +8,7 @@
 	import Header from '$components/Header.svelte';
 	import { onMount } from 'svelte';
 	import Button from '$components/Button.svelte';
+	import { page } from '$app/stores';
 
 	let items = [
 		{ text: 'Siswa', href: '/admin/siswa' },

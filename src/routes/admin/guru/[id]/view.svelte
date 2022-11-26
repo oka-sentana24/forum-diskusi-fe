@@ -1,12 +1,16 @@
-<script>
-	import { Card, Button, Icon, Dialog, Snackbar } from 'svelte-materialify';
+<script lang="ts">
+	// @ts-nocheck
+	import { variables } from '$lib/variables';
+	import { Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	import Card from '$components/Card.svelte';
 	import { page } from '$app/stores';
 	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
-	let snackbar = false;
 	let active;
 	let id,
 		username,
+		nisn,
 		nama,
 		alamat,
 		jenis_kelamin,
@@ -15,23 +19,26 @@
 		agama,
 		no_tlp,
 		email,
-		jabatan,
 		kewarganegaraan,
 		kecamatan,
 		kabupaten,
 		nama_ayah,
 		nama_ibu,
-		pekerjaan_ibu;
+		pekerjaan_ibu,
+		pekerjaan_ayah;
 	export let items = [
-		{ text: 'Guru', href: '/admin/guru' },
+		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
 	];
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let isLoading;
 	// @ts-ignore
-	fetch(`http://localhost:3001/guru/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/siswa/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
 			id = res.id;
-			username = res.username;
+			nisn = res.nisn;
 			nama = res.nama;
 			alamat = res.alamat;
 			jenis_kelamin = res.jenis_kelamin;
@@ -41,13 +48,17 @@
 			agama = res.agama;
 			no_tlp = res.no_tlp;
 			email = res.email;
-			jabatan = res.jabatan;
 			kewarganegaraan = res.kewarganegaraan;
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
+			nama_ayah = res.nama_ayah;
+			nama_ibu = res.nama_ibu;
+			pekerjaan_ayah = res.pekerjaan_ayah;
+			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
+
 	async function handleSubmit() {
-		const response = await fetch(`http://localhost:3001/guru/list/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/siswa/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -56,9 +67,21 @@
 		});
 
 		if (response.status === 200) {
-			snackbar = true;
-			window.location.href = '/admin/guru';
+			// isLoading = true;
+			// responseMessage = message.message;
+			snackbarSuccess = true;
+			onClose();
+			setTimeout(() => {
+				window.location.href = '/admin/siswa';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = true;
+			window.location.href = '/admin/siswa/create';
 		}
+	}
+	function onClose() {
+		active = false;
 	}
 </script>
 
@@ -66,76 +89,133 @@
 <main>
 	<div class="m-5 relative">
 		<!-- create and filter -->
-		<div class="flex justify-end py-5">
-			<a href="/admin/guru/{id}/update">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				>
+		<div class="flex justify-end py-5 gap-5">
+			<a href="/admin/siswa/{id}/update">
+				<Button update>
 					<div class="normal-case text-sm text-white flex items-center gap-1">
 						<Icon path={mdiAccountEdit} size="20px" />
 						<span> Update </span>
 					</div>
 				</Button>
 			</a>
+
+			<Button remove click={() => (active = true)}>
+				<div class="normal-case text-sm text-white flex items-center gap-1">
+					<Icon path={mdiDelete} size="20px" />
+					<span> Delete </span>
+				</div>
+			</Button>
+			<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active persistent={true}>
+				<div class="py-2">
+					<Icon path={mdiAlert} size={25} />
+				</div>
+				<div class="font-bold text-base">Konfirmasi Hapus "{nama}"?</div>
+				<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+					<Button modal click={() => handleSubmit() && onClose()}>Simpan</Button>
+					<Button close click={() => onClose()}>Kembali</Button>
+				</div>
+			</Dialog>
+			<Snackbar
+				class="bg-green-500 text-white gap-5 text-base flex-column"
+				bind:active={snackbarSuccess}
+				top
+				center
+				timeout={1000}
+			>
+				<span class=" flex py-2 gap-5 items-center justify-around"
+					><Icon path={mdiCheckCircle} size={25} />
+					<span>Data siswa berhasil disimpan</span>
+				</span>
+			</Snackbar>
+			<Snackbar
+				class="flex-column bg-red-500 text-white gap-5 text-base "
+				bind:active={snackbarError}
+				top
+				center
+				timeout={1000}
+			>
+				<Icon path={mdiAlert} size={25} />
+				<span>Data siswa gagal disimpan</span>
+			</Snackbar>
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<Card class="h-full bg-white shadow-none dark:bg-gray-800">
+			<Card view>
 				<div class="p-5 flex flex-cols-2 gap-20">
 					<div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">id</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">id</label>
+						<div class="pb-2 text-white">
 							{id}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nisn</label>
-						<div class="pb-2">
-							{username}
+						<label for="" class="text-xs text-gray-400">Nisn</label>
+						<div class="pb-2 text-white">
+							{nisn}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nama</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Nama</label>
+						<div class="pb-2 text-white">
 							{nama}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Alamat</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Alamat</label>
+						<div class="pb-2 text-white">
 							{alamat}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Jenis Kelamin</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Kelas</label>
+						<div class="pb-2 text-white">
+							{alamat}
+						</div>
+						<label for="" class="text-xs text-gray-400">Jenis Kelamin</label>
+						<div class="pb-2 text-white">
 							{jenis_kelamin}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tempat lahir</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Tempat lahir</label>
+						<div class="pb-2 text-white">
 							{tempat_lahir}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tanggal Lahir</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Tanggal Lahir</label>
+						<div class="pb-2 text-white">
 							{tanggal_lahir}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Agama</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Agama</label>
+						<div class="pb-2 text-white">
 							{agama}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">No Tlp</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">No Tlp</label>
+						<div class="pb-2 text-white">
 							{no_tlp}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Email</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Email</label>
+						<div class="pb-2 text-white">
 							{email}
 						</div>
 					</div>
 					<div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kewarganegaraan</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Kewarganegaraan</label>
+						<div class="pb-2 text-white">
 							{kewarganegaraan}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kecamatan</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Kecamatan</label>
+						<div class="pb-2 text-white">
 							{kecamatan}
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kabupaten</label>
-						<div class="pb-2">
+						<label for="" class="text-xs text-gray-400">Kabupaten</label>
+						<div class="pb-2 text-white">
 							{kabupaten}
+						</div>
+						<label for="" class="text-xs text-gray-400">Nama Ayah</label>
+						<div class="pb-2 text-white">
+							{nama_ayah}
+						</div>
+						<label for="" class="text-xs text-gray-400">Pekerjaan Ayah</label>
+						<div class="pb-2 text-white">
+							{pekerjaan_ayah}
+						</div>
+						<label for="" class="text-xs text-gray-400">Nama Ibu</label>
+						<div class="pb-2 text-white">
+							{nama_ibu}
+						</div>
+						<label for="" class="text-xs text-gray-400">Pekerjaan Ibu</label>
+						<div class="pb-2 text-white">
+							{pekerjaan_ibu}
 						</div>
 					</div>
 				</div>

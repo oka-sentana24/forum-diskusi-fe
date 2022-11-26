@@ -5,7 +5,7 @@
 	import Card from './Card.svelte';
 	import { Breadcrumbs, Icon } from 'svelte-materialify';
 	import { mdiAccountCircleOutline, mdiChevronDown, mdiChevronUp } from '@mdi/js';
-	import { get } from 'svelte/store';
+	import Link from './Link.svelte';
 	let isProfileOpen: boolean;
 	export let items;
 </script>
@@ -19,13 +19,13 @@
 			</div>
 			<div>
 				<!-- Breadcrumb -->
-				<Breadcrumbs {items} let:item large class="py-2 px-0 text-white">
+				<Breadcrumbs {items} let:item large class="py-2 px-0 ">
 					{#if item.href}
-						<a class="s-breadcrumb-item" href={item.href} class:disabled={item.disabled}>
+						<Link class="s-breadcrumb-item" href={item.href}>
 							<span class="text-white">
 								{item.text}
 							</span>
-						</a>
+						</Link>
 					{/if}
 				</Breadcrumbs>
 			</div>
