@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+	transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+	@apply bg-light-main-secondary dark:bg-dark-main-secondary text-light-text-title dark:text-dark-text-title text-center;
+    .primary-text {
+		color: #7a869a !important;
+		caret-color: #7a869a !important;
+	}
+}
+
+.s-switch__track{
+    @apply bg-light-text-body_1
+}
+.s-switch {
+    margin-bottom: 0 !important;
+}
+
+.s-input__control{
+    @apply bg-light-fill-field border border-light-separator-secondary dark:bg-dark-fill-field dark:border-dark-separator-secondary h-[55px] rounded-sm;
+}
+.s-text-field__wrapper:after {
+    background-color: unset !important;
+    border-color: unset !important;
+    border-style: unset !important;
+    border-width: unset !important;
+    transform: scaleX(0);
+}
+.s-text-field__wrapper:before {
+    border: unset !important;
+    border-width: unset !important;
+}
+.s-input.s-text-field.s-qvNCBL3LngMt.error-text.error{
+    @apply border border-other-error rounded-sm;
+}

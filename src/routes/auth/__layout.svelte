@@ -3,7 +3,6 @@
 	import Loader from '$components/Loader.svelte';
 	import { ProgressCircular } from 'svelte-materialify';
 	import Brands from '$lib/images/brands.svg';
-	import '../../app.css';
 </script>
 
 <Loader this={() => import('./index.svelte')}>
