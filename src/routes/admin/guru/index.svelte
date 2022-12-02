@@ -13,9 +13,10 @@
 		TextField
 	} from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
-	import { paginate, LightPaginationNav } from 'svelte-paginate';
+	import { paginate, PaginationNav } from 'svelte-paginate';
 	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
+	import Link from '$src/components/Link.svelte';
 
 	let isopenFilter = false;
 	let isloading = false;
@@ -35,7 +36,6 @@
 		'E-mail'
 	];
 	let items = [];
-	let getKelas = [];
 	let nama = '';
 
 	onMount(async () => {
@@ -48,11 +48,18 @@
 			/* get Siswa */
 			const res = await fetch(`${variables.basePath}/guru/list`);
 			const data = await res.json();
+
 			items = data;
 
-			const response = await fetch(`${variables.basePath}/guru/list`);
-			const dataKelas = await response.json();
-			getKelas = dataKelas;
+			// items.forEach(async (e) => {
+			// 	const kelas = await (
+			// 		await fetch(`${variables.basePath}/kelas_guru/list/${e.guruId}`)
+			// 	).json();
+			// 	// console.log('debug: test', kelasId);
+
+			// 	e.kelas = kelasId;
+			// 	// e.grade = kelas.grade;
+			// });
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -107,45 +114,45 @@
 				>
 			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
+		<div class="main-tabel">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
 						{#each columns as column}
-							<DataTableCell class="text-white">{column}</DataTableCell>
+							<DataTableCell>{column}</DataTableCell>
 						{/each}
 					</DataTableRow>
 				</DataTableHead>
 				<DataTableBody>
 					{#if isloading === items < 0}
-						<div class="absolute h-[30rem] flex items-center justify-center w-full">
-							<span class="grid items-center text-base">
-								<div class="lds-facebook">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
+							<DataTableRow>
+								<div class="lds-ellipsis">
+									<div />
 									<div />
 									<div />
 									<div />
 								</div>
-							</span>
+							</DataTableRow>
 						</div>
+						<!-- </div> -->
 					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items}
-							<DataTableRow class="text-white">
+							<DataTableRow>
 								<DataTableCell>
 									{items.nip}
 								</DataTableCell>
 								<DataTableCell>
-									<a href="/admin/guru/{items.id}/view" class="text-link">
+									<Link href="/admin/guru/{items.id}/view">
 										{items.nama}
-									</a>
+									</Link>
 								</DataTableCell>
 								<DataTableCell>{items.alamat}</DataTableCell>
-								<DataTableCell>
-									<a href="/admin/kelas/{items.id}/view" class="text-link">
-										{#each getKelas as kelas}
-											{kelas.grade} ({kelas.nama})
-										{/each}
-									</a>
-								</DataTableCell>
+								<!-- <DataTableCell>
+									<Link href="/admin/kelas/{items.kelasId}/view">
+										{items.kelas} ({items.kelas})
+									</Link>
+								</DataTableCell> -->
 								<DataTableCell>{items.jenis_kelamin}</DataTableCell>
 								<DataTableCell>{items.tanggal_lahir}</DataTableCell>
 								<DataTableCell>{items.agama}</DataTableCell>
@@ -154,7 +161,7 @@
 							</DataTableRow>
 						{/each}
 					{:else}
-						<div class="absolute h-[30rem] w-full flex items-center justify-center">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
 							<DataTableRow>
 								<div class="grid gap-5 text-color-dark-body">
 									<Icon path={mdiFolderOutline} size="25px" />
@@ -166,7 +173,7 @@
 				</DataTableBody>
 			</DataTable>
 		</div>
-		<LightPaginationNav
+		<PaginationNav
 			totalItems={items.length}
 			{pageSize}
 			{currentPage}

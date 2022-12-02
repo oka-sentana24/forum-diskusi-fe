@@ -29,8 +29,8 @@
 	}
 </script>
 
-<div class="flex col-span-2 items-center gap-3">
-	<span class=" text-base-white dark:text-base-white">Dark Mode</span>
+<div class="flex col-span-2 items-center gap-5 justify-between">
+	<span class="text-color-light dark:text-color-dark">Dark Mode</span>
 	<div on:click={handleSwitchDarkMode}>
 		<Switch checked={darkMode} on:click={handleSwitchDarkMode} inset color="secondary" />
 	</div>

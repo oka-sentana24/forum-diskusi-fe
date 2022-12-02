@@ -1,7 +1,10 @@
 <script lang="ts">
 	// @ts-nocheck
-	import { TextField, Icon, Button, Checkbox } from 'svelte-materialify';
+	import Description from '$components/Description.svelte';
+	import { TextField, Icon, Checkbox } from 'svelte-materialify';
 	import { mdiEyeOff, mdiEye, mdiAlertRhombus } from '@mdi/js';
+	import Button from '$components/Button.svelte';
+	import Title from '$components/Title.svelte';
 	import jwt_decode from 'jwt-decode';
 	import { variables } from '$lib/variables';
 
@@ -51,12 +54,8 @@
 
 <div class="p-8">
 	<div class="py-5 text-left ">
-		<h1 class="text-2xl font-bold mb-2 text-light-text-title dark:text-dark-text-title">Masuk</h1>
-		<span class="text-dark-text-body_1"
-			>Tidak punya akun? <a href="#" class="text-light-link-purple dark:text-dark-link-blue">
-				Hubungi administrasi</a
-			></span
-		>
+		<Title text="Masuk" />
+		<Description text="Tidak punya akun?">Hubungi administrasi</Description>
 	</div>
 	<div class="grid gap-9">
 		<TextField filled rules={[(v) => !!v || ' This field is required. ']} bind:value={username}
@@ -91,14 +90,8 @@
 		<Checkbox bind:rememberMe value="1" class="my-5">
 			<span class="text-light-text-body_1">Ingat saya.</span></Checkbox
 		>
-		<Button
-			block
-			size="x-large"
-			class="bg-light-primary-50 dark:bg-dark-primary-50 rounded-sm text-base-white"
-			on:click={() => formSubmit()}
-			><span class="normal-case">
-				{isSubmitting ? 'Memuat...' : 'Masuk'}
-			</span></Button
-		>
+		<Button login click={() => formSubmit()}>
+			{isSubmitting ? 'Memuat...' : 'Masuk'}
+		</Button>
 	</div>
 </div>

@@ -8,10 +8,10 @@
 	import { Avatar, Divider, Icon, ListItem, Badge } from 'svelte-materialify';
 	import { mdiPlus, mdiWindowClose, mdiChevronDown, mdiChevronRight } from '@mdi/js';
 	import { browser } from '$app/env';
-	import { user } from '$lib/mokeData/users';
+	// import { user } from '$lib/mokeData/users';
 
 	import Header from '$components/Header.svelte';
-	import { room } from '$src/lib/mokeData/room';
+	// import { room } from '$src/lib/mokeData/room';
 	import { supabase } from '../../supabase';
 	import { onMount } from 'svelte';
 
@@ -23,7 +23,7 @@
 		isDark.update((v) => false);
 	}
 
-	let users = user;
+	// let users = user;
 	let roomData = [];
 	let data = [{ text: 'Chat', href: '#' }];
 	let isUserChat = true;

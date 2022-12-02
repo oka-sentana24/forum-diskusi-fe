@@ -97,7 +97,7 @@
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="main-input">
+							<div class="grid gap-9">
 								<TextField
 									filled
 									bind:value={data.username}
@@ -111,8 +111,6 @@
 									]}
 									type="text">Nip</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.nama}
@@ -125,16 +123,12 @@
 									]}
 									type="text">Nama</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select
 									filled
 									items={Jenis_kelamin}
 									class="main-input dropdown"
 									bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.tempat_lahir}
@@ -147,8 +141,6 @@
 									]}
 									type="text">Tempat Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									placeholder="Placeholder"
@@ -156,13 +148,9 @@
 									type="date"
 									bind:value={data.tanggal_lahir}>Tanggal Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select filled items={Agama} class="main-input dropdown" bind:value={data.agama}
 									>Agama</Select
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.alamat}
@@ -178,7 +166,7 @@
 							</div>
 						</div>
 						<div class="w-full">
-							<div class="main-input">
+							<div class="grid gap-9">
 								<TextField
 									filled
 									bind:value={data.no_tlp}
@@ -191,8 +179,6 @@
 									]}
 									type="text">Mobile Number</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.email}
@@ -206,8 +192,6 @@
 									]}
 									type="text">E-mail</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.ktp}
@@ -220,8 +204,6 @@
 									]}
 									type="text">Ktp</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.jabatan}
@@ -234,16 +216,12 @@
 									]}
 									type="text">Jabatan</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select
 									filled
 									items={dataKelas}
 									class="main-input dropdown"
 									bind:value={data.kelasId}>Kelas</Select
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.kewarganegaraan}

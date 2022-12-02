@@ -135,7 +135,7 @@
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="main-input">
+							<div class="grid gap-9">
 								<TextField
 									readonly
 									filled
@@ -150,8 +150,6 @@
 									]}
 									type="text">id</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									readonly
 									filled
@@ -166,8 +164,6 @@
 									]}
 									type="text">Nisn</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.nama}
@@ -180,16 +176,24 @@
 									]}
 									type="text">Nama</TextField
 								>
-							</div>
-							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.alamat}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Alamat is invalid.';
+										}
+									]}
+									type="text">Alamat</TextField
+								>
 								<Select
 									filled
 									items={Jenis_kelamin}
 									class="main-input dropdown"
 									bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.tempat_lahir}
@@ -202,8 +206,6 @@
 									]}
 									type="text">Tempat Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									placeholder="Placeholder"
@@ -211,43 +213,9 @@
 									type="date"
 									bind:value={data.tanggal_lahir}>Tanggal Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select filled items={Agama} class="main-input dropdown" bind:value={data.agama}
 									>Agama</Select
 								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kecamatan}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kecamatan is invalid.';
-										}
-									]}
-									type="text">Kecamatan</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kabupaten}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kabupaten is invalid.';
-										}
-									]}
-									type="text">Kabupaten</TextField
-								>
-							</div>
-						</div>
-						<div class="w-full">
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.no_tlp}
@@ -260,8 +228,6 @@
 									]}
 									type="text">Mobile Number</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.email}
@@ -276,77 +242,9 @@
 									type="text">E-mail</TextField
 								>
 							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama_ayah}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Nama ayah is invalid.';
-										}
-									]}
-									type="text">Nama Ayah</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.pekerjaan_ayah}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
-										}
-									]}
-									type="text">Pekerjaan Ayah</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama_ibu}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
-										}
-									]}
-									type="text">Nama Ibu</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.pekerjaan_ibu}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan Ibu is invalid.';
-										}
-									]}
-									type="text">Pekerjaan Ibu</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.alamat}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Alamat is invalid.';
-										}
-									]}
-									type="text">Alamat</TextField
-								>
-							</div>
-							<div class="main-input">
+						</div>
+						<div class="w-full">
+							<div class="grid gap-9">
 								<TextField
 									filled
 									bind:value={data.kewarganegaraan}
@@ -359,13 +257,95 @@
 									]}
 									type="text">Kewarganegaraan</TextField
 								>
-							</div>
-							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.kecamatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kecamatan is invalid.';
+										}
+									]}
+									type="text">Kecamatan</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.kabupaten}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kabupaten is invalid.';
+										}
+									]}
+									type="text">Kabupaten</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.nama_ibu}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Nama Ibu</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.pekerjaan_ibu}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan Ibu is invalid.';
+										}
+									]}
+									type="text">Pekerjaan Ibu</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.nama_ayah}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Nama Ayah</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.pekerjaan_ayah}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Pekerjaan Ayah</TextField
+								>
 								<Select
 									filled
 									items={dataKelas}
 									class="main-input dropdown"
 									bind:value={data.kelasId}>Kelas</Select
+								>
+								<TextField
+									filled
+									bind:value={data.bio}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Bio</TextField
 								>
 							</div>
 						</div>
@@ -409,7 +389,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class="bg-green-500 text-base-white gap-5 text-base flex-column"
+					class="bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center

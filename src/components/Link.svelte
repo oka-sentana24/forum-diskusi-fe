@@ -3,12 +3,6 @@
 	export let href;
 </script>
 
-<a {href} class="link" class:active={$page.url.pathname == href}>
+<a {href} class="text-link-primary hover:text-link-secondary">
 	<slot />
 </a>
-
-<style>
-	a.active {
-		@apply text-link;
-	}
-</style>

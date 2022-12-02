@@ -121,7 +121,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class=" bg-green-500 text-base-white gap-5 text-base flex-column"
+					class="bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center

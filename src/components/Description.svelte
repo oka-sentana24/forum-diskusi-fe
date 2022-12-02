@@ -1,8 +1,9 @@
 <script lang="ts">
+	import Link from './Link.svelte';
 	export let text: string;
 </script>
 
-<span class="leading-6 text-white">
+<span class="leading-6">
 	{text}
-	<span class="text-link cursor-pointer"><slot /></span>
+	<Link href="#"><slot /></Link>
 </span>

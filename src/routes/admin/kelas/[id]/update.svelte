@@ -76,53 +76,45 @@
 		<div class="absolute w-full">
 			<Card>
 				<div class="p-5">
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
-							<div class="main-input">
-								<TextField
-									readonly
-									filled
-									bind:value={data.id}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => v.length <= 10 || 'Max 10 characters',
-										(v) => {
-											const pattern = /^\d+$/;
-											return pattern.test(v) || 'This field is number.';
-										}
-									]}
-									type="text">Id</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Nama</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.grade}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Grade</TextField
-								>
-							</div>
-						</div>
+					<div class="grid gap-9">
+						<TextField
+							readonly
+							filled
+							bind:value={data.id}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => v.length <= 10 || 'Max 10 characters',
+								(v) => {
+									const pattern = /^\d+$/;
+									return pattern.test(v) || 'This field is number.';
+								}
+							]}
+							type="text">Id</TextField
+						>
+						<TextField
+							filled
+							bind:value={data.nama}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Nama</TextField
+						>
+						<TextField
+							filled
+							bind:value={data.grade}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Grade</TextField
+						>
 					</div>
 				</div>
 			</Card>
@@ -148,7 +140,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class="bg-green-500 text-base-white gap-5 text-base flex-column"
+					class=" bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center

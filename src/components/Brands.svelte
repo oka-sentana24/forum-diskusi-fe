@@ -8,9 +8,9 @@
 </script>
 
 <div
-	class="p-5 border-b border-line flex flex-cols-3 justify-self-start items-center gap-5 h-16 text-gray-900 font-normal"
+	class="px-5 py-3 border-b flex flex-cols-3 justify-self-start items-center gap-5 h-16 border-separator-light dark:border-separator-dark"
 >
-	<span on:click={back} class="text-slate-500 md:hidden">
+	<span on:click={back} class="text-color-light dark:text-color-dark md:hidden">
 		<Icon path={mdiArrowLeft} size={20} />
 	</span>
 	<img class="object-cover w-10 h-9" src={brands} alt="Brands" />

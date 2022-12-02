@@ -80,40 +80,34 @@
 		<div class="absolute w-full">
 			<Card>
 				<div class="p-5">
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Nama</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.grade}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Grade</TextField
-								>
-							</div>
-						</div>
+					<div class="grid gap-9">
+						<TextField
+							filled
+							bind:value={data.nama}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Nama</TextField
+						>
+						<TextField
+							filled
+							bind:value={data.grade}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Grade</TextField
+						>
 					</div>
-				</div>
-			</Card>
+				</div></Card
+			>
 			<div class="flex justify-end py-5">
 				<Button create disabled={data.nama === ''} click={() => (active = true)}>
 					<div class="flex flex-span-1 gap-3 items-center">
@@ -136,7 +130,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class=" bg-green-500 text-base-white gap-5 text-base flex-column"
+					class=" bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center
@@ -148,7 +142,7 @@
 					</span>
 				</Snackbar>
 				<Snackbar
-					class="flex-column bg-red-500 text-white gap-5 text-base "
+					class="flex-column bg-other-error text-white gap-5 text-base "
 					bind:active={snackbarError}
 					top
 					center

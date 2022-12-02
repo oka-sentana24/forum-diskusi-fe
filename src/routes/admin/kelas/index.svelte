@@ -13,9 +13,10 @@
 		TextField
 	} from 'svelte-materialify';
 	import Button from '$components/Button.svelte';
-	import { paginate, LightPaginationNav } from 'svelte-paginate';
+	import { paginate, PaginationNav } from 'svelte-paginate';
 	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
+	import Link from '$src/components/Link.svelte';
 
 	let isopenFilter = false;
 	let isloading = false;
@@ -39,10 +40,6 @@
 			const res = await fetch(`${variables.basePath}/kelas/list`);
 			const data = await res.json();
 			items = data;
-
-			// const response = await fetch(`${variables.basePath}/kelas/list`);
-			// const dataKelas = await response.json();
-			// getKelas = dataKelas;
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -97,36 +94,38 @@
 				>
 			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
+		<div class="main-tabel">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
 						{#each columns as column}
-							<DataTableCell class="text-white">{column}</DataTableCell>
+							<DataTableCell>{column}</DataTableCell>
 						{/each}
 					</DataTableRow>
 				</DataTableHead>
 				<DataTableBody>
 					{#if isloading === items < 0}
-						<div class="absolute h-[30rem] flex items-center justify-center w-full">
-							<span class="grid items-center text-base">
-								<div class="lds-facebook">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
+							<DataTableRow>
+								<div class="lds-ellipsis">
+									<div />
 									<div />
 									<div />
 									<div />
 								</div>
-							</span>
+							</DataTableRow>
 						</div>
+						<!-- </div> -->
 					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items, index}
-							<DataTableRow class="text-white">
+							<DataTableRow>
 								<DataTableCell>
 									{index + 1}
 								</DataTableCell>
 								<DataTableCell>
-									<a href="/admin/kelas/{items.id}/view" class="text-link">
+									<Link href="/admin/kelas/{items.id}/view" class="text-link">
 										{items.nama}
-									</a>
+									</Link>
 								</DataTableCell>
 								<DataTableCell>
 									{items.grade}
@@ -134,11 +133,11 @@
 							</DataTableRow>
 						{/each}
 					{:else}
-						<div class="absolute h-[30rem] w-full flex items-center justify-center">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
 							<DataTableRow>
 								<div class="grid gap-5 text-color-dark-body">
 									<Icon path={mdiFolderOutline} size="25px" />
-									<span>Tidak ada Jurusan yang ditemukan</span>
+									<span>Tidak ada siswa yang ditemukan</span>
 								</div>
 							</DataTableRow>
 						</div>
@@ -146,7 +145,7 @@
 				</DataTableBody>
 			</DataTable>
 		</div>
-		<LightPaginationNav
+		<PaginationNav
 			totalItems={items.length}
 			{pageSize}
 			{currentPage}

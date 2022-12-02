@@ -1,16 +1,12 @@
-<script>
+<script lang="ts">
+	// @ts-nocheck
 	import Header from '$components/Header.svelte';
 	import { Breadcrumbs } from 'svelte-materialify';
-
-	const item = [{ text: 'Dashboard', href: '/' }]
+	let data = [{ text: 'Dashboard', href: '/' }];
 </script>
 
-<Header>
-	<Breadcrumbs {item} style="padding:0px"/>
-</Header>
+<Header items={data} />
 
 <main>
-	<div class="p-5">
-		Dasboard
-	</div>
+	<div class="p-5">Dasboard</div>
 </main>
