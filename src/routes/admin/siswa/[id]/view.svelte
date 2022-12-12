@@ -58,7 +58,10 @@
 			nama_ibu = res.nama_ibu;
 			pekerjaan_ayah = res.pekerjaan_ayah;
 			pekerjaan_ibu = res.pekerjaan_ibu;
-			kelas = res.kelasId;
+			// kelas = res.kelasId.forEach((element) => {
+			// 	console.log('elemt', element);
+			// });
+			// kelas = res.kelasId;
 		});
 	async function handleSubmit() {
 		const response = await fetch(`${variables.basePath}/siswa/delete/${$page.params.id}`, {

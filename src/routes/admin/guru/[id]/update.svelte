@@ -10,14 +10,14 @@
 	import Button from '$components/Button.svelte';
 	import { page } from '$app/stores';
 	export let items = [
-		{ text: 'Siswa', href: '/admin/siswa' },
+		{ text: 'Guru', href: '/admin/guru' },
 		{ text: 'Update', href: '#' }
 	];
 
 	let data = {
 		id: '',
 		username: '',
-		nisn: '',
+		nip: '',
 		nama: '',
 		alamat: '',
 		jenis_kelamin: '',
@@ -28,13 +28,7 @@
 		email: '',
 		kewarganegaraan: '',
 		kecamatan: '',
-		kabupaten: '',
-		nama_ibu: '',
-		nama_ayah: '',
-		pekerjaan_ibu: '',
-		pekerjaan_ayah: '',
-		kelasId: '',
-		jurusanId: ''
+		kabupaten: ''
 	};
 	let active;
 	let snackbarSuccess: boolean = false;
@@ -45,7 +39,7 @@
 	const Agama = ['Islam', 'Protestan', 'Katolik', 'Hindu', 'Buddha', 'Khonghucu'];
 
 	onMount(() => {
-		getFetchSiswa(`${variables.basePath}/siswa/list/${$page.params.id}`).then((res) => {
+		getFetchSiswa(`${variables.basePath}/guru/list/${$page.params.id}`).then((res) => {
 			data = res;
 			console.log('debug:', res);
 		});
@@ -68,38 +62,12 @@
 		});
 	}
 
-	// async function handleSubmit() {
-	// 	const token = localStorage.getItem('token');
-	// 	const response = await fetch(`${variables.basePath}/siswa/update/${$page.params.id}`, {
-	// 		method: 'PUT',
-	// 		credentials: 'same-origin',
-	// 		body: JSON.stringify({ ...data }),
-	// 		headers: {
-	// 			'Content-Type': 'application/json',
-	// 			authorization: `Bearer ${token}`
-	// 		}
-	// 	});
-
-	// 	if (response.status === 200) {
-	// 		// isLoading = true;
-	// 		// responseMessage = message.message;
-	// 		snackbarSuccess = true;
-	// 		onClose();
-	// 		setTimeout(() => {
-	// 			window.location.href = '/admin/siswa';
-	// 		}, 1000);
-	// 	} else {
-	// 		responseMessage = message.message;
-	// 		snackbarError = true;
-	// 		window.location.href = '/admin/siswa/create';
-	// 	}
-	// }
 	async function handleSubmit() {
 		const headers = {
 			'Content-Length': body.length,
 			'Content-Type': 'application/json'
 		};
-		const response = await fetch(`${variables.basePath}/siswa/update/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/guru/update/${$page.params.id}`, {
 			method: 'PUT',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -113,12 +81,12 @@
 			snackbarSuccess = true;
 			onClose();
 			setTimeout(() => {
-				window.location.href = '/admin/siswa';
+				window.location.href = '/admin/guru';
 			}, 1000);
 		} else {
 			responseMessage = message.message;
 			snackbarError = true;
-			window.location.href = '/admin/siswa/create';
+			window.location.href = '/admin/guru/create';
 		}
 	}
 	function onClose() {
@@ -135,27 +103,11 @@
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
 						<div class="w-full">
-							<div class="main-input">
+							<div class="grid gap-9">
 								<TextField
-									readonly
 									filled
 									bind:value={data.id}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => v.length <= 10 || 'Max 10 characters',
-										(v) => {
-											const pattern = /^\d+$/;
-											return pattern.test(v) || 'This field is number.';
-										}
-									]}
-									type="text">id</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
 									readonly
-									filled
-									bind:value={data.nisn}
 									rules={[
 										(v) => !!v || ' This field is required.',
 										(v) => v.length <= 10 || 'Max 10 characters',
@@ -164,10 +116,21 @@
 											return pattern.test(v) || 'This field is number.';
 										}
 									]}
-									type="text">Nisn</TextField
+									type="text">Nip</TextField
 								>
-							</div>
-							<div class="main-input">
+								<TextField
+									filled
+									bind:value={data.nip}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 10 || 'Max 10 characters',
+										(v) => {
+											const pattern = /^\d+$/;
+											return pattern.test(v) || 'This field is number.';
+										}
+									]}
+									type="text">Nip</TextField
+								>
 								<TextField
 									filled
 									bind:value={data.nama}
@@ -180,16 +143,12 @@
 									]}
 									type="text">Nama</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select
 									filled
 									items={Jenis_kelamin}
 									class="main-input dropdown"
 									bind:value={data.jenis_kelamin}>Jenis_kelamin</Select
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.tempat_lahir}
@@ -202,8 +161,6 @@
 									]}
 									type="text">Tempat Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									placeholder="Placeholder"
@@ -211,128 +168,9 @@
 									type="date"
 									bind:value={data.tanggal_lahir}>Tanggal Lahir</TextField
 								>
-							</div>
-							<div class="main-input">
 								<Select filled items={Agama} class="main-input dropdown" bind:value={data.agama}
 									>Agama</Select
 								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kecamatan}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kecamatan is invalid.';
-										}
-									]}
-									type="text">Kecamatan</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.kabupaten}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Kabupaten is invalid.';
-										}
-									]}
-									type="text">Kabupaten</TextField
-								>
-							</div>
-						</div>
-						<div class="w-full">
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.no_tlp}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
-											return pattern.test(v) || 'Mobile number is invalid.';
-										}
-									]}
-									type="text">Mobile Number</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.email}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => v.length <= 25 || 'Max 25 characters',
-										(v) => {
-											const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-											return pattern.test(v) || 'E-mail is invalid.';
-										}
-									]}
-									type="text">E-mail</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama_ayah}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Nama ayah is invalid.';
-										}
-									]}
-									type="text">Nama Ayah</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.pekerjaan_ayah}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
-										}
-									]}
-									type="text">Pekerjaan Ayah</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama_ibu}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
-										}
-									]}
-									type="text">Nama Ibu</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.pekerjaan_ibu}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Pekerjaan Ibu is invalid.';
-										}
-									]}
-									type="text">Pekerjaan Ibu</TextField
-								>
-							</div>
-							<div class="main-input">
 								<TextField
 									filled
 									bind:value={data.alamat}
@@ -346,7 +184,64 @@
 									type="text">Alamat</TextField
 								>
 							</div>
-							<div class="main-input">
+						</div>
+						<div class="w-full">
+							<div class="grid gap-9">
+								<TextField
+									filled
+									bind:value={data.no_tlp}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
+											return pattern.test(v) || 'Mobile number is invalid.';
+										}
+									]}
+									type="text">Mobile Number</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.email}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 25 || 'Max 25 characters',
+										(v) => {
+											const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+											return pattern.test(v) || 'E-mail is invalid.';
+										}
+									]}
+									type="text">E-mail</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.ktp}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Nama ayah is invalid.';
+										}
+									]}
+									type="text">Ktp</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.jabatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Pekerjaan ayah is invalid.';
+										}
+									]}
+									type="text">Jabatan</TextField
+								>
+								<Select
+									filled
+									items={dataKelas}
+									class="main-input dropdown"
+									bind:value={data.kelasId}>Kelas</Select
+								>
 								<TextField
 									filled
 									bind:value={data.kewarganegaraan}
@@ -359,19 +254,35 @@
 									]}
 									type="text">Kewarganegaraan</TextField
 								>
-							</div>
-							<div class="main-input">
-								<Select
+								<TextField
 									filled
-									items={dataKelas}
-									class="main-input dropdown"
-									bind:value={data.kelasId}>Kelas</Select
+									bind:value={data.kecamatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Kecamatan</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.kabupaten}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Kabupaten</TextField
 								>
 							</div>
 						</div>
 					</div>
-				</div>
-			</Card>
+				</div></Card
+			>
 			<div class="flex justify-end py-5">
 				<Button
 					create
@@ -383,12 +294,8 @@
 						data.kabupaten === '' ||
 						data.kecamatan === '' ||
 						data.kelasId === '' ||
-						(data.kewarganegaraan === '') | (data.nama === '') ||
-						data.nama_ayah === '' ||
-						data.nama_ibu === '' ||
+						data.kewarganegaraan === '' ||
 						data.no_tlp === '' ||
-						data.pekerjaan_ayah === '' ||
-						data.pekerjaan_ibu === '' ||
 						data.tanggal_lahir === '' ||
 						data.tempat_lahir === ''}
 					click={() => (active = true)}

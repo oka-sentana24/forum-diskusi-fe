@@ -23,18 +23,10 @@
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let data = [{ text: 'Siswa', href: '#' }];
-	let columns = [
-		'Nip',
-		'Nama',
-		'Alamat',
-		'Jenis Kelamin',
-		'Tanggal Lahir',
-		'Agama',
-		'No Telp',
-		'E-mail'
-	];
+	let data = [{ text: 'Mata Pelajaran', href: '#' }];
+	let columns = ['No', 'Nama'];
 	let items = [];
+	let getKelas = [];
 	let nama = '';
 
 	onMount(async () => {
@@ -45,27 +37,20 @@
 			}, 3000);
 
 			/* get Siswa */
-			const res = await fetch(`${variables.basePath}/guru/list`);
+			const res = await fetch(`${variables.basePath}/mata-pelajaran/list`);
 			const data = await res.json();
-
 			items = data;
 
-			// items.forEach(async (e) => {
-			// 	const kelas = await (
-			// 		await fetch(`${variables.basePath}/kelas_guru/list/${e.guruId}`)
-			// 	).json();
-			// 	// console.log('debug: test', kelasId);
-
-			// 	e.kelas = kelasId;
-			// 	// e.grade = kelas.grade;
-			// });
+			// const response = await fetch(`${variables.basePath}/kelas/list`);
+			// const dataKelas = await response.json();
+			// getKelas = dataKelas;
 			isloading = false;
 		} catch (e) {
 			isloading = false;
 			// correctly (?) nothing can be caught here...
 			console.log('no data');
 		}
-		var url = new URL(`${variables.basePath}/guru/list?nama`),
+		var url = new URL(`${variables.basePath}/mata-pelajaran/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -73,7 +58,7 @@
 
 	async function searchSiswa(nama) {
 		// bind ke on:submit
-		let response = await fetch(`${variables.basePath}/guru/list?nama=${nama}`);
+		let response = await fetch(`${variables.basePath}/mata-pelajaran/list?nama=${nama}`);
 		const data = await response.json();
 		items = data;
 	}
@@ -97,8 +82,8 @@
 					{/if}
 				</div>
 			</Button>
-			<a href="/admin/guru/create">
-				<Button create>New Guru +</Button>
+			<a href="/admin/mataPelajaran/create">
+				<Button create>New Jurusan +</Button>
 			</a>
 		</div>
 		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
@@ -136,27 +121,16 @@
 						</div>
 						<!-- </div> -->
 					{:else if !isloading === items.length <= 0}
-						{#each paginatedItems as items}
+						{#each paginatedItems as items, index}
 							<DataTableRow>
 								<DataTableCell>
-									{items.nip}
+									{index + 1}
 								</DataTableCell>
 								<DataTableCell>
-									<Link href="/admin/guru/{items.id}/view">
+									<Link href="/admin/mataPelajaran/{items.id}/view" class="text-link">
 										{items.nama}
 									</Link>
 								</DataTableCell>
-								<DataTableCell>{items.alamat}</DataTableCell>
-								<!-- <DataTableCell>
-									<Link href="/admin/kelas/{items.kelasId}/view">
-										{items.kelas} ({items.kelas})
-									</Link>
-								</DataTableCell> -->
-								<DataTableCell>{items.jenis_kelamin}</DataTableCell>
-								<DataTableCell>{items.tanggal_lahir}</DataTableCell>
-								<DataTableCell>{items.agama}</DataTableCell>
-								<DataTableCell>{items.no_tlp}</DataTableCell>
-								<DataTableCell>{items.email}</DataTableCell>
 							</DataTableRow>
 						{/each}
 					{:else}

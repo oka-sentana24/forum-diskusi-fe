@@ -24,12 +24,12 @@
 		agama: '',
 		no_tlp: '',
 		email: '',
-		ktp: '',
 		jabatan: '',
+		ktp: '',
 		kewarganegaraan: '',
 		kecamatan: '',
 		kabupaten: '',
-		kelasId: ''
+		bio: ''
 	};
 	let snackbarSuccess: boolean = false;
 	let snackbarError: boolean = false;
@@ -123,6 +123,18 @@
 									]}
 									type="text">Nama</TextField
 								>
+								<TextField
+									filled
+									bind:value={data.alamat}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Alamat is invalid.';
+										}
+									]}
+									type="text">Alamat</TextField
+								>
 								<Select
 									filled
 									items={Jenis_kelamin}
@@ -153,22 +165,6 @@
 								>
 								<TextField
 									filled
-									bind:value={data.alamat}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Alamat is invalid.';
-										}
-									]}
-									type="text">Alamat</TextField
-								>
-							</div>
-						</div>
-						<div class="w-full">
-							<div class="grid gap-9">
-								<TextField
-									filled
 									bind:value={data.no_tlp}
 									rules={[
 										(v) => !!v || ' This field is required.',
@@ -179,19 +175,10 @@
 									]}
 									type="text">Mobile Number</TextField
 								>
-								<TextField
-									filled
-									bind:value={data.email}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => v.length <= 25 || 'Max 25 characters',
-										(v) => {
-											const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-											return pattern.test(v) || 'E-mail is invalid.';
-										}
-									]}
-									type="text">E-mail</TextField
-								>
+							</div>
+						</div>
+						<div class="w-full">
+							<div class="grid gap-9">
 								<TextField
 									filled
 									bind:value={data.ktp}
@@ -216,11 +203,24 @@
 									]}
 									type="text">Jabatan</TextField
 								>
-								<Select
+								<!-- <Select
 									filled
 									items={dataKelas}
 									class="main-input dropdown"
 									bind:value={data.kelasId}>Kelas</Select
+								> -->
+								<TextField
+									filled
+									bind:value={data.email}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => v.length <= 25 || 'Max 25 characters',
+										(v) => {
+											const pattern = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+											return pattern.test(v) || 'E-mail is invalid.';
+										}
+									]}
+									type="text">E-mail</TextField
 								>
 								<TextField
 									filled
@@ -234,6 +234,42 @@
 									]}
 									type="text">Kewarganegaraan</TextField
 								>
+								<TextField
+									filled
+									bind:value={data.kecamatan}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Kecamatan</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.kabupaten}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Kabupaten</TextField
+								>
+								<TextField
+									filled
+									bind:value={data.bio}
+									rules={[
+										(v) => !!v || ' This field is required.',
+										(v) => {
+											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+											return pattern.test(v) || 'Kewarganegaraan is invalid.';
+										}
+									]}
+									type="text">Bio</TextField
+								>
 							</div>
 						</div>
 					</div>
@@ -243,20 +279,20 @@
 				<Button
 					create
 					disabled={data.username === '' ||
-						data.agama === '' ||
-						data.alamat === '' ||
-						data.email === '' ||
-						data.jenis_kelamin === '' ||
-						data.kabupaten === '' ||
-						data.kecamatan === '' ||
-						data.kelasId === '' ||
-						data.kewarganegaraan === '' ||
 						data.nama === '' ||
-						data.no_tlp === '' ||
-						data.ktp === '' ||
-						data.jabatan === '' ||
+						data.alamat === '' ||
+						data.jenis_kelamin === '' ||
+						data.tempat_lahir === '' ||
 						data.tanggal_lahir === '' ||
-						data.tempat_lahir === ''}
+						data.agama === '' ||
+						data.no_tlp === '' ||
+						data.email === '' ||
+						data.jabatan === '' ||
+						data.ktp === '' ||
+						data.kewarganegaraan === '' ||
+						data.kecamatan === '' ||
+						data.kabupaten === '' ||
+						data.bio === ''}
 					click={() => (active = true)}
 				>
 					<div class="flex flex-span-1 gap-3 items-center">

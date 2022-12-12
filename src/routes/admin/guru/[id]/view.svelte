@@ -9,8 +9,7 @@
 	import Header from '$components/Header.svelte';
 	let active;
 	let id,
-		username,
-		nisn,
+		nip,
 		nama,
 		alamat,
 		jenis_kelamin,
@@ -21,24 +20,21 @@
 		email,
 		kewarganegaraan,
 		kecamatan,
-		kabupaten,
-		nama_ayah,
-		nama_ibu,
-		pekerjaan_ibu,
-		pekerjaan_ayah;
+		kabupaten;
 	export let items = [
-		{ text: 'Siswa', href: '/admin/siswa' },
+		{ text: 'Guru', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
 	];
 	let snackbarSuccess: boolean = false;
 	let snackbarError: boolean = false;
 	let isLoading;
 	// @ts-ignore
-	fetch(`${variables.basePath}/siswa/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/guru/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
+			console.log('debug: res', res);
 			id = res.id;
-			nisn = res.nisn;
+			nip = res.nip;
 			nama = res.nama;
 			alamat = res.alamat;
 			jenis_kelamin = res.jenis_kelamin;
@@ -51,14 +47,10 @@
 			kewarganegaraan = res.kewarganegaraan;
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
-			nama_ayah = res.nama_ayah;
-			nama_ibu = res.nama_ibu;
-			pekerjaan_ayah = res.pekerjaan_ayah;
-			pekerjaan_ibu = res.pekerjaan_ibu;
 		});
 
 	async function handleSubmit() {
-		const response = await fetch(`${variables.basePath}/siswa/delete/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/guru/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -72,12 +64,12 @@
 			snackbarSuccess = true;
 			onClose();
 			setTimeout(() => {
-				window.location.href = '/admin/siswa';
+				window.location.href = '/admin/guru';
 			}, 1000);
 		} else {
 			responseMessage = message.message;
 			snackbarError = true;
-			window.location.href = '/admin/siswa/create';
+			window.location.href = '/admin/guru/create';
 		}
 	}
 	function onClose() {
@@ -90,7 +82,7 @@
 	<div class="m-5 relative">
 		<!-- create and filter -->
 		<div class="flex justify-end py-5 gap-5">
-			<a href="/admin/siswa/{id}/update">
+			<a href="/admin/guru/{id}/update">
 				<Button update>
 					<div class="normal-case text-sm text-white flex items-center gap-1">
 						<Icon path={mdiAccountEdit} size="20px" />
@@ -141,81 +133,63 @@
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
 			<Card view>
-				<div class="p-5 flex flex-cols-2 gap-20">
-					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
-						<div class="pb-2 text-white">
-							{id}
+				<div class="flex gap-5">
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">id</label>
+							<span>{id}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nisn</label>
-						<div class="pb-2 text-white">
-							{nisn}
+
+						<div class="grid">
+							<label for="">Nisn</label>
+							<span>{nip}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
-						<div class="pb-2 text-white">
-							{nama}
+						<div class="grid">
+							<label for="">Nama</label>
+							<span>{nama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Alamat</label>
-						<div class="pb-2 text-white">
-							{alamat}
+						<div class="grid">
+							<label for="">Alamat</label>
+							<span>{alamat}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kelas</label>
-						<div class="pb-2 text-white">
-							{alamat}
+						<div class="grid">
+							<label for="">Jenis Kelamin</label>
+							<span>{jenis_kelamin}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Jenis Kelamin</label>
-						<div class="pb-2 text-white">
-							{jenis_kelamin}
+						<div class="grid">
+							<label for="">Tempat lahir</label>
+							<span>{tempat_lahir}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Tempat lahir</label>
-						<div class="pb-2 text-white">
-							{tempat_lahir}
-						</div>
-						<label for="" class="text-xs text-gray-400">Tanggal Lahir</label>
-						<div class="pb-2 text-white">
-							{tanggal_lahir}
-						</div>
-						<label for="" class="text-xs text-gray-400">Agama</label>
-						<div class="pb-2 text-white">
-							{agama}
-						</div>
-						<label for="" class="text-xs text-gray-400">No Tlp</label>
-						<div class="pb-2 text-white">
-							{no_tlp}
-						</div>
-						<label for="" class="text-xs text-gray-400">Email</label>
-						<div class="pb-2 text-white">
-							{email}
+						<div class="grid">
+							<label for="">Tanggal Lahir</label>
+							<span>{tanggal_lahir}</span>
 						</div>
 					</div>
-					<div>
-						<label for="" class="text-xs text-gray-400">Kewarganegaraan</label>
-						<div class="pb-2 text-white">
-							{kewarganegaraan}
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">Agama</label>
+							<span>{agama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kecamatan</label>
-						<div class="pb-2 text-white">
-							{kecamatan}
+						<div class="grid">
+							<label for="">No Tlp</label>
+							<span>{no_tlp}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kabupaten</label>
-						<div class="pb-2 text-white">
-							{kabupaten}
+						<div class="grid">
+							<label for="">Email</label>
+							<span>{email}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama Ayah</label>
-						<div class="pb-2 text-white">
-							{nama_ayah}
+						<div class="grid">
+							<label for="">Kewarganegaraan</label>
+							<span>{kewarganegaraan}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Pekerjaan Ayah</label>
-						<div class="pb-2 text-white">
-							{pekerjaan_ayah}
+
+						<div class="grid">
+							<label for="">Kecamatan</label>
+							<span>{kecamatan}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama Ibu</label>
-						<div class="pb-2 text-white">
-							{nama_ibu}
-						</div>
-						<label for="" class="text-xs text-gray-400">Pekerjaan Ibu</label>
-						<div class="pb-2 text-white">
-							{pekerjaan_ibu}
+						<div class="grid">
+							<label for="">Kabupaten</label>
+							<span>{kabupaten}</span>
 						</div>
 					</div>
 				</div>

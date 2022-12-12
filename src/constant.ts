@@ -32,10 +32,10 @@ export const Menu = [
 		name: 'Jurusan',
 		url: '/admin/jurusan',
 		svg: mdiGraph
+	},
+	{
+		name: 'Mata Pelajaran',
+		url: '/admin/mataPelajaran',
+		svg: mdiAccount
 	}
-	// // {
-	// 	name: 'User',
-	// 	url: '/admin/users',
-	// 	svg: mdiAccount
-	// }
 ];
