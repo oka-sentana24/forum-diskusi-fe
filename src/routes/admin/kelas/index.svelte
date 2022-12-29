@@ -24,7 +24,7 @@
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
 	let data = [{ text: 'Kelas', href: '#' }];
-	let columns = ['No', 'Nama', 'grade'];
+	let columns = ['No', 'Nama', 'grade', 'Jurusan'];
 	let items = [];
 	let getKelas = [];
 	let nama = '';
@@ -40,6 +40,13 @@
 			const res = await fetch(`${variables.basePath}/kelas/list`);
 			const data = await res.json();
 			items = data;
+
+			items.forEach(async (e) => {
+				const jurusan = await (
+					await fetch(`${variables.basePath}/jurusan/list/${e.jurusanId}`)
+				).json();
+				e.jurusan = jurusan.nama;
+			});
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -129,6 +136,11 @@
 								</DataTableCell>
 								<DataTableCell>
 									{items.grade}
+								</DataTableCell>
+								<DataTableCell>
+									<Link href="/admin/jurusan/{items.jurusanId}/view">
+										{items.jurusan}
+									</Link>
 								</DataTableCell>
 							</DataTableRow>
 						{/each}

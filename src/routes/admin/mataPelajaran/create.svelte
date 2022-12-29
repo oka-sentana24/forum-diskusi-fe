@@ -25,19 +25,19 @@
 	let dataKelas = [];
 	let isLoading = false;
 
-	// onMount(() => {
-	// 	getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
-	// 		fetchKelas = res;
-	// 		dataKelas = fetchKelas.map((val) => {
-	// 			return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
-	// 		});
-	// 	});
-	// });
-	// async function getFetchKelas(url) {
-	// 	return await fetch(url).then((res) => {
-	// 		return res.json();
-	// 	});
-	// }
+	onMount(() => {
+		getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
+			fetchKelas = res;
+			dataKelas = fetchKelas.map((val) => {
+				return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
+			});
+		});
+	});
+	async function getFetchKelas(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
 
 	function onClose() {
 		active = false;
@@ -95,6 +95,9 @@
 									type="text">Nama</TextField
 								>
 							</div>
+							<Select filled items={dataKelas} class="main-input dropdown" bind:value={data.kelasId}
+								>Kelas</Select
+							>
 						</div>
 					</div>
 				</div>

@@ -16,29 +16,30 @@
 
 	let data = {
 		nama: '',
-		grade: ''
+		grade: '',
+		jurusanId: ''
 	};
 	let snackbarSuccess: boolean = false;
 	let snackbarError: boolean = false;
 	let active;
 	let responseMessage = '';
-	let fetchKelas = [];
-	let dataKelas = [];
+	let fetchJurusan = [];
+	let dataJurusan = [];
 	let isLoading = false;
 
-	// onMount(() => {
-	// 	getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
-	// 		fetchKelas = res;
-	// 		dataKelas = fetchKelas.map((val) => {
-	// 			return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
-	// 		});
-	// 	});
-	// });
-	// async function getFetchKelas(url) {
-	// 	return await fetch(url).then((res) => {
-	// 		return res.json();
-	// 	});
-	// }
+	onMount(() => {
+		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
+			fetchJurusan = res;
+			dataJurusan = fetchJurusan.map((val) => {
+				return { name: val.nama, value: val.id };
+			});
+		});
+	});
+	async function getFetchJurusan(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
 
 	function onClose() {
 		active = false;
@@ -104,6 +105,12 @@
 								}
 							]}
 							type="text">Grade</TextField
+						>
+						<Select
+							filled
+							items={dataJurusan}
+							class="main-input dropdown"
+							bind:value={data.jurusanId}>Jurusan</Select
 						>
 					</div>
 				</div></Card

@@ -10,7 +10,7 @@
 	import Login from '$src/routes/auth/login.svelte';
 	import { onMount } from 'svelte';
 	let active;
-
+	let namaKelas = [];
 	let id,
 		nisn,
 		nama,
@@ -28,7 +28,7 @@
 		nama_ibu,
 		pekerjaan_ibu,
 		pekerjaan_ayah,
-		kelas;
+		kelasId;
 	export let items = [
 		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
@@ -37,7 +37,6 @@
 	let snackbarError: boolean = false;
 	let isLoading;
 	// @ts-ignore
-
 	fetch(`${variables.basePath}/siswa/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then(async (res) => {
@@ -58,10 +57,7 @@
 			nama_ibu = res.nama_ibu;
 			pekerjaan_ayah = res.pekerjaan_ayah;
 			pekerjaan_ibu = res.pekerjaan_ibu;
-			// kelas = res.kelasId.forEach((element) => {
-			// 	console.log('elemt', element);
-			// });
-			// kelas = res.kelasId;
+			kelasId = res.kelasId.find((item) => item.id === res.kelasId).nama_kelas;
 		});
 	async function handleSubmit() {
 		const response = await fetch(`${variables.basePath}/siswa/delete/${$page.params.id}`, {
@@ -221,6 +217,10 @@
 							<label for="">Pekerjaan Ibu</label>
 							<span>{pekerjaan_ibu}</span>
 						</div>
+						<!-- <div class="grid">
+							<label for="">Pekerjaan Ibu</label>
+							<span>{jk}</span>
+						</div> -->
 					</div>
 				</div>
 			</Card>
