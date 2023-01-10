@@ -12,9 +12,13 @@
 	import { supabase } from '../../supabase';
 	import { onMount } from 'svelte';
 	import { chatRoomId } from '$src/stores/chatStore';
+	import Card from '$src/components/Card.svelte';
+	import Brands from '$src/components/Brands.svelte';
+	import Header from '$src/components/Header.svelte';
 	// let users = user;
 	let roomData = [];
-	let data = [{ text: 'Chat', href: '#' }];
+	console.log('roomData', roomData);
+
 	let isUserChat = true;
 	let isGlobalChat = true;
 
@@ -76,119 +80,6 @@
 	}
 </script>
 
-<!-- <main id="body">
-	<div
-		class="flex h-screen bg-slate-100 overflow-hidden dark:bg-gray-900"
-		class:overflow-hidden={$isSideMenuOpen}
-	>
-		<aside class="z-20 hidden md:block flex-shrink-0 relative">
-			<Sidebar>
-				<div>
-					<div class="px-2 py-4">
-						<div
-							class="flex items-center justify-between"
-							on:click={() => (isGlobalChat = !isGlobalChat)}
-						>
-							<div class="flex items-center justify-start gap-2">
-								{#if isGlobalChat}
-									<Icon path={mdiChevronDown} size="20px" />
-								{:else}
-									<Icon path={mdiChevronRight} size="20px" />
-								{/if}
-
-								<span>Room</span>
-							</div>
-							<Icon path={mdiPlus} size="20px" />
-						</div>
-					</div>
-					{#if isGlobalChat}
-						<div
-							class="h-[500px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-						>
-							{#each roomData as room}
-								<div class="flex items-center justify-between px-5">
-									<ListItem on:click={() => chatRoomId.set(room.id)}>
-										<span slot="prepend" class="ml-n2">
-											<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-										</span>
-										{room.name}
-									</ListItem>
-									<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-								</div>
-							{/each}
-						</div>
-					{/if}
-				</div>
-			</Sidebar>
-		</aside>
-		{#if $isSideMenuOpen}
-			<aside
-				class="fixed inset-y-0 z-20 flex-shrink-0"
-				use:clickOutside={['nav-mobile-hamburger']}
-				use:keydownEscape
-				on:keydown-escape={closeSideMenu}
-				transition:fly={{ x: -200, duration: 2000 }}
-			>
-				<div class="flex flex-cols-2">
-					<Sidebar>
-						<div>
-							<div class="px-2 py-4">
-								<div
-									class="flex items-center justify-between"
-									on:click={() => (isGlobalChat = !isGlobalChat)}
-								>
-									<div class="flex items-center justify-start gap-2">
-										{#if isGlobalChat}
-											<Icon path={mdiChevronDown} size="20px" />
-										{:else}
-											<Icon path={mdiChevronRight} size="20px" />
-										{/if}
-
-										<span>Room</span>
-									</div>
-									<Icon path={mdiPlus} size="20px" />
-								</div>
-							</div>
-							{#if isGlobalChat}
-								<div
-									class="h-[500px] overflow-auto scrollbar-thumb-gray-300 scrollbar-track-gray-100 scrollbar-thin scrollbar-thumb-rounded-full dark:bg-gray-800"
-								>
-									{#each roomData as room}
-										<div class="flex items-center justify-between px-5">
-											<ListItem
-												on:click={() => {
-													chatRoomId.set(room.id);
-												}}
-											>
-												<span slot="prepend" class="ml-n2">
-													<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-												</span>
-												{room.name}
-											</ListItem>
-											<Badge class="primary-color" dot offsetX={15} offsetY={4} />
-										</div>
-									{/each}
-								</div>
-							{/if}
-						</div>
-					</Sidebar>
-					<div class="h-16 absolute left-[243px] flex items-center">
-						<div on:click={closeSideMenu}>
-							<Avatar size="25px" class="bg-black text-white border border-gray-300"
-								><Icon path={mdiWindowClose} size="5px" /></Avatar
-							>
-						</div>
-					</div>
-				</div>
-			</aside>
-		{/if}
-		<div class="w-full">
-			<Header items={data} />
-			<slot />
-		</div>
-	</div>
-</main> -->
-
 <svelte:head>
 	<script>
 		if (
@@ -206,18 +97,25 @@
 <main id="body">
 	<div class="flex bg-root overflow-hidden" class:overflow-hidden={$isSideMenuOpen}>
 		<aside class="z-20 hidden overflow-y-auto md:block flex-shrink-0 relative">
-			<!-- <SideBar item={roomData} back click /> -->
-			{#each roomData as room}
+			<Card sidebar>
+				<!-- Top Header-->
+				<Brands back />
+				{#each roomData as room}
+					<div class="flex items-center justify-between px-5 py-4 hover:bg-color-light">
+						<button on:click={() => chatRoomId.set(room.id)}>
+							{room.name}
+						</button>
+					</div>
+				{/each}
+			</Card>
+			<!-- <SideBar item={roomData} back click={roomData.id} /> -->
+			<!-- {#each roomData as room}
 				<div class="flex items-center justify-between px-5">
-					<!-- <ListItem on:click={() => chatRoomId.set(room.id)}>
-						<span slot="prepend" class="ml-n2">
-							<Avatar size={40}><img src="//picsum.photos/200" alt="profile" /></Avatar>
-						</span> -->
-					{room.name}
-					<!-- </ListItem>
-					<Badge class="primary-color" dot offsetX={15} offsetY={4} /> -->
+					<button on:click={() => chatRoomId.set(room.id)}>
+						{room.name}
+					</button>
 				</div>
-			{/each}
+			{/each} -->
 		</aside>
 		{#if $isSideMenuOpen}
 			<aside
@@ -227,7 +125,17 @@
 				on:keydown-escape={closeSideMenu}
 				transition:fly={{ x: -200, duration: 2000 }}
 			>
-				<SideBar item={roomData} back={closeSideMenu} click={closeSideMenu} />
+				<Card sidebar>
+					<!-- Top Header-->
+					<Brands back={closeSideMenu} click={closeSideMenu} />
+					{#each roomData as room}
+						<div class="flex items-center justify-between px-5 py-4 hover:bg-color-light">
+							<button on:click={() => chatRoomId.set(room.id)}>
+								{room.name}
+							</button>
+						</div>
+					{/each}
+				</Card>
 			</aside>
 		{/if}
 		<div class="w-full">

@@ -12,14 +12,16 @@
 <Card sidebar>
 	<!-- Top Header-->
 	<Brands {back} />
-	{#each item as items}
-		<div class="px-5 py-4">
-			<NavLink href={items.url}>
-				<div class="flex flex-cols-2 items-center gap-5 justify-start">
-					<Icon path={items.svg} />
-					<span>{items.name}</span>
-				</div>
-			</NavLink>
-		</div>
-	{/each}
+	<button on:click={click}>
+		{#each item as items}
+			<div class="px-5 py-4">
+				<NavLink href={items.url}>
+					<div class="flex flex-cols-2 items-center gap-5 justify-start">
+						<Icon path={items.svg} />
+						<span>{items.name}</span>
+					</div>
+				</NavLink>
+			</div>
+		{/each}
+	</button>
 </Card>
