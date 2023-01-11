@@ -60,9 +60,7 @@
 				</div>
 				<div class="grid text-left pb-5 text-light-text-body_2 dark:text-dark-text-body_2">
 					<!-- <span>Keluar</span> -->
-					<Button
-						size="large"
-						class="bg-light-primary-30 dark:bg-dark-primary-30 white-textshadow-none"
+					<Button size="large" class=" bg-link-primary white-textshadow-none"
 						><span class="normal-case text-base-white">Keluar</span></Button
 					>
 				</div>

@@ -10,9 +10,10 @@
 	import Button from '$components/Button.svelte';
 	import Portal from 'svelte-portal';
 	import Header from '$src/components/Header.svelte';
-	import dayjs from 'dayjs';
-	import relativeTime from 'dayjs/plugin/relativeTime';
-	dayjs.extend(relativeTime);
+	// import dayjs from 'dayjs';
+	// import relativeTime from 'dayjs/plugin/relativeTime';
+	// import timezone from 'dayjs/plugin/timezone.js';
+	// dayjs.extend(relativeTime);
 
 	let open = false;
 
@@ -322,7 +323,7 @@
 										style="max-width: 300px"
 									/>
 									<div class="text-xs text-gray-500 self-end mt-2">
-										{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
 									</div>
 								</div>
 							{:else}
@@ -332,7 +333,7 @@
 									<div class="text-xs mb-2 font-italic">You</div>
 									{message.text}
 									<div class="text-xs text-gray-500 self-end mt-2">
-										{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
 									</div>
 								</div>
 							{/if}
@@ -350,7 +351,7 @@
 										style="max-width: 300px"
 									/>
 									<div class="text-xs text-gray-500 self-end mt-2">
-										{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
 									</div>
 								</div>
 							{:else}
@@ -360,7 +361,7 @@
 									<div class="text-xs mb-2 font-italic">{message.nama}</div>
 									{message.text}
 									<div class="text-xs text-gray-500 self-end mt-2">
-										{dayjs(message.createdAt).add(8, 'hours').fromNow()}
+										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
 									</div>
 								</div>
 							{/if}
