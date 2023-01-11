@@ -1,12 +1,15 @@
-<script>
-	import { Card, Button, Icon, Dialog, Snackbar } from 'svelte-materialify';
+<script lang="ts">
+	// @ts-nocheck
+	import { variables } from '$lib/variables';
+	import { Icon, Dialog, Snackbar } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
+	import Card from '$components/Card.svelte';
 	import { page } from '$app/stores';
 	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
-	let snackbar = false;
 	let active;
 	let id,
-		username,
+		nip,
 		nama,
 		alamat,
 		jenis_kelamin,
@@ -15,23 +18,23 @@
 		agama,
 		no_tlp,
 		email,
-		jabatan,
 		kewarganegaraan,
 		kecamatan,
-		kabupaten,
-		nama_ayah,
-		nama_ibu,
-		pekerjaan_ibu;
+		kabupaten;
 	export let items = [
-		{ text: 'Guru', href: '/admin/guru' },
+		{ text: 'Guru', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
 	];
+	let snackbarSuccess: boolean = false;
+	let snackbarError: boolean = false;
+	let isLoading;
 	// @ts-ignore
-	fetch(`http://localhost:3001/guru/list/${$page.params.id}`)
+	fetch(`${variables.basePath}/guru/list/${$page.params.id}`)
 		.then((resp) => resp.json())
 		.then((res) => {
+			console.log('debug: res', res);
 			id = res.id;
-			username = res.username;
+			nip = res.nip;
 			nama = res.nama;
 			alamat = res.alamat;
 			jenis_kelamin = res.jenis_kelamin;
@@ -41,13 +44,13 @@
 			agama = res.agama;
 			no_tlp = res.no_tlp;
 			email = res.email;
-			jabatan = res.jabatan;
 			kewarganegaraan = res.kewarganegaraan;
 			kecamatan = res.kecamatan;
 			kabupaten = res.kabupaten;
 		});
+
 	async function handleSubmit() {
-		const response = await fetch(`http://localhost:3001/guru/list/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/guru/delete/${$page.params.id}`, {
 			method: 'DELETE',
 			credentials: 'same-origin',
 			headers: {
@@ -56,9 +59,21 @@
 		});
 
 		if (response.status === 200) {
-			snackbar = true;
-			window.location.href = '/admin/guru';
+			// isLoading = true;
+			// responseMessage = message.message;
+			snackbarSuccess = true;
+			onClose();
+			setTimeout(() => {
+				window.location.href = '/admin/guru';
+			}, 1000);
+		} else {
+			responseMessage = message.message;
+			snackbarError = true;
+			window.location.href = '/admin/guru/create';
 		}
+	}
+	function onClose() {
+		active = false;
 	}
 </script>
 
@@ -66,76 +81,115 @@
 <main>
 	<div class="m-5 relative">
 		<!-- create and filter -->
-		<div class="flex justify-end py-5">
+		<div class="flex justify-end py-5 gap-5">
 			<a href="/admin/guru/{id}/update">
-				<Button
-					class="bg-teal-500 p-5 rounded-md shadow-lg transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 duration-300 "
-				>
+				<Button update>
 					<div class="normal-case text-sm text-white flex items-center gap-1">
 						<Icon path={mdiAccountEdit} size="20px" />
 						<span> Update </span>
 					</div>
 				</Button>
 			</a>
+
+			<Button remove click={() => (active = true)}>
+				<div class="normal-case text-sm text-white flex items-center gap-1">
+					<Icon path={mdiDelete} size="20px" />
+					<span> Delete </span>
+				</div>
+			</Button>
+			<Dialog class="pa-4 text-center bg-white w-[300px] text-black" bind:active persistent={true}>
+				<div class="py-2">
+					<Icon path={mdiAlert} size={25} />
+				</div>
+				<div class="font-bold text-base">Konfirmasi Hapus "{nama}"?</div>
+				<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+					<Button modal click={() => handleSubmit() && onClose()}>Simpan</Button>
+					<Button close click={() => onClose()}>Kembali</Button>
+				</div>
+			</Dialog>
+			<Snackbar
+				class="bg-green-500 text-white gap-5 text-base flex-column"
+				bind:active={snackbarSuccess}
+				top
+				center
+				timeout={1000}
+			>
+				<span class=" flex py-2 gap-5 items-center justify-around"
+					><Icon path={mdiCheckCircle} size={25} />
+					<span>Data siswa berhasil disimpan</span>
+				</span>
+			</Snackbar>
+			<Snackbar
+				class="flex-column bg-red-500 text-white gap-5 text-base "
+				bind:active={snackbarError}
+				top
+				center
+				timeout={1000}
+			>
+				<Icon path={mdiAlert} size={25} />
+				<span>Data siswa gagal disimpan</span>
+			</Snackbar>
 		</div>
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
-			<Card class="h-full bg-white shadow-none dark:bg-gray-800">
-				<div class="p-5 flex flex-cols-2 gap-20">
-					<div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">id</label>
-						<div class="pb-2">
-							{id}
+			<Card view>
+				<div class="flex gap-5">
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">id</label>
+							<span>{id}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nisn</label>
-						<div class="pb-2">
-							{username}
+
+						<div class="grid">
+							<label for="">Nisn</label>
+							<span>{nip}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Nama</label>
-						<div class="pb-2">
-							{nama}
+						<div class="grid">
+							<label for="">Nama</label>
+							<span>{nama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Alamat</label>
-						<div class="pb-2">
-							{alamat}
+						<div class="grid">
+							<label for="">Alamat</label>
+							<span>{alamat}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Jenis Kelamin</label>
-						<div class="pb-2">
-							{jenis_kelamin}
+						<div class="grid">
+							<label for="">Jenis Kelamin</label>
+							<span>{jenis_kelamin}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tempat lahir</label>
-						<div class="pb-2">
-							{tempat_lahir}
+						<div class="grid">
+							<label for="">Tempat lahir</label>
+							<span>{tempat_lahir}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Tanggal Lahir</label>
-						<div class="pb-2">
-							{tanggal_lahir}
-						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Agama</label>
-						<div class="pb-2">
-							{agama}
-						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">No Tlp</label>
-						<div class="pb-2">
-							{no_tlp}
-						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Email</label>
-						<div class="pb-2">
-							{email}
+						<div class="grid">
+							<label for="">Tanggal Lahir</label>
+							<span>{tanggal_lahir}</span>
 						</div>
 					</div>
-					<div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kewarganegaraan</label>
-						<div class="pb-2">
-							{kewarganegaraan}
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">Agama</label>
+							<span>{agama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kecamatan</label>
-						<div class="pb-2">
-							{kecamatan}
+						<div class="grid">
+							<label for="">No Tlp</label>
+							<span>{no_tlp}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400 dark:text-gray-300">Kabupaten</label>
-						<div class="pb-2">
-							{kabupaten}
+						<div class="grid">
+							<label for="">Email</label>
+							<span>{email}</span>
+						</div>
+						<div class="grid">
+							<label for="">Kewarganegaraan</label>
+							<span>{kewarganegaraan}</span>
+						</div>
+
+						<div class="grid">
+							<label for="">Kecamatan</label>
+							<span>{kecamatan}</span>
+						</div>
+						<div class="grid">
+							<label for="">Kabupaten</label>
+							<span>{kabupaten}</span>
 						</div>
 					</div>
 				</div>

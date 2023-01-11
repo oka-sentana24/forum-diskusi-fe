@@ -49,8 +49,10 @@
 				<SideBar item={items} back={closeSideMenu} click={closeSideMenu} />
 			</aside>
 		{/if}
-		<div class="w-full h-screen">
-			<slot />
+		<div class="w-full">
+			<div class="relative md:ml-64 h-screen">
+				<slot />
+			</div>
 		</div>
 	</div>
 </main>

@@ -1,20 +1,19 @@
 <script lang="ts">
 	// @ts-nocheck
-	import '../../style/tailwind.scss';
+	import Description from '$components/Description.svelte';
+	import { TextField, Icon, Checkbox } from 'svelte-materialify';
+	import { mdiEyeOff, mdiEye, mdiAlertRhombus } from '@mdi/js';
+	import Button from '$components/Button.svelte';
+	import Title from '$components/Title.svelte';
 	import jwt_decode from 'jwt-decode';
 	import { variables } from '$lib/variables';
-	import Button from '$components/Button.svelte';
-	import { mdiAlertRhombus } from '@mdi/js';
-	import { TextField, Icon, Checkbox } from 'svelte-materialify';
-	import { mdiEyeOff, mdiEye } from '@mdi/js';
 
-	/* variable */
-	let rememberMe = false;
 	let show = false;
-	let errorMessage = '';
+	let rememberMe = false;
 	let isSubmitting = false;
 	let username = '';
 	let password = '';
+	let errorMessage = '';
 
 	async function formSubmit() {
 		isSubmitting = true;
@@ -53,21 +52,20 @@
 	}
 </script>
 
-<main>
-	<div class="main-input">
-		<TextField
-			filled
-			bind:value={username}
-			rules={[(v) => !!v || ` This field is required.`]}
-			type="text">Nisn/Nip</TextField
-		>
+<div class="p-8">
+	<div class="py-5 text-left ">
+		<Title text="Masuk" />
+		<Description text="Tidak punya akun?">Hubungi administrasi</Description>
 	</div>
-	<div class="main-input">
+	<div class="grid gap-9">
+		<TextField filled rules={[(v) => !!v || ' This field is required. ']} bind:value={username}
+			>Nis / Nip</TextField
+		>
 		<TextField
 			filled
 			type={show ? 'text' : 'password'}
-			bind:value={password}
 			rules={[(v) => !!v || ' This field is required. ']}
+			bind:value={password}
 		>
 			Password
 			<div
@@ -88,18 +86,12 @@
 			</div>
 		{/if}
 	</div>
-
-	<div class="flex col-span-2 my-4 items-center justify-start">
-		<Checkbox bind:rememberMe />
-		<span class="text-white">Ingat saya.</span>
-	</div>
-	<div class="mt-4">
-		<Button
-			login
-			click={() => formSubmit()}
-			disabled={isSubmitting || username === '' || password === ''}
+	<div class="py-5">
+		<Checkbox bind:rememberMe value="1" class="my-5">
+			<span class="text-light-text-body_1">Ingat saya.</span></Checkbox
 		>
+		<Button login click={() => formSubmit()}>
 			{isSubmitting ? 'Memuat...' : 'Masuk'}
 		</Button>
 	</div>
-</main>
+</div>

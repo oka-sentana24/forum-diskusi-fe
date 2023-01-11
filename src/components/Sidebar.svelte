@@ -3,8 +3,8 @@
 	import { Icon } from 'svelte-materialify';
 	import Brands from '$components/Brands.svelte';
 	import Card from '$components/Card.svelte';
+	import NavLink from './NavLink.svelte';
 	export let back;
-	export let click;
 	export let item = [];
 </script>
 
@@ -12,15 +12,15 @@
 	<!-- Top Header-->
 	<Brands {back} />
 	{#each item as items}
-		<div class="px-5 py-5 text-color-light-body hover:text-color-light-title rounded-lg">
-			<a href={items.url} on:click={click}>
+		<div class="px-5 py-4">
+			<NavLink href={items.url}>
 				<div
-					class="flex flex-cols-2 items-center gap-5 justify-start text-gray-500 hover:text-teal-600"
+					class="flex flex-cols-2 items-center gap-5 justify-start hover:scrollbar-thumb-light-disabled"
 				>
 					<Icon path={items.svg} />
 					<span>{items.name}</span>
 				</div>
-			</a>
+			</NavLink>
 		</div>
 	{/each}
 </Card>

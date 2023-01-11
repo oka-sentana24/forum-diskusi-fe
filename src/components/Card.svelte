@@ -1,18 +1,19 @@
 <script lang="ts">
+	// @ts-nocheck
 	export let login: boolean;
-	export let header: boolean;
 	export let sidebar: boolean;
+	export let header: boolean;
 	export let profile: boolean;
-	export let view: boolean;
+	export let tabel: boolean;
 </script>
 
 <div
-	class={`bg-main ${login && 'w-[465px] p-[30px] leading-[.9px]'} ${
-		header && 'w-full h-16 border-b border-line bg-root'
-	} ${
+	class={`bg-base-light dark:bg-base-dark ${login && 'w-[465px] h-auto '} ${
 		sidebar &&
-		'md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-black flex flex-wrap items-center justify-between relative md:w-64 z-10 border-r border-line'
-	} ${profile && 'bg-white w-[200px] p-5 shadow-md'} ${view && 'min-h-0 max-h-[55vh]'}`}
+		'w-[256px] h-screen fixed inset-y-0 z-20 flex-shrink-0 border-r border-separator-light dark:border-separator-dark'
+	} ${header && 'w-full h-16 p-5 border-b border-separator-light dark:border-separator-dark'} ${
+		profile && 'w-[300px] p-5 rounded-md'
+	} ${tabel && 'h-[36rem] relative'}`}
 >
 	<slot />
 </div>

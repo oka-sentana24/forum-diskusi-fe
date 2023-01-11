@@ -12,10 +12,12 @@
 		Icon,
 		TextField
 	} from 'svelte-materialify';
-	import Button from '$components/Button.svelte';
-	import { paginate, LightPaginationNav } from 'svelte-paginate';
+	import { paginate, PaginationNav } from 'svelte-paginate';
 	import { mdiChevronUp, mdiSearchWeb, mdiChevronDown, mdiFolderOutline } from '@mdi/js';
 	import { variables } from '$lib/variables';
+	import Link from '$src/components/Link.svelte';
+	import { Icon } from 'svelte-materialify';
+	import Button from '$components/Button.svelte';
 
 	let isopenFilter = false;
 	let isloading = false;
@@ -35,7 +37,6 @@
 		'E-mail'
 	];
 	let items = [];
-	let getKelas = [];
 	let nama = '';
 
 	onMount(async () => {
@@ -43,16 +44,21 @@
 		try {
 			setTimeout(() => {
 				isloading = true;
-			}, 3000);
+			}, 10000);
 
 			/* get Siswa */
 			const res = await fetch(`${variables.basePath}/siswa/list`);
+
 			const data = await res.json();
+
 			items = data;
 
-			const response = await fetch(`${variables.basePath}/kelas/list`);
-			const dataKelas = await response.json();
-			getKelas = dataKelas;
+			items.forEach(async (e) => {
+				const kelas = await (await fetch(`${variables.basePath}/kelas/list/${e.kelasId}`)).json();
+				e.kelas = kelas.nama;
+				e.grade = kelas.grade;
+			});
+
 			isloading = false;
 		} catch (e) {
 			isloading = false;
@@ -81,19 +87,32 @@
 <main>
 	<div class="m-5 relative">
 		<div class="flex col-span-2 items-center justify-between gap-5">
-			<Button filter click={() => (isopenFilter = !isopenFilter)}>
-				<div class="normal-case text-sm gap-2 flex items-center ">
-					<span> Filter </span>
-					{#if isopenFilter}
-						<Icon path={mdiChevronUp} size="20px" />
-					{:else}
-						<Icon path={mdiChevronDown} size="20px" />
-					{/if}
-				</div>
-			</Button>
-			<a href="/admin/siswa/create">
-				<Button create>New Siswa +</Button>
-			</a>
+			<div
+				on:click={() => {
+					isopenFilter = !isopenFilter;
+				}}
+				class="flex col-span-2 items-center gap-5"
+			>
+				<Button filter>
+					<div class="normal-case text-sm gap-2 flex items-center">
+						<span> Filter </span>
+						<Icon path={isopenFilter ? mdiChevronUp : mdiChevronDown} size="20px" />
+					</div>
+				</Button>
+				{#if isopenFilter}
+					<div
+						on:click={() => searchSiswa(nama)}
+						class="text-dark-text-body_1 font-extrabold hover:text-light-link-purple dark:text-dark-link-blue cursor-pointer"
+					>
+						Apply
+					</div>
+				{/if}
+			</div>
+			<Link href="/admin/siswa/create">
+				<Button size="large" class="bg-light-secondary-50 dark:bg-dark-secondary-50">
+					<span class=" normal-case text-base-white">New Siswa +</span>
+				</Button>
+			</Link>
 		</div>
 		<div class="flex col-span-2 items-center justify-start gap-5 py-3">
 			{#if isopenFilter}
@@ -101,50 +120,45 @@
 					<TextField filled on:change={handleNamaChange}>Nama</TextField>
 				</div>
 			{/if}
-			{#if isopenFilter}
-				<Button icon click={() => searchSiswa(nama)}
-					><Icon path={mdiSearchWeb} size="25px" /></Button
-				>
-			{/if}
 		</div>
-		<div class="absolute w-full overflow-auto h-[37rem] bg-main">
+		<div class="main-tabel">
 			<DataTable>
 				<DataTableHead>
 					<DataTableRow>
 						{#each columns as column}
-							<DataTableCell class="text-white">{column}</DataTableCell>
+							<DataTableCell>{column}</DataTableCell>
 						{/each}
 					</DataTableRow>
 				</DataTableHead>
 				<DataTableBody>
 					{#if isloading === items < 0}
-						<div class="absolute h-[30rem] flex items-center justify-center w-full">
-							<span class="grid items-center text-base">
-								<div class="lds-facebook">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
+							<DataTableRow>
+								<div class="lds-ellipsis">
+									<div />
 									<div />
 									<div />
 									<div />
 								</div>
-							</span>
+							</DataTableRow>
 						</div>
+						<!-- </div> -->
 					{:else if !isloading === items.length <= 0}
 						{#each paginatedItems as items}
-							<DataTableRow class="text-white">
+							<DataTableRow>
 								<DataTableCell>
 									{items.nisn}
 								</DataTableCell>
 								<DataTableCell>
-									<a href="/admin/siswa/{items.id}/view" class="text-link">
+									<Link href="/admin/siswa/{items.id}/view">
 										{items.nama}
-									</a>
+									</Link>
 								</DataTableCell>
 								<DataTableCell>{items.alamat}</DataTableCell>
 								<DataTableCell>
-									<a href="/admin/kelas/{items.id}/view" class="text-link">
-										{#each getKelas as kelas}
-											{kelas.grade} ({kelas.nama})
-										{/each}
-									</a>
+									<Link href="/admin/kelas/{items.kelasId}/view">
+										{items.grade} ({items.kelas})
+									</Link>
 								</DataTableCell>
 								<DataTableCell>{items.jenis_kelamin}</DataTableCell>
 								<DataTableCell>{items.tanggal_lahir}</DataTableCell>
@@ -154,7 +168,7 @@
 							</DataTableRow>
 						{/each}
 					{:else}
-						<div class="absolute h-[30rem] w-full flex items-center justify-center">
+						<div class="absolute w-full flex items-center justify-center h-[30rem]">
 							<DataTableRow>
 								<div class="grid gap-5 text-color-dark-body">
 									<Icon path={mdiFolderOutline} size="25px" />
@@ -166,7 +180,7 @@
 				</DataTableBody>
 			</DataTable>
 		</div>
-		<LightPaginationNav
+		<PaginationNav
 			totalItems={items.length}
 			{pageSize}
 			{currentPage}

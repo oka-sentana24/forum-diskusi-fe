@@ -10,14 +10,13 @@
 	import Button from '$components/Button.svelte';
 	import { page } from '$app/stores';
 	export let items = [
-		{ text: 'Kelas', href: '/admin/Kelas' },
+		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'Update', href: '#' }
 	];
 
 	let data = {
 		id: '',
-		nama: '',
-		grade: ''
+		nama: ''
 	};
 	let active;
 	let snackbarSuccess: boolean = false;
@@ -26,9 +25,9 @@
 	let dataKelas = [];
 
 	onMount(() => {
-		getFetchSiswa(`${variables.basePath}/kelas/list/${$page.params.id}`).then((res) => {
+		getFetchSiswa(`${variables.basePath}/mata-pelajaran/list/${$page.params.id}`).then((res) => {
 			data = res;
-			console.log('debug:', res);
+			console.log('return', data);
 		});
 	});
 	async function getFetchSiswa(url) {
@@ -42,7 +41,7 @@
 			'Content-Length': body.length,
 			'Content-Type': 'application/json'
 		};
-		const response = await fetch(`${variables.basePath}/kelas/update/${$page.params.id}`, {
+		const response = await fetch(`${variables.basePath}/mata-pelajaran/update/${$page.params.id}`, {
 			method: 'PUT',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -56,12 +55,12 @@
 			snackbarSuccess = true;
 			onClose();
 			setTimeout(() => {
-				window.location.href = '/admin/kelas';
+				window.location.href = '/admin/mataPelajaran';
 			}, 1000);
 		} else {
 			responseMessage = message.message;
 			snackbarError = true;
-			window.location.href = '/admin/kelas/create';
+			window.location.href = '/admin/mataPelajaran/update';
 		}
 	}
 	function onClose() {
@@ -103,27 +102,11 @@
 							]}
 							type="text">Nama</TextField
 						>
-						<TextField
-							filled
-							bind:value={data.grade}
-							rules={[
-								(v) => !!v || ' This field is required.',
-								(v) => {
-									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-									return pattern.test(v) || 'Name is invalid.';
-								}
-							]}
-							type="text">Grade</TextField
-						>
 					</div>
 				</div>
 			</Card>
 			<div class="flex justify-end py-5">
-				<Button
-					create
-					disabled={data.nama === '' || data.grade === ''}
-					click={() => (active = true)}
-				>
+				<Button create disabled={data.nama === ''} click={() => (active = true)}>
 					<div class="flex flex-span-1 gap-3 items-center">
 						<Icon path={mdiContentSave} />
 						Simpan
@@ -140,7 +123,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class=" bg-other-success text-base-white gap-5 text-base flex-column"
+					class="bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center

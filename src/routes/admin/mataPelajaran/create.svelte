@@ -10,7 +10,7 @@
 	import Button from '$components/Button.svelte';
 
 	let items = [
-		{ text: 'Jurusan', href: '/admin/jurusan' },
+		{ text: 'Mata Pelajaran', href: '/admin/mataPelajaran' },
 		{ text: 'Create', href: '#' }
 	];
 
@@ -25,19 +25,19 @@
 	let dataKelas = [];
 	let isLoading = false;
 
-	// onMount(() => {
-	// 	getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
-	// 		fetchKelas = res;
-	// 		dataKelas = fetchKelas.map((val) => {
-	// 			return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
-	// 		});
-	// 	});
-	// });
-	// async function getFetchKelas(url) {
-	// 	return await fetch(url).then((res) => {
-	// 		return res.json();
-	// 	});
-	// }
+	onMount(() => {
+		getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
+			fetchKelas = res;
+			dataKelas = fetchKelas.map((val) => {
+				return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
+			});
+		});
+	});
+	async function getFetchKelas(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
 
 	function onClose() {
 		active = false;
@@ -46,7 +46,7 @@
 		const headers = {
 			'Content-Type': 'application/json'
 		};
-		const response = await fetch(`${variables.basePath}/jurusan`, {
+		const response = await fetch(`${variables.basePath}/mata-pelajaran`, {
 			method: 'POST',
 			credentials: 'same-origin',
 			body: JSON.stringify({ ...data }),
@@ -63,7 +63,7 @@
 			console.log('testing', snackbarSuccess);
 
 			setTimeout(() => {
-				window.location.href = '/admin/jurusan';
+				window.location.href = '/admin/mataPelajaran';
 			}, 500);
 		} else {
 			responseMessage = message.message;
@@ -95,6 +95,9 @@
 									type="text">Nama</TextField
 								>
 							</div>
+							<Select filled items={dataKelas} class="main-input dropdown" bind:value={data.kelasId}
+								>Kelas</Select
+							>
 						</div>
 					</div>
 				</div>

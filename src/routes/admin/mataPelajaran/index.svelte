@@ -23,7 +23,7 @@
 	let currentPage = 1;
 	let pageSize = 10;
 	$: paginatedItems = paginate({ items, pageSize, currentPage });
-	let data = [{ text: 'Jurusan', href: '#' }];
+	let data = [{ text: 'Mata Pelajaran', href: '#' }];
 	let columns = ['No', 'Nama'];
 	let items = [];
 	let getKelas = [];
@@ -37,7 +37,7 @@
 			}, 3000);
 
 			/* get Siswa */
-			const res = await fetch(`${variables.basePath}/jurusan/list`);
+			const res = await fetch(`${variables.basePath}/mata-pelajaran/list`);
 			const data = await res.json();
 			items = data;
 
@@ -50,7 +50,7 @@
 			// correctly (?) nothing can be caught here...
 			console.log('no data');
 		}
-		var url = new URL(`${variables.basePath}/jurusan/list?nama`),
+		var url = new URL(`${variables.basePath}/mata-pelajaran/list?nama`),
 			params = {};
 		Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 		fetch(url).then((response) => response.json());
@@ -58,7 +58,7 @@
 
 	async function searchSiswa(nama) {
 		// bind ke on:submit
-		let response = await fetch(`${variables.basePath}/jurusan/list?nama=${nama}`);
+		let response = await fetch(`${variables.basePath}/mata-pelajaran/list?nama=${nama}`);
 		const data = await response.json();
 		items = data;
 	}
@@ -82,7 +82,7 @@
 					{/if}
 				</div>
 			</Button>
-			<a href="/admin/jurusan/create">
+			<a href="/admin/mataPelajaran/create">
 				<Button create>New Jurusan +</Button>
 			</a>
 		</div>
@@ -127,7 +127,7 @@
 									{index + 1}
 								</DataTableCell>
 								<DataTableCell>
-									<Link href="/admin/jurusan/{items.id}/view" class="text-link">
+									<Link href="/admin/mataPelajaran/{items.id}/view" class="text-link">
 										{items.nama}
 									</Link>
 								</DataTableCell>

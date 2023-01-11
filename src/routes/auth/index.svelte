@@ -1,22 +1,34 @@
 <script lang="ts">
 	// @ts-nocheck
-	/* import module */
-	import Login from './login.svelte';
-	import Description from '$components/Description.svelte';
+	/* import library */
 	import Card from '$components/Card.svelte';
-	import Title from '$src/components/Title.svelte';
+	import ThemeSwitch from '$components/ThemeSwitch.svelte';
+	import '../../style/tailwind.scss';
+	import Logo from '$lib/images/brands.svg';
+	import Login from './login.svelte';
 </script>
 
-<section id="body">
-	<header class="flex justify-center items-center w-full h-screen bg-root">
-		<Card login>
-			<div class="mb-5">
-				<Title text="Masuk" />
-				<Description text="Tidak punya akun?">
-					<span>Hubungi administrator</span>
-				</Description>
+<!-- main layout login -->
+<main>
+	<!-- create header -->
+	<div
+		class="px-5 py-2 border-b bg-base-light dark:bg-base-dark border-separator-light dark:border-separator-dark"
+	>
+		<div class="flex col-span-2 items-center justify-between">
+			<div class="flex col-span-2 items-center gap-3">
+				<img src={Logo} alt="logo" class="w-10" />
+				<span class="text-lg font-bold text-color-light dark:text-color-dark"
+					>SMK NEGERI 1 GIANYAR</span
+				>
 			</div>
+			<ThemeSwitch />
+		</div>
+	</div>
+
+	<!-- create content -->
+	<div class="flex px-5 col-span-1 items-center justify-center h-[93vh] w-full">
+		<Card login>
 			<Login />
 		</Card>
-	</header>
-</section>
+	</div>
+</main>

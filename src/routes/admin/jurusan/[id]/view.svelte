@@ -83,7 +83,7 @@
 				</div>
 			</Dialog>
 			<Snackbar
-				class="bg-green-500 text-white gap-5 text-base flex-column"
+				class="bg-other-success text-white gap-5 text-base flex-column"
 				bind:active={snackbarSuccess}
 				top
 				center
@@ -108,15 +108,16 @@
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
 			<Card view>
-				<div class="p-5 flex flex-cols-2 gap-20">
-					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
-						<div class="pb-2 text-white">
-							{id}
+				<div class="flex gap-5">
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">id</label>
+							<span>{id}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
-						<div class="pb-2 text-white">
-							{nama}
+
+						<div class="grid">
+							<label for="">Nama</label>
+							<span>{nama}</span>
 						</div>
 					</div>
 				</div>

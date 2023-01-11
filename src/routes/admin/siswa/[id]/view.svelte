@@ -7,9 +7,11 @@
 	import { page } from '$app/stores';
 	import { mdiAccountEdit, mdiDelete, mdiAlert, mdiCheckCircle } from '@mdi/js';
 	import Header from '$components/Header.svelte';
+	import Login from '$src/routes/auth/login.svelte';
+	import { onMount } from 'svelte';
 	let active;
+	let namaKelas = [];
 	let id,
-		username,
 		nisn,
 		nama,
 		alamat,
@@ -25,7 +27,8 @@
 		nama_ayah,
 		nama_ibu,
 		pekerjaan_ibu,
-		pekerjaan_ayah;
+		pekerjaan_ayah,
+		kelasId;
 	export let items = [
 		{ text: 'Siswa', href: '/admin/siswa' },
 		{ text: 'View', href: '#' }
@@ -36,12 +39,11 @@
 	// @ts-ignore
 	fetch(`${variables.basePath}/siswa/list/${$page.params.id}`)
 		.then((resp) => resp.json())
-		.then((res) => {
+		.then(async (res) => {
 			id = res.id;
 			nisn = res.nisn;
 			nama = res.nama;
 			alamat = res.alamat;
-			jenis_kelamin = res.jenis_kelamin;
 			jenis_kelamin = res.jenis_kelamin;
 			tempat_lahir = res.tempat_lahir;
 			tanggal_lahir = res.tanggal_lahir;
@@ -55,8 +57,8 @@
 			nama_ibu = res.nama_ibu;
 			pekerjaan_ayah = res.pekerjaan_ayah;
 			pekerjaan_ibu = res.pekerjaan_ibu;
+			kelasId = res.kelasId.find((item) => item.id === res.kelasId).nama_kelas;
 		});
-
 	async function handleSubmit() {
 		const response = await fetch(`${variables.basePath}/siswa/delete/${$page.params.id}`, {
 			method: 'DELETE',
@@ -141,82 +143,84 @@
 		<!-- data table -->
 		<div class="absolute w-full overflow-auto">
 			<Card view>
-				<div class="p-5 flex flex-cols-2 gap-20">
-					<div>
-						<label for="" class="text-xs text-gray-400">id</label>
-						<div class="pb-2 text-white">
-							{id}
+				<div class="flex gap-5">
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">id</label>
+							<span>{id}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nisn</label>
-						<div class="pb-2 text-white">
-							{nisn}
+
+						<div class="grid">
+							<label for="">Nisn</label>
+							<span>{nisn}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama</label>
-						<div class="pb-2 text-white">
-							{nama}
+						<div class="grid">
+							<label for="">Nama</label>
+							<span>{nama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Alamat</label>
-						<div class="pb-2 text-white">
-							{alamat}
+						<div class="grid">
+							<label for="">Alamat</label>
+							<span>{alamat}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kelas</label>
-						<div class="pb-2 text-white">
-							{alamat}
+						<div class="grid">
+							<label for="">Jenis Kelamin</label>
+							<span>{jenis_kelamin}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Jenis Kelamin</label>
-						<div class="pb-2 text-white">
-							{jenis_kelamin}
+						<div class="grid">
+							<label for="">Tempat lahir</label>
+							<span>{tempat_lahir}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Tempat lahir</label>
-						<div class="pb-2 text-white">
-							{tempat_lahir}
+						<div class="grid">
+							<label for="">Tanggal Lahir</label>
+							<span>{tanggal_lahir}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Tanggal Lahir</label>
-						<div class="pb-2 text-white">
-							{tanggal_lahir}
+						<div class="grid">
+							<label for="">Agama</label>
+							<span>{agama}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Agama</label>
-						<div class="pb-2 text-white">
-							{agama}
+						<div class="grid">
+							<label for="">No Tlp</label>
+							<span>{no_tlp}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">No Tlp</label>
-						<div class="pb-2 text-white">
-							{no_tlp}
-						</div>
-						<label for="" class="text-xs text-gray-400">Email</label>
-						<div class="pb-2 text-white">
-							{email}
+						<div class="grid">
+							<label for="">Email</label>
+							<span>{email}</span>
 						</div>
 					</div>
-					<div>
-						<label for="" class="text-xs text-gray-400">Kewarganegaraan</label>
-						<div class="pb-2 text-white">
-							{kewarganegaraan}
+					<div class="p-5 grid gap-2">
+						<div class="grid">
+							<label for="">Kewarganegaraan</label>
+							<span>{kewarganegaraan}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kecamatan</label>
-						<div class="pb-2 text-white">
-							{kecamatan}
+
+						<div class="grid">
+							<label for="">Kecamatan</label>
+							<span>{kecamatan}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Kabupaten</label>
-						<div class="pb-2 text-white">
-							{kabupaten}
+						<div class="grid">
+							<label for="">Kabupaten</label>
+							<span>{kabupaten}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama Ayah</label>
-						<div class="pb-2 text-white">
-							{nama_ayah}
+						<div class="grid">
+							<label for="">Nama Ayah</label>
+							<span>{nama_ayah}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Pekerjaan Ayah</label>
-						<div class="pb-2 text-white">
-							{pekerjaan_ayah}
+						<div class="grid">
+							<label for="">Pekerjaa Ayah</label>
+							<span>{pekerjaan_ayah}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Nama Ibu</label>
-						<div class="pb-2 text-white">
-							{nama_ibu}
+						<div class="grid">
+							<label for="">Nama Ibu</label>
+							<span>{nama_ibu}</span>
 						</div>
-						<label for="" class="text-xs text-gray-400">Pekerjaan Ibu</label>
-						<div class="pb-2 text-white">
-							{pekerjaan_ibu}
+						<div class="grid">
+							<label for="">Pekerjaan Ibu</label>
+							<span>{pekerjaan_ibu}</span>
 						</div>
+						<!-- <div class="grid">
+							<label for="">Pekerjaan Ibu</label>
+							<span>{jk}</span>
+						</div> -->
 					</div>
 				</div>
 			</Card>

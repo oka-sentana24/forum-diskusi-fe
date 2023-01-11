@@ -16,29 +16,30 @@
 
 	let data = {
 		nama: '',
-		grade: ''
+		grade: '',
+		jurusanId: ''
 	};
 	let snackbarSuccess: boolean = false;
 	let snackbarError: boolean = false;
 	let active;
 	let responseMessage = '';
-	let fetchKelas = [];
-	let dataKelas = [];
+	let fetchJurusan = [];
+	let dataJurusan = [];
 	let isLoading = false;
 
-	// onMount(() => {
-	// 	getFetchKelas(`${variables.basePath}/kelas/list`).then((res) => {
-	// 		fetchKelas = res;
-	// 		dataKelas = fetchKelas.map((val) => {
-	// 			return { name: val.grade + ' ' + `(${val.nama})`, value: val.id };
-	// 		});
-	// 	});
-	// });
-	// async function getFetchKelas(url) {
-	// 	return await fetch(url).then((res) => {
-	// 		return res.json();
-	// 	});
-	// }
+	onMount(() => {
+		getFetchJurusan(`${variables.basePath}/jurusan/list`).then((res) => {
+			fetchJurusan = res;
+			dataJurusan = fetchJurusan.map((val) => {
+				return { name: val.nama, value: val.id };
+			});
+		});
+	});
+	async function getFetchJurusan(url) {
+		return await fetch(url).then((res) => {
+			return res.json();
+		});
+	}
 
 	function onClose() {
 		active = false;
@@ -80,40 +81,40 @@
 		<div class="absolute w-full">
 			<Card>
 				<div class="p-5">
-					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.nama}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Nama</TextField
-								>
-							</div>
-							<div class="main-input">
-								<TextField
-									filled
-									bind:value={data.grade}
-									rules={[
-										(v) => !!v || ' This field is required.',
-										(v) => {
-											const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
-											return pattern.test(v) || 'Name is invalid.';
-										}
-									]}
-									type="text">Grade</TextField
-								>
-							</div>
-						</div>
+					<div class="grid gap-9">
+						<TextField
+							filled
+							bind:value={data.nama}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Nama</TextField
+						>
+						<TextField
+							filled
+							bind:value={data.grade}
+							rules={[
+								(v) => !!v || ' This field is required.',
+								(v) => {
+									const pattern = /^(?=.{1,50}$)[^\W_]+(?: [^\W_]+)*$/;
+									return pattern.test(v) || 'Name is invalid.';
+								}
+							]}
+							type="text">Grade</TextField
+						>
+						<Select
+							filled
+							items={dataJurusan}
+							class="main-input dropdown"
+							bind:value={data.jurusanId}>Jurusan</Select
+						>
 					</div>
-				</div>
-			</Card>
+				</div></Card
+			>
 			<div class="flex justify-end py-5">
 				<Button create disabled={data.nama === ''} click={() => (active = true)}>
 					<div class="flex flex-span-1 gap-3 items-center">
@@ -136,7 +137,7 @@
 					</div>
 				</Dialog>
 				<Snackbar
-					class=" bg-green-500 text-base-white gap-5 text-base flex-column"
+					class=" bg-other-success text-base-white gap-5 text-base flex-column"
 					bind:active={snackbarSuccess}
 					top
 					center
@@ -148,7 +149,7 @@
 					</span>
 				</Snackbar>
 				<Snackbar
-					class="flex-column bg-red-500 text-white gap-5 text-base "
+					class="flex-column bg-other-error text-white gap-5 text-base "
 					bind:active={snackbarError}
 					top
 					center
