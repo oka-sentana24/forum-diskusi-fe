@@ -11,8 +11,8 @@
 </script>
 
 <button
-	class={`bg-btn-50 h-[44px] min-w-[78px] px-5 rounded-md text-white ${
-		login && 'h-[53px] w-full cursor-pointer text-white'
+	class={`bg-blue border rounded-md px-4 py-2 h-12 ${
+		login && 'w-full bg-btn-50 hover:bg-btn-70 border-btn-50 text-white'
 	} ${disabled && 'opacity-50 cursor-not-allowed'} ${
 		filter && 'bg-fill-dark-btn text-white hover:bg-link-primary'
 	} ${icon && 'h-[42px] w-[50px] bg-[#25385854] hover:bg-link text-white'} ${

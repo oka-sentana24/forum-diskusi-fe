@@ -1,5 +1,5 @@
 .s-input__control{
-    @apply bg-fill-light-field border border-separator-light dark:bg-fill-dark-field dark:border-separator-dark h-[55px] rounded-sm;
+    @apply bg-fill-light-field border border-separator-light dark:bg-fill-dark-field dark:border-separator-dark h-14 rounded-sm;
 }
 .s-text-field__wrapper:after {
     background-color: unset !important;
@@ -18,4 +18,7 @@
 .s-menu.s-g1C_g24vBBl5 {
     top: 63px !important;
     @apply bg-main-light dark:bg-main-dark
+}
+.s-input__details>[slot=messages]{
+    margin-top: -7px;
 }

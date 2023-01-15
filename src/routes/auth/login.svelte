@@ -1,12 +1,11 @@
 <script lang="ts">
 	// @ts-nocheck
-	import Description from '$components/Description.svelte';
-	import { TextField, Icon, Checkbox } from 'svelte-materialify';
-	import { mdiEyeOff, mdiEye, mdiAlertRhombus } from '@mdi/js';
-	import Button from '$components/Button.svelte';
-	import Title from '$components/Title.svelte';
+	import brands from '$lib/images/brands.svg';
 	import jwt_decode from 'jwt-decode';
 	import { variables } from '$lib/variables';
+	import { Checkbox, Icon, TextField } from 'svelte-materialify';
+	import { mdiAlertRhombus, mdiEye, mdiEyeOff } from '@mdi/js';
+	import Button from '$src/components/Button.svelte';
 
 	let show = false;
 	let rememberMe = false;
@@ -52,12 +51,13 @@
 	}
 </script>
 
-<div class="p-8">
-	<div class="py-5 text-left ">
-		<Title text="Masuk" />
-		<Description text="Tidak punya akun?">Hubungi administrasi</Description>
+<section class="p-5 leading-8">
+	<!-- title and description -->
+	<div class="text-left">
+		<div class="text-2xl font-bold text-black dark:text-white">Log in</div>
+		<span> Enter your nisn/nip and password below </span>
 	</div>
-	<div class="grid gap-9">
+	<div class="grid gap-9 mt-5">
 		<TextField filled rules={[(v) => !!v || ' This field is required. ']} bind:value={username}
 			>Nis / Nip</TextField
 		>
@@ -86,12 +86,13 @@
 			</div>
 		{/if}
 	</div>
-	<div class="py-5">
-		<Checkbox bind:rememberMe value="1" class="my-5">
-			<span class="text-light-text-body_1">Ingat saya.</span></Checkbox
-		>
+	<div class="grid gap-9 mt-9">
 		<Button login click={() => formSubmit()}>
 			{isSubmitting ? 'Memuat...' : 'Masuk'}
 		</Button>
 	</div>
-</div>
+	<div class="py-3 text-center">
+		Reset Password ?
+		<span class="text-blue font-semibold">Hubungi bagian IT</span>
+	</div>
+</section>

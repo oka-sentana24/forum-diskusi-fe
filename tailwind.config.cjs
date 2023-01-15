@@ -25,8 +25,11 @@ module.exports = {
 			transparent:'transparent',
 			white:'#FFFFFF',
 			black:"#000000",
+			gray:'#DFE0EB',
+			blue:'#3751FF',
+			sidebar:'#363740',
 			main:{
-				light:'#F7F9FB',
+				light:'#F7F8FC',
 				dark:'#252836'
 			},
 			base:{

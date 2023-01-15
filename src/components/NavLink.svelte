@@ -10,6 +10,6 @@
 
 <style>
 	a.active {
-		@apply text-link-primary;
+		@apply text-[#DDE2FF];
 	}
 </style>

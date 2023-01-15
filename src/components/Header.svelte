@@ -8,40 +8,25 @@
 	import ThemeSwitch from '$components/ThemeSwitch.svelte';
 	import NavLink from './NavLink.svelte';
 	let isProfileOpen: boolean;
-	export let items;
+	export let text;
 </script>
 
 <Card header>
-	<div class="flex col-span-2 items-center justify-between relative bottom-2">
+	<div class="flex col-span-2 items-center justify-between relative bottom-2 px-5 py-3">
 		<div class=" flex gap-5 col-span-2 items-center justify-start">
 			<div class="md:hidden">
-				<!-- Burger Menu -->
 				<BurgerMenu />
 			</div>
-			<div>
-				<!-- Breadcrumb -->
-				<Breadcrumbs {items} let:item large class="py-2 px-0">
-					{#if item.href}
-						<NavLink class="s-breadcrumb-item" href={item.href}>
-							<span class="text-light-text-title dark:text-dark-text-title">
-								{item.text}
-							</span>
-						</NavLink>
-					{/if}
-				</Breadcrumbs>
-			</div>
+			<button class="text-2xl font-bold" on:click={() => (isProfileOpen = !isProfileOpen)}>
+				{text}
+			</button>
 		</div>
 		<div class="col-span-2">
-			<!-- Profile Avatar -->
 			<div
 				class="col-span-2 items-center justify-start cursor-pointer text-light-text-title dark:text-dark-text-title"
-				on:click={() => (isProfileOpen = !isProfileOpen)}
 			>
-				<Icon path={mdiAccountCircleOutline} size={32} />
-				<span class=" col-span-2">
-					Acme Inc
-					<Icon path={isProfileOpen ? mdiChevronUp : mdiChevronDown} size={20} />
-				</span>
+				<span class=" col-span-2"> Acme Inc </span>
+				<Icon path={mdiAccountCircleOutline} size={25} />
 			</div>
 		</div>
 	</div>
@@ -59,7 +44,6 @@
 					<span>Pengaturan</span>
 				</div>
 				<div class="grid text-left pb-5 text-light-text-body_2 dark:text-dark-text-body_2">
-					<!-- <span>Keluar</span> -->
 					<Button size="large" class=" bg-link-primary white-textshadow-none"
 						><span class="normal-case text-base-white">Keluar</span></Button
 					>
