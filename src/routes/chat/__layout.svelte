@@ -101,21 +101,13 @@
 				<!-- Top Header-->
 				<Brands back />
 				{#each roomData as room}
-					<div class="flex items-center justify-between px-5 py-4 hover:bg-color-light">
+					<div class="flex items-center justify-between px-5 py-4">
 						<button on:click={() => chatRoomId.set(room.id)}>
 							{room.name}
 						</button>
 					</div>
 				{/each}
 			</Card>
-			<!-- <SideBar item={roomData} back click={roomData.id} /> -->
-			<!-- {#each roomData as room}
-				<div class="flex items-center justify-between px-5">
-					<button on:click={() => chatRoomId.set(room.id)}>
-						{room.name}
-					</button>
-				</div>
-			{/each} -->
 		</aside>
 		{#if $isSideMenuOpen}
 			<aside

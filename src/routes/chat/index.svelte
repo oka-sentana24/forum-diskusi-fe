@@ -6,10 +6,10 @@
 	import { variables } from '$lib/variables';
 	import { mdiImage } from '@mdi/js';
 	import { Icon } from 'svelte-materialify';
-	import Dialog, { Title, Content, Actions } from '@smui/dialog';
 	import Button from '$components/Button.svelte';
 	import Portal from 'svelte-portal';
 	import Header from '$src/components/Header.svelte';
+	import { Dialog } from 'svelte-materialify';
 	// import dayjs from 'dayjs';
 	// import relativeTime from 'dayjs/plugin/relativeTime';
 	// import timezone from 'dayjs/plugin/timezone.js';
@@ -28,6 +28,7 @@
 	let image;
 	let imageFiles;
 	let data = [{ text: 'Dashboard', href: '/' }];
+	let active;
 
 	let text = '';
 	const action = (_) => (text = 'Enter');
@@ -105,7 +106,7 @@
 		reader.onload = (e) => {
 			image = e.target.result;
 		};
-		open = true;
+		active = true;
 	};
 
 	async function uploadImage(e) {
@@ -129,173 +130,11 @@
 		open = false;
 	}
 
-	function clearModal() {
+	function onClose() {
 		fileInput.value = '';
-		open = false;
+		active = false;
 	}
 </script>
-
-<!-- <main class="h-full">
-	<div class="container mx-auto h-screen w-full">
-		<div class="sm:px-0 relative">
-			<Card class="bg-indigo-100 sm:h-screen">
-				<div class="px-5 overflow-y-auto h-[86vh] ">
-					<ul class="pl-0 space-y-2">
-						{#if isLoading}
-							<p>Loading....</p>
-						{:else if chatMessages.length}
-							<div class="flex flex-col py-3">
-								{#each chatMessages as message}
-									{#if message.penggunaId === authPenggunaId}
-										{#if message.imageUrl}
-											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
-											>
-												<div class="text-xs mb-2 font-italic">You</div>
-												<img
-													class="self-end mb-2"
-													src={message.imageUrl}
-													alt=""
-													crossorigin
-													style="max-width: 300px"
-												/>
-												<div class="text-xs text-gray-500 self-end mt-2">
-													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
-												</div>
-											</div>
-										{:else}
-											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
-											>
-												<div class="text-xs mb-2 font-italic">You</div>
-												{message.text}
-												<div class="text-xs text-gray-500 self-end mt-2">
-													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
-												</div>
-											</div>
-										{/if}
-									{:else if message.penggunaId !== authPenggunaId}
-										{#if message.imageUrl}
-											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
-											>
-												<div class="text-xs mb-2 font-italic">{message.nama}</div>
-												<img
-													class="self-end mb-2"
-													src={message.imageUrl}
-													alt=""
-													crossorigin
-													style="max-width: 300px"
-												/>
-												<div class="text-xs text-gray-500 self-end mt-2">
-													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
-												</div>
-											</div>
-										{:else}
-											<div
-												class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
-											>
-												<div class="text-xs mb-2 font-italic">{message.nama}</div>
-												{message.text}
-												<div class="text-xs text-gray-500 self-end mt-2">
-													{dayjs(message.createdAt).add(8, 'hours').fromNow()}
-												</div>
-											</div>
-										{/if}
-									{/if}
-								{:else}
-									<div>No messages...</div>
-								{/each}
-							</div>
-						{/if}
-					</ul>
-				</div>
-				<div class="relative bottom-0 bg-white w-full">
-					<div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
-						<div>
-							<button on:click={() => fileInput.click()}>
-								<Icon path={mdiImage} />
-							</button>
-							<input
-								style="display:none"
-								type="file"
-								on:change={(e) => onFileSelected(e)}
-								bind:this={fileInput}
-								bind:files={imageFiles}
-							/>
-						</div>
-						<div class="flex-grow ml-4">
-							<div class="relative w-full">
-								{#if image}
-									<Portal target="body">
-										<div class="modal" class:open>
-											<div class="modal-content">
-												<span class="close" on:click={clearModal}>&times;</span>
-												<img src={image} alt="" class="w-300 h-auto" />
-												<Button type="primary" click={uploadImage}>Send</Button>
-											</div>
-										</div>
-									</Portal>
-								{/if}
-								<input
-									type="text"
-									placeholder="Message"
-									class="block w-full py-2 pl-4 mx-3 bg-gray-100 rounded-full outline-none focus:text-gray-700"
-									name="message"
-									required
-									bind:value={text}
-									on:keyup={handleEnterKey}
-								/>
-								<button
-									class="absolute flex items-center justify-center h-full w-12 right-0 top-0 text-gray-400 hover:text-gray-600"
-								>
-									<svg
-										class="w-6 h-6"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-										/>
-									</svg>
-								</button>
-							</div>
-						</div>
-						<div class="ml-4">
-							<button
-								class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-								on:click={() => sendMessage()}
-							>
-								<span>Send</span>
-								<span class="ml-2">
-									<svg
-										class="w-4 h-4 transform rotate-45 -mt-px"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-										/>
-									</svg>
-								</span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</Card>
-		</div>
-	</div>
-</main> -->
 
 <div class="flex-1 p:2 justify-between flex flex-col h-screen">
 	<Header items={data} />
@@ -312,7 +151,7 @@
 						{#if message.penggunaId === authPenggunaId}
 							{#if message.imageUrl}
 								<div
-									class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
+									class="relative min-w-[200px] px-4 py-2 text-white rounded shadow self-end bg-other-success mb-2 flex flex-col"
 								>
 									<div class="text-xs mb-2 font-italic">You</div>
 									<img
@@ -322,25 +161,21 @@
 										crossorigin
 										style="max-width: 300px"
 									/>
-									<div class="text-xs text-gray-500 self-end mt-2">
-										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
-									</div>
+									<div class="text-xs text-gray-500 self-end mt-2" />
 								</div>
 							{:else}
 								<div
-									class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow self-end bg-green-100 mb-2 flex flex-col"
+									class="relative min-w-[200px] px-4 py-2 text-white rounded shadow self-end bg-other-success mb-2 flex flex-col"
 								>
 									<div class="text-xs mb-2 font-italic">You</div>
 									{message.text}
-									<div class="text-xs text-gray-500 self-end mt-2">
-										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
-									</div>
+									<div class="text-xs text-gray-500 self-end mt-2" />
 								</div>
 							{/if}
 						{:else if message.penggunaId !== authPenggunaId}
 							{#if message.imageUrl}
 								<div
-									class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
+									class="relative min-w-lg px-4 py-2 text-gray-700 rounded shadow mb-2 self-start"
 								>
 									<div class="text-xs mb-2 font-italic">{message.nama}</div>
 									<img
@@ -350,13 +185,11 @@
 										crossorigin
 										style="max-width: 300px"
 									/>
-									<div class="text-xs text-gray-500 self-end mt-2">
-										<!-- {dayjs(message.createdAt).add(8, 'hours').fromNow()} -->
-									</div>
+									<div class="text-xs text-gray-500 self-end mt-2" />
 								</div>
 							{:else}
 								<div
-									class="relative max-w-xl px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
+									class="relative min-w-[200px] px-4 py-2 text-gray-700 rounded shadow mb-2 self-start bg-white"
 								>
 									<div class="text-xs mb-2 font-italic">{message.nama}</div>
 									{message.text}
@@ -373,6 +206,86 @@
 			{/if}
 		</ul>
 	</div>
+	<!-- <div class="border-t border-separator-light dark:border-separator-dark px-4 pt-4 mb-2 sm:mb-0">
+		<div class="relative flex">
+			<span class="absolute inset-y-0 flex items-center">
+				<button
+					on:click={() => fileInput.click()}
+					type="button"
+					class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						class="h-6 w-6 text-gray-600"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+						/>
+					</svg>
+				</button>
+				<input
+					style="display:none"
+					type="file"
+					on:change={(e) => onFileSelected(e)}
+					bind:this={fileInput}
+					bind:files={imageFiles}
+				/>
+			</span>
+			<input
+				type="text"
+				placeholder="Write your message!"
+				class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-separator-light rounded-md py-3"
+				name="message"
+				required
+				bind:value={text}
+				on:keyup={handleEnterKey}
+			/>
+			<div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+				<button
+					type="button"
+					class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						class="h-6 w-6 text-gray-600"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+						/>
+					</svg>
+				</button>
+				<button
+					on:click={() => sendMessage()}
+					type="button"
+					class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-btn-50 hover:bg-blue-400 focus:outline-none"
+				>
+					<span class="font-bold">Send</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						class="h-6 w-6 ml-2 transform rotate-90"
+					>
+						<path
+							d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"
+						/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div> -->
 	<div class="px-4 pt-4 mb-2 sm:mb-0">
 		<div class="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
 			<div>
@@ -390,15 +303,24 @@
 			<div class="flex-grow ml-4">
 				<div class="relative w-full">
 					{#if image}
-						<Portal target="body">
+						<Dialog bind:active persistent={true}>
+							<img src={image} alt="" class="w-300 h-auto" />
+							<div class=" flex flex-span-1 gap-5 items-center justify-center py-5">
+								<Button modal click={() => uploadImage() && onClose()}>Simpan</Button>
+								<Button close click={() => onClose()}>Kembali</Button>
+								<!-- <Button modal click={uploadImage() && clearModal()}>Simpan</Button>
+								<Button close on:click={clearModal()}>Kembali</Button> -->
+							</div>
+						</Dialog>
+						<!-- <Portal target="body">
 							<div class="modal" class:open>
 								<div class="modal-content">
 									<span class="close" on:click={clearModal}>&times;</span>
 									<img src={image} alt="" class="w-300 h-auto" />
-									<Button type="primary" click={uploadImage}>Send</Button>
+									<Button click={uploadImage}>Send</Button>
 								</div>
 							</div>
-						</Portal>
+						</Portal> -->
 					{/if}
 					<input
 						type="text"

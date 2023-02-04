@@ -80,7 +80,7 @@
 			<Card>
 				<div class="p-5">
 					<div class="flex flex-cols-2 gap-3">
-						<div class="w-full">
+						<div class="w-full grid gap-10">
 							<div class="main-input">
 								<TextField
 									filled
